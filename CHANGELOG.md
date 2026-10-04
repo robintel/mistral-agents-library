@@ -6,6 +6,24 @@ changelogs are for users, not for git history. Format per
 [Keep a Changelog](https://keepachangelog.com); semver: breaking = major,
 feature = minor, fix = patch.
 
+## [0.12.0] — 2026-10-04
+
+### Added
+
+- Add the legacy mainframe store contracts, conservation and
+  experimental: ims (hierarchical DL/I paths, PSBs as code), vsam
+  (the KSDS/ESDS/RRDS organizations, CI splits), idms (CODASYL sets,
+  currency as state), adabas (descriptors as access paths, the
+  holding queue), cache-iris (globals as schemaless storage,
+  subscript-level locking). They attach standalone: the nosql core
+  descends from disciplines these stores invented.
+- Add the legacy estate languages, conservation and experimental:
+  pli (explicit attributes, ON-conditions, silent conversions), natural
+  (the access verbs as descriptor discipline, paired with adabas),
+  objectscript ($ORDER/$QUERY as the query language, paired with
+  cache-iris), xbase (the DBF family — DELETE as a mark, PACK as a
+  rebuild, index corruption as the classic failure).
+
 ## [0.11.0] — 2026-10-04
 
 ### Changed
