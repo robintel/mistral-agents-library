@@ -79,6 +79,7 @@ agents:
   - { name: tour-siren,       path: sdlc/testing/tour-siren.md,       domain: sdlc,    tier: t2, escalate: t3, accepts: [tour-siren] }
   - { name: tour-sentry,      path: sdlc/testing/tour-sentry.md,      domain: sdlc,    tier: t3, escalate: t4, accepts: [tour-sentry] }
   - { name: tour-all-nighter, path: sdlc/testing/tour-all-nighter.md, domain: sdlc,    tier: t2, escalate: t3, accepts: [tour-all-nighter] }
+  - { name: tour-rush-hour,  path: sdlc/testing/tour-rush-hour.md,  domain: sdlc,    tier: t2, escalate: t3, accepts: [tour-rush-hour] }
   - { name: tour-bad-neighborhood, path: sdlc/testing/tour-bad-neighborhood.md, domain: sdlc, tier: t2, escalate: t3, accepts: [tour-bad-neighborhood] }
   - { name: tour-back-alley,  path: sdlc/testing/tour-back-alley.md,  domain: sdlc,    tier: t2, escalate: t3, accepts: [tour-back-alley] }
   - { name: test-designer,    path: sdlc/testing/test-designer.md,   domain: sdlc,    tier: t2, escalate: t3, accepts: [test-design] }
@@ -131,6 +132,7 @@ routing:  # task_class -> agent
   tour-siren: tour-siren
   tour-sentry: tour-sentry
   tour-all-nighter: tour-all-nighter
+  tour-rush-hour: tour-rush-hour
   tour-bad-neighborhood: tour-bad-neighborhood
   tour-back-alley: tour-back-alley
   test-design: test-designer

@@ -59,6 +59,7 @@ development and designed to extend to other domains without touching the core.
 │   │   ├── tour-siren.md
 │   │   ├── tour-sentry.md
 │   │   ├── tour-all-nighter.md
+│   │   ├── tour-rush-hour.md
 │   │   ├── tour-bad-neighborhood.md
 │   │   └── tour-back-alley.md
 │   └── app-upgrades/           application upgrades
@@ -239,6 +240,7 @@ Tours that work at agent level, against code and docs:
 | siren | error paths: detection, honesty, handling | missing, silenced, and lying errors |
 | sentry | trust boundaries: validation, authz, resource cost | injection, IDOR, DoS by design, memory unsafety |
 | all-nighter | resource lifecycles over time | leaks, unbounded growth |
+| rush-hour | non-functional: hot paths, races, logging | slow algorithms, check-then-act races, log volume and PII in logs |
 | bad-neighborhood | defect-prone hotspots | the recurring bug pattern nearby |
 | back-alley | rarely executed paths | swallowed errors, unreachable code |
 

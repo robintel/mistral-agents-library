@@ -32,6 +32,7 @@ briefs — your tours export them as live leads instead.
 | siren | error paths: detection, honesty, handling | missing, silenced, and lying errors |
 | sentry | trust boundaries: validation, authz, resource cost | injection, IDOR, DoS by design, memory unsafety |
 | all-nighter | resource lifecycles over time | leaks, unbounded growth |
+| rush-hour | non-functional: hot paths, races, logging | slow algorithms, check-then-act races, log volume and PII in logs |
 | bad-neighborhood | defect-prone hotspots | the recurring bug pattern nearby |
 | back-alley | rarely executed paths | swallowed errors, unreachable code |
 
@@ -49,8 +50,9 @@ the test-engineer instead).
    plausible target — stateful core suggests supper-model, data-heavy
    targets suggest lineage for the flow graph and fedex for the
    single-item trace, recent incidents suggest rained-out, siren, and
-   bad-neighborhood, exposed or legacy surfaces suggest sentry — and
-   drop a tour when the map shows nothing to walk,
+   bad-neighborhood, exposed or legacy surfaces suggest sentry, hot
+   paths or chatty services suggest rush-hour — and drop a tour when
+   the map shows nothing to walk,
    stating why. The count is not a constant: the brief's scope and the
    active profile bound it. Frugal runs the highest-expected tours first;
    fast runs every fitting tour; parallelism limits how many run at once,
