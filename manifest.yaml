@@ -1,0 +1,155 @@
+# Machine-readable registry for the Mistral Agents Library.
+# Single source of truth for routing, profiles, and verbosity.
+# Tier membership: selectors are policy; `resolved` is data, refreshed by the
+# model-registrar agent and applied only with the user's approval.
+
+version: 1
+
+models:
+  freshness:                  # routing trusts this; the model-registrar refreshes it
+    checked: 2026-10-04
+    staleness: 90 days        # beyond this, the orchestrator proposes a refresh
+  sources:                    # model-registrar preference order
+    - https://api.mistral.ai/v1/models   # authoritative for the account; needs MISTRAL_API_KEY and an HTTP tool
+    - https://docs.mistral.ai/models     # public lineup and deprecations, via web search
+    - https://mistral.ai/pricing/api/    # prices, which the API does not expose, via web search
+
+  tiers:  # selectors are policy: how a discovered family joins a tier; first match wins
+    t0:
+      select: [ "ministral-3b*", "ministral-8b*" ]
+      require: [completion_chat]
+      cost_band: lowest
+      good_at: [classification, extraction, formatting]
+    t1:
+      select: [ "ministral-14b*", "mistral-small*" ]
+      require: [completion_chat]
+      cost_band: low
+      good_at: [docs, scaffolds, orchestration, light-agentic]
+    t2:
+      select: [ "codestral*" ]
+      require: [completion_chat]
+      cost_band: medium
+      good_at: [implementation, tests, pipelines, fill-in-the-middle]
+    t3:
+      select: [ "mistral-large*" ]
+      require: [completion_chat]
+      cost_band: high
+      good_at: [review, synthesis, complex-coding]
+    t4:
+      select: [ "mistral-medium*" ]
+      require: [completion_chat]
+      cost_band: premium
+      good_at: [architecture, deep-reasoning, agentic-coding, cross-cutting-design]
+    # Deliberately unclaimed: zai-glm*, voxtral*, ocr, embed, moderation,
+    # leanstral. Add a selector only when a family fills a tier gap.
+
+  resolved:  # data, not policy: current members, $/1M tokens (in/out); -latest aliases
+    t0: [ministral-3b-latest, ministral-8b-latest]     # 0.10/0.10, 0.15/0.15
+    t1: [ministral-14b-latest, mistral-small-latest]   # 0.20/0.20, 0.15/0.60
+    t2: [codestral-latest]                             # 0.30/0.90
+    t3: [mistral-large-latest]                         # 0.50/1.50
+    t4: [mistral-medium-latest]                        # 1.50/7.50
+
+agents:
+  - { name: orchestrator,     path: orchestrator.md,           domain: core,    tier: t1, escalate: t4, accepts: [triage, synthesis] }
+  - { name: model-registrar,  path: model-registrar.md,        domain: core,    tier: t1, escalate: t3, accepts: [catalog] }
+  - { name: intake-analyst,   path: sdlc/app-dev/intake-analyst.md,     domain: sdlc,    tier: t1, escalate: t2, accepts: [intake] }
+  - { name: architect,        path: sdlc/app-dev/architect.md,         domain: sdlc,    tier: t4, escalate: t4, accepts: [architecture] }
+  - { name: implementer,      path: sdlc/app-dev/implementer.md,       domain: sdlc,    tier: t2, escalate: t3, accepts: [implementation] }
+  - { name: code-developer,   path: sdlc/app-dev/code-developer.md,   domain: sdlc,    tier: t3, escalate: t4, accepts: [development] }
+  - { name: scaffolder,       path: sdlc/app-dev/scaffolder.md,       domain: sdlc,    tier: t2, escalate: t3, accepts: [scaffolding] }
+  - { name: test-engineer,    path: sdlc/testing/test-engineer.md,     domain: sdlc,    tier: t2, escalate: t3, accepts: [tests] }
+  - { name: code-reviewer,    path: sdlc/app-dev/code-reviewer.md,     domain: sdlc,    tier: t3, escalate: t4, accepts: [review] }
+  - { name: debugger,         path: sdlc/app-dev/debugger.md,          domain: sdlc,    tier: t3, escalate: t4, accepts: [debugging] }
+  - { name: devops,           path: sdlc/app-dev/devops.md,            domain: sdlc,    tier: t2, escalate: t3, accepts: [ops] }
+  - { name: release-manager,  path: sdlc/app-dev/release-manager.md,   domain: sdlc,    tier: t1, escalate: t2, accepts: [release] }
+  - { name: app-cartographer, path: sdlc/testing/app-cartographer.md,  domain: sdlc,    tier: t2, escalate: t3, accepts: [discovery] }
+  - { name: tour-coordinator, path: sdlc/testing/tour-coordinator.md,  domain: sdlc,    tier: t2, escalate: t3, accepts: [test-tour] }
+  - { name: tour-guidebook,   path: sdlc/testing/tour-guidebook.md,    domain: sdlc,    tier: t2, escalate: t3, accepts: [tour-guidebook] }
+  - { name: tour-supper-model, path: sdlc/testing/tour-supper-model.md, domain: sdlc,  tier: t2, escalate: t3, accepts: [tour-supper-model] }
+  - { name: tour-fedex,       path: sdlc/testing/tour-fedex.md,       domain: sdlc,    tier: t2, escalate: t3, accepts: [tour-fedex] }
+  - { name: tour-landlord,    path: sdlc/testing/tour-landlord.md,    domain: sdlc,    tier: t2, escalate: t3, accepts: [tour-landlord] }
+  - { name: tour-rained-out,  path: sdlc/testing/tour-rained-out.md,  domain: sdlc,    tier: t2, escalate: t3, accepts: [tour-rained-out] }
+  - { name: tour-all-nighter, path: sdlc/testing/tour-all-nighter.md, domain: sdlc,    tier: t2, escalate: t3, accepts: [tour-all-nighter] }
+  - { name: tour-bad-neighborhood, path: sdlc/testing/tour-bad-neighborhood.md, domain: sdlc, tier: t2, escalate: t3, accepts: [tour-bad-neighborhood] }
+  - { name: tour-back-alley,  path: sdlc/testing/tour-back-alley.md,  domain: sdlc,    tier: t2, escalate: t3, accepts: [tour-back-alley] }
+  - { name: test-designer,    path: sdlc/testing/test-designer.md,   domain: sdlc,    tier: t2, escalate: t3, accepts: [test-design] }
+  - { name: test-automator,   path: sdlc/testing/test-automator.md,  domain: sdlc,    tier: t2, escalate: t3, accepts: [test-automation] }
+  - { name: automation-reviewer, path: sdlc/testing/automation-reviewer.md, domain: sdlc, tier: t3, escalate: t4, accepts: [automation-review] }
+  - { name: suite-reviewer,   path: sdlc/testing/suite-reviewer.md,   domain: sdlc,    tier: t3, escalate: t4, accepts: [suite-review] }
+  - { name: flaky-test-analyst, path: sdlc/testing/flaky-test-analyst.md, domain: sdlc, tier: t3, escalate: t4, accepts: [flaky-tests] }
+  - { name: unit-test-writer, path: sdlc/testing/unit-test-writer.md, domain: sdlc,    tier: t1, escalate: t2, accepts: [unit-tests] }
+  - { name: coverage-manager, path: sdlc/testing/coverage-manager.md, domain: sdlc,   tier: t1, escalate: t2, accepts: [coverage] }
+  - { name: upgrade-planner,  path: sdlc/app-upgrades/upgrade-planner.md, domain: sdlc, tier: t3, escalate: t4, accepts: [upgrade-planning] }
+  - { name: dependency-upgrader, path: sdlc/app-upgrades/dependency-upgrader.md, domain: sdlc, tier: t2, escalate: t3, accepts: [dependency-upgrade] }
+  - { name: migration-engineer, path: sdlc/app-upgrades/migration-engineer.md, domain: sdlc, tier: t3, escalate: t4, accepts: [migration] }
+  - { name: data-migration-engineer, path: sdlc/app-upgrades/data-migration-engineer.md, domain: sdlc, tier: t3, escalate: t4, accepts: [data-migration] }
+  - { name: rollback-operator, path: sdlc/app-upgrades/rollback-operator.md, domain: sdlc, tier: t2, escalate: t3, accepts: [rollback] }
+  - { name: data-engineer,    path: data_lc/data-engineer.md,  domain: data_lc, tier: t2, escalate: t3, accepts: [data-pipeline] }
+  - { name: data-analyst,     path: data_lc/data-analyst.md,   domain: data_lc, tier: t1, escalate: t4, accepts: [analysis] }
+
+routing:  # task_class -> agent
+  intake: intake-analyst
+  architecture: architect
+  implementation: implementer
+  development: code-developer
+  scaffolding: scaffolder
+  tests: test-engineer
+  review: code-reviewer
+  debugging: debugger
+  ops: devops
+  release: release-manager
+  data-pipeline: data-engineer
+  analysis: data-analyst
+  catalog: model-registrar
+  discovery: app-cartographer
+  test-tour: tour-coordinator
+  tour-guidebook: tour-guidebook
+  tour-supper-model: tour-supper-model
+  tour-fedex: tour-fedex
+  tour-landlord: tour-landlord
+  tour-rained-out: tour-rained-out
+  tour-all-nighter: tour-all-nighter
+  tour-bad-neighborhood: tour-bad-neighborhood
+  tour-back-alley: tour-back-alley
+  test-design: test-designer
+  test-automation: test-automator
+  automation-review: automation-reviewer
+  suite-review: suite-reviewer
+  flaky-tests: flaky-test-analyst
+  unit-tests: unit-test-writer
+  coverage: coverage-manager
+  upgrade-planning: upgrade-planner
+  dependency-upgrade: dependency-upgrader
+  migration: migration-engineer
+  data-migration: data-migration-engineer
+  rollback: rollback-operator
+
+profiles:
+  frugal:
+    tier_shift: -2        # applied to the agent's default tier, floored at t0
+    parallelism: 1
+    verbosity: V1
+    context: summary      # send summaries, not full files
+    max_iterations: 1
+  balanced:
+    tier_shift: 0
+    parallelism: 2
+    verbosity: V2
+    context: curated      # send exactly what the brief needs
+    max_iterations: 2
+  fast:
+    tier_shift: 1         # capped at t4
+    parallelism: 4
+    verbosity: V2
+    context: full
+    max_iterations: 3
+
+testing:
+  coverage_floor: 80       # percent line coverage the coverage-manager enforces; the brief overrides
+
+verbosity:
+  V0: artifacts only; at most one line of prose
+  V1: bullet points, no restating the brief; at most 120 words
+  V2: findings, rationale, next steps; at most 400 words
+  V3: full reasoning, alternatives considered, trade-offs; unbounded
