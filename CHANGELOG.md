@@ -6,6 +6,24 @@ changelogs are for users, not for git history. Format per
 [Keep a Changelog](https://keepachangelog.com); semver: breaking = major,
 feature = minor, fix = patch.
 
+## [0.15.0] — 2026-10-05
+
+### Added
+
+- Add the one-command install: install.py, with install.ps1 as
+  the no-Python Windows companion. Reads manifest.yaml and
+  composes every agent into a self-contained Vibe profile — shared
+  standards + body + deployment addendum, the tier's model, the
+  role's tool surface — installs the batch to ~/.vibe/agents/
+  (orchestrator selectable, specialists as subagents), prunes
+  stale generated profiles while leaving hand-written ones alone,
+  and optionally writes the target repo's thin AGENTS.md. Every
+  generated file is round-trip validated (Python installer);
+  reruns are idempotent. Both installers compose byte-identical
+  profiles on Linux, macOS, and Windows: CRLF checkouts and
+  Windows path backslashes are normalized. Quick start in the
+  README; DEPLOYING.md documents the mapping.
+
 ## [0.14.0] — 2026-10-05
 
 ### Added
