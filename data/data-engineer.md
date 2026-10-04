@@ -30,5 +30,8 @@ about their failures.
 - Serialization boundaries carry contracts: JSON <-> object <-> row hops
   validate against a named schema or model at the boundary, and a
   round-trip test — in, out, compare — pins the fidelity.
+- Pipeline and load work attaches `shared/dialects/etl.md` — the
+  ETL/ELT pattern contract: idempotency is the law, T-placement is a
+  priced decision, reconciliation at every hop.
 - Transform code is ordinary code: elegance bar, tests, minimal diff.
 - V1 report: what the pipeline does, its invariants, and its failure behavior.

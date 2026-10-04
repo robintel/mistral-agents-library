@@ -28,16 +28,35 @@ attach a dialect to a task the way they attach any other context.
   experimental in its header. Agents treat its rules as provisional
   and flag findings that depend on them for human review.
 - SQL is two-layer: `sql.md` is the vendor-neutral core; engine
-  contracts (`postgres`, `mysql`, `oracle`, `bigquery`) attach
-  alongside it and extend it, never restate it. Engine files carry
-  their own Eras — Oracle 10/11/12c, MySQL 5.7/8.0 and its sql_mode,
-  Postgres version thresholds, BigQuery's legacy/Standard SQL
-  boundary. A new engine is one file.
+  contracts (`postgres`, `mysql`, `oracle`, `bigquery`, `sqlite`,
+  `sqlserver`, `snowflake`) attach alongside it and extend it, never
+  restate it. Engine files carry their own Eras where eras are real —
+  Oracle 10/11/12c, MySQL 5.7/8.0, SQL Server compatibility levels —
+  and none where they are not, as the assume-eras rule requires both
+  directions. A new engine is one file.
 - NoSQL is two-layer with a thin core: the stores share no language,
   so `nosql.md` carries the modeling discipline — access-pattern-
   first, denormalization, consistency as a dial — and store contracts
-  (`cassandra`, `mongodb`, `redis`, `hbase`, `elasticsearch`) attach
-  alongside with the idiom and traps. Hadoop is a platform, not a
-  store: its contract covers HDFS and the compute eras.
+  (`cassandra`, `mongodb`, `redis`, `hbase`, `elasticsearch`,
+  `dynamodb`) attach alongside with the idiom and traps.
+- Messaging is two-layer like NoSQL: `messaging.md` carries the
+  shared delivery semantics — the guarantees vocabulary, idempotent
+  consumers, dead-lettering, replay policy — and broker contracts
+  (`kafka`, `rabbitmq`, `sqs`, `ibm-mq`, `solace`, `activemq`,
+  `nats`) attach alongside with the idiom and traps. Legacy brokers
+  are not conservation contracts: IBM MQ and Solace are alive,
+  maintained, and running production — they get the same treatment
+  as the modern ones, with their eras named.
+- Hadoop, Spark, and Kafka are platforms, not stores: their contracts
+  cover the storage discipline, the compute engine, and the event
+  log respectively — with Kafka attaching under the messaging core
+  as a broker.
+- GraphQL is a contract-language dialect: schema-first, thin
+  resolvers, partial-error responses — attached alongside the
+  implementation language's contract for schema and resolver work.
+- ETL/ELT is a pattern contract, a different kind: attached by the
+  shape of the work — the data-engineer's pipeline briefs — rather
+  than by language. Idempotency is the law; T-placement is a priced
+  decision; backfill is a designed capability, never a script.
 - Precedence: the repo's conventions win; this contract is the floor; the
   Starting from scratch section pins the defaults when the repo is silent.

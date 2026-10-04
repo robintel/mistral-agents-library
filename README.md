@@ -26,10 +26,10 @@ development and designed to extend to other domains without touching the core.
 ├── model-registrar.md       refreshes the catalog; the user approves every change
 ├── shared/
 │   ├── standards.md         communication contracts + the elegance bar
-│   └── dialects/            27 contracts: 16 languages; SQL core + 4
-│                             engines (postgres, mysql, oracle, bigquery);
-│                             NoSQL core + 5 stores; hadoop platform
-│                             — data, not agents
+│   └── dialects/            42 contracts: 16 languages; SQL core + 7
+│                             engines; NoSQL core + 6 stores; messaging
+│                             core + 7 brokers; hadoop + spark platforms;
+│                             graphql; etl pattern — data, not agents
 ├── sdlc/                       software development lifecycle agents
 │   ├── app-dev/                application development
 │   │   ├── intake-analyst.md
@@ -314,13 +314,18 @@ Java 8 repos get Java 8 idiom, never fragments of 21; the C++ standard
 flag and PHP's composer.json do the same. Legacy languages get
 conservation contracts — preservation over modernization, the running
 system is the spec. SQL is two-layer: a vendor-neutral core plus
-engine contracts (postgres, mysql, oracle, bigquery) that attach
-alongside it, each carrying its own era map. NoSQL follows the same
-shape with a difference: the stores share no language, so the core is
-a thin modeling discipline — access-pattern-first, denormalize,
-consistency as a dial — and the store contracts (cassandra, mongodb,
-redis, hbase, elasticsearch) carry the weight. Hadoop is a platform
-contract; HBase has its own. Every code-writing agent
+engine contracts (postgres, mysql, oracle, bigquery, sqlite,
+sqlserver, snowflake) that attach alongside it, carrying era maps
+where eras are real. NoSQL follows the same shape with a difference:
+the stores share no language, so the core is a thin modeling
+discipline — access-pattern-first, denormalize, consistency as a
+dial — and the store contracts (cassandra, mongodb, redis, hbase,
+elasticsearch, dynamodb) carry the weight. Messaging follows the same
+shape: a thin core of delivery semantics plus broker contracts
+(kafka, rabbitmq, sqs, ibm-mq, solace, activemq, nats) — legacy
+brokers included, their eras named. Hadoop and Spark are platform
+contracts; graphql is a contract language; etl is a pattern contract
+attached by the shape of the work. Every code-writing agent
 attaches the right contract to the task — the code-developer and the
 implementer, and the test writers (test-automator, unit-test-writer),
 because test code obeys the same idiom and pitfalls as product code.
@@ -443,7 +448,10 @@ with the user's approval.
 Around the catalog:
 
 - `data/data-engineer` (t2): pipelines with invariants and quality gates;
-  mechanical storage moves are pipelines too.
+  mechanical storage moves are pipelines too. Pipeline and load work
+  attaches `shared/dialects/etl.md` — the ETL/ELT pattern contract:
+  idempotency is the law, T-placement is a priced decision,
+  reconciliation at every hop.
 - `data/data-auditor` (t3): reviews data work against the catalog —
   classification boundaries, retention inherited by copies and exports,
   side-door leaks through logs and analytics events; violations are
