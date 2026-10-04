@@ -26,11 +26,11 @@ development and designed to extend to other domains without touching the core.
 ├── model-registrar.md       refreshes the catalog; the user approves every change
 ├── shared/
 │   ├── standards.md         communication contracts + the elegance bar
-│   └── dialects/            51 contracts in role folders — data, not agents
-│       ├── languages/         20: python, javascript, typescript, go, rust,
+│   └── dialects/            56 contracts in role folders — data, not agents
+│       ├── languages/         22: python, javascript, typescript, go, rust,
 │       │                      c, cpp, java, csharp, vbnet, php, ruby, perl,
 │       │                      fortran, cobol, graphql, pli, natural,
-│       │                      objectscript, xbase
+│       │                      objectscript, xbase, asm-x86-64, asm-arm
 │       ├── engines/           sql core + postgres, mysql, oracle, bigquery,
 │       │                      sqlite, sqlserver, snowflake
 │       ├── stores/            nosql core + cassandra, mongodb, redis, hbase,
@@ -39,8 +39,8 @@ development and designed to extend to other domains without touching the core.
 │       │                      adabas, cache-iris (experimental)
 │       ├── brokers/           messaging core + kafka, rabbitmq, sqs, ibm-mq,
 │       │                      solace, activemq, nats
-│       ├── platforms/          hadoop, spark
-│       └── patterns/           etl
+│       ├── platforms/          hadoop, spark, arduino, esp32
+│       └── patterns/           etl, embedded
 ├── sdlc/                       software development lifecycle agents
 │   ├── app-dev/                application development
 │   │   ├── intake-analyst.md

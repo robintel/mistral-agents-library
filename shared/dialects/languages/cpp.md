@@ -43,6 +43,9 @@ industry.
 ## Dependencies
 
 - Conan/vcpkg or system packages pinned; add none without a reason.
+- Embedded and firmware work attaches `patterns/embedded.md` — the
+  shared discipline — plus the platform contract (arduino, esp32)
+  when the target names one.
 
 ## Starting from scratch
 

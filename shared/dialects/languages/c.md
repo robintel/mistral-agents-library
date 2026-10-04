@@ -40,6 +40,9 @@ standard bump is its own brief.
 ## Dependencies
 
 - System libraries linked explicitly; vendored code pinned by commit.
+- Embedded and firmware work attaches `patterns/embedded.md` — the
+  shared discipline — plus the platform contract (arduino, esp32)
+  when the target names one.
 
 ## Starting from scratch
 
