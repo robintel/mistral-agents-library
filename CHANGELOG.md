@@ -6,6 +6,20 @@ changelogs are for users, not for git history. Format per
 [Keep a Changelog](https://keepachangelog.com); semver: breaking = major,
 feature = minor, fix = patch.
 
+## [0.8.0] — 2026-10-04
+
+### Added
+
+- Add dialects: c, cpp, ruby, perl, php, javascript — sixteen
+  contracts total. Proper eras throughout: the -std= flag for C, the
+  standard era for C++, Ruby's keyword-argument boundary, Perl's
+  legacy/modern discipline, PHP's typed-signature eras, and
+  JavaScript's ES5 -> ES2015 -> module-era ladder.
+- Add SQL engine contracts: postgres, mysql, oracle — two-layer with
+  the vendor-neutral sql core; each engine carries its era map
+  (Oracle 10/11/12c, MySQL 5.7/8.0 and sql_mode, Postgres version
+  thresholds).
+
 ## [0.7.0] — 2026-10-04
 
 ### Added
