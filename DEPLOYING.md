@@ -50,10 +50,46 @@ Shift+Tab for profiles and the slash picker for skills.
 | workflows | skills: `/orient`, `/tour`, `/coverage`, `/gdpr-audit`, `/upgrade` |
 | the target repo | a thin AGENTS.md pointing at the orchestrator |
 
+## The one-command install
+
+`install.py` at the repo root automates the recipe below: it reads
+`manifest.yaml`, composes each profile (shared standards + the agent
+body + a deployment addendum), resolves the tier's model from
+`models.resolved` (the strongest entry — the lists run
+cheapest-first), pins the tool surface per role, and writes the
+batch to `~/.vibe/agents/`:
+
+```sh
+./install.py                       # install or refresh all profiles
+./install.py --dest DIR            # try a batch somewhere else first
+./install.py --target /path/repo   # also write the thin AGENTS.md
+./install.py --dry-run             # print the plan, write nothing
+```
+
+On Windows, `py install.py ...`; on Windows without Python,
+`.\install.ps1` — same composition, same defaults, and the same
+generated header, so the two installers recognize and prune each
+other's stale output. Equivalence between them is a release test:
+both must compose byte-identical profiles. Both read every source
+through LF normalization — a `core.autocrlf` checkout and a
+Windows library path (whose backslashes are escapes in TOML)
+compose to the same files as on Linux.
+
+Tool surfaces encode the role's rules: read-only by default (the
+Explore trio), command access for the reproducers (debugger,
+coverage-manager, flaky-test-analyst), the write set for the
+executors. Reruns are idempotent; a rerun prunes profiles from
+earlier installs that are no longer in the manifest, and profiles
+you wrote by hand are left alone. Every generated file is validated
+by parsing it back and comparing the instructions round-trip — the
+silent-batch failure mode below cannot ship.
+
 ## First-run recipe (verified schema)
 
 Each profile is one self-contained TOML: the agent body composed
-into `instructions` inline, plus the keys that make it a role.
+into `instructions` inline, plus the keys that make it a role. This
+is what `install.py` writes — read it to know exactly what lands on
+disk.
 
 1. **The orchestrator profile** (`~/.vibe/agents/orchestrator.toml`):
 
@@ -119,7 +155,7 @@ into `instructions` inline, plus the keys that make it a role.
   immediately. A wrong key in a generated batch may fail *silently* —
   a subagent whose prompt reference was misspelled would run with no
   system prompt and no error message. Verify, then generate.
-- The ten-minute verification, before scripting the batch:
+- The ten-minute verification, before trusting the batch:
   1. One orchestrator profile, hand-written — `vibe --agent
      orchestrator`, confirm the composed prompt loads and Shift+Tab
      lists it.
@@ -128,7 +164,8 @@ into `instructions` inline, plus the keys that make it a role.
   3. Misspell one key on purpose: a complaint means loud errors
      (safe world); silence means keys can be ignored (verify
      everything, twice).
-  4. Generate the remaining profiles from `manifest.yaml`.
+  4. Run `./install.py --dest /tmp/vibe-check`, confirm a profile
+     loads, then install for real.
 - The orchestrator's escalation path: subagent profiles cannot raise
   their own model — escalation happens by the orchestrator's own
   per-task decision encoded at composition time (a second profile per

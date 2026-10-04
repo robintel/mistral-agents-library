@@ -3,6 +3,54 @@
 A library of prompt-defined agents for Mistral AI, built around excellent software
 development and designed to extend to other domains without touching the core.
 
+## Getting started
+
+One command, on any machine with Python 3 and Mistral Vibe:
+
+```sh
+git clone https://github.com/robintel/mistral-agents-library.git
+cd mistral-agents-library
+./install.py
+```
+
+On Windows, run `.\install.ps1` — no Python needed (if running
+scripts is disabled: `powershell -ExecutionPolicy Bypass -File
+.\install.ps1`). With Python installed, `py install.py` works too;
+both installers produce byte-identical profiles on Linux, macOS,
+and Windows — CRLF checkouts and Windows path backslashes are
+normalized before composing.
+
+Then two manual steps, both short:
+
+1. Reload the VS Code window (Developer: Reload Window), or
+   restart the CLI, so Vibe picks up the new profiles.
+2. Switch to the orchestrator: `vibe --agent orchestrator`, or
+   Shift+Tab in the panel. Work arrives at the specialists as
+   briefs from the orchestrator — the user never addresses them
+   directly.
+
+What the command does: `install.py` reads `manifest.yaml` — the
+single source of truth — and composes every agent into a
+self-contained profile in `~/.vibe/agents/`: `shared/standards.md`
+plus the agent body, the tier's model, the role's tool surface. The
+orchestrator lands as a selectable profile; the 49 specialists land
+as subagents it spawns by name.
+
+Day to day:
+
+- After pulling library changes, rerun `./install.py` — the
+  install is idempotent, and a rerun prunes profiles from earlier
+  installs that are no longer in the manifest. Hand-written
+  profiles are left alone.
+- `./install.py --target /path/to/repo` writes the target repo's
+  thin AGENTS.md — the pointer that binds a working repository to
+  this deployment. It never overwrites an existing AGENTS.md.
+- `--dest DIR` tries a batch somewhere else first; `--dry-run`
+  prints the plan, writes nothing.
+
+The full mapping — profiles, subagents, skills — and its caveats:
+[DEPLOYING.md](DEPLOYING.md).
+
 ## Design principles
 
 1. **One source of truth.** The orchestrator is the only agent that talks to the user.
@@ -21,6 +69,9 @@ development and designed to extend to other domains without touching the core.
 ```
 .
 ├── README.md               this file
+├── install.py              one command: compose and install the profiles
+├── install.ps1             the same, for Windows without Python
+├── DEPLOYING.md            the Mistral Vibe mapping and first-run recipe
 ├── orchestrator.md         the single source of truth agent
 ├── manifest.yaml            agents, tier selectors, catalog, routing, profiles
 ├── model-registrar.md       refreshes the catalog; the user approves every change
