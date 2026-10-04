@@ -26,11 +26,10 @@ development and designed to extend to other domains without touching the core.
 ├── model-registrar.md       refreshes the catalog; the user approves every change
 ├── shared/
 │   ├── standards.md         communication contracts + the elegance bar
-│   └── dialects/            19 contracts: 16 languages (python,
-│                             javascript, typescript, go, rust, c, cpp,
-│                             java, csharp, vbnet, php, ruby, perl,
-│                             fortran, cobol) + SQL two-layer (sql core
-│                             + postgres, mysql, oracle engines) — data
+│   └── dialects/            27 contracts: 16 languages; SQL core + 4
+│                             engines (postgres, mysql, oracle, bigquery);
+│                             NoSQL core + 5 stores; hadoop platform
+│                             — data, not agents
 ├── sdlc/                       software development lifecycle agents
 │   ├── app-dev/                application development
 │   │   ├── intake-analyst.md
@@ -315,8 +314,13 @@ Java 8 repos get Java 8 idiom, never fragments of 21; the C++ standard
 flag and PHP's composer.json do the same. Legacy languages get
 conservation contracts — preservation over modernization, the running
 system is the spec. SQL is two-layer: a vendor-neutral core plus
-engine contracts (postgres, mysql, oracle) that attach alongside it,
-each carrying its own era map. Every code-writing agent
+engine contracts (postgres, mysql, oracle, bigquery) that attach
+alongside it, each carrying its own era map. NoSQL follows the same
+shape with a difference: the stores share no language, so the core is
+a thin modeling discipline — access-pattern-first, denormalize,
+consistency as a dial — and the store contracts (cassandra, mongodb,
+redis, hbase, elasticsearch) carry the weight. Hadoop is a platform
+contract; HBase has its own. Every code-writing agent
 attaches the right contract to the task — the code-developer and the
 implementer, and the test writers (test-automator, unit-test-writer),
 because test code obeys the same idiom and pitfalls as product code.

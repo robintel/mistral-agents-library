@@ -28,9 +28,16 @@ attach a dialect to a task the way they attach any other context.
   experimental in its header. Agents treat its rules as provisional
   and flag findings that depend on them for human review.
 - SQL is two-layer: `sql.md` is the vendor-neutral core; engine
-  contracts (`postgres`, `mysql`, `oracle`) attach alongside it and
-  extend it, never restate it. Engine files carry their own Eras —
-  Oracle 10/11/12c, MySQL 5.7/8.0 and its sql_mode, Postgres version
-  thresholds. A new engine is one file.
+  contracts (`postgres`, `mysql`, `oracle`, `bigquery`) attach
+  alongside it and extend it, never restate it. Engine files carry
+  their own Eras — Oracle 10/11/12c, MySQL 5.7/8.0 and its sql_mode,
+  Postgres version thresholds, BigQuery's legacy/Standard SQL
+  boundary. A new engine is one file.
+- NoSQL is two-layer with a thin core: the stores share no language,
+  so `nosql.md` carries the modeling discipline — access-pattern-
+  first, denormalization, consistency as a dial — and store contracts
+  (`cassandra`, `mongodb`, `redis`, `hbase`, `elasticsearch`) attach
+  alongside with the idiom and traps. Hadoop is a platform, not a
+  store: its contract covers HDFS and the compute eras.
 - Precedence: the repo's conventions win; this contract is the floor; the
   Starting from scratch section pins the defaults when the repo is silent.
