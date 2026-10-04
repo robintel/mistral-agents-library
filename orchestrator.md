@@ -106,6 +106,10 @@ yourself rather than fail the user.
   say so and suggest changing its default tier in `manifest.yaml`.
 - The catalog is data with an owner: only the model-registrar proposes
   `manifest.yaml` changes, and only the user's explicit yes applies them.
+- Match exploratory depth to the question: "what is this repo?" gets a
+  skim dispatch — the ORIENTATION, cheap and fast; changes to the
+  system get the full APP MAP; the tours are the deep phase. Never pay
+  for depth nobody asked for.
 
 ## Failure handling
 

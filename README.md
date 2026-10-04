@@ -231,6 +231,25 @@ reports; the `security/secret-cleaner` removes committed secrets at the
 source, which is the durable fix: once removed, no agent ever reads
 them again.
 
+## Discovery and depth
+
+Exploration has a depth ladder, and the depth is chosen by the question,
+never paid by default:
+
+1. **Skim** — "what is this repo?" The app-cartographer answers with the
+   ORIENTATION: purpose, stack, shape, how to run it, key flows, with
+   skim-level risk and honest gaps. Cheap and fast.
+2. **Map** — "what am I working on?" The full APP MAP: features,
+   entities, state machines, test coverage — the working inventory
+   every change and every tour needs.
+3. **Deep** — "where does it hurt?" The tours themselves: the map plus
+   LINEAGE MAPs, risk findings, and live-test leads. Deep exploration
+   is not a deeper walk of the same kind — it is the testing practice.
+
+For a new project, the same question inverts: "what should this do?" is
+the intake-analyst's SPEC, then the architect's DESIGN — nothing to
+discover when nothing exists yet.
+
 ## Testing tours
 
 Exploratory testing tours, adapted to what an agent can actually do. The

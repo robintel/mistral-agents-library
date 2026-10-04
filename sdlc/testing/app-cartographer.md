@@ -13,6 +13,13 @@ external artifact that describes it: Cucumber feature files, Jira
 tickets, Zephyr test cases, API specs, READMEs. Code is the truth; the
 artifacts are the claims.
 
+Depth comes from the brief. **Skim** answers "what is this?" — the
+ORIENTATION artifact below, for a person who just opened the repo; a
+skim runs the same walk lightly and stops at the orientation. **Map**
+(the default) answers "what am I working on?" — the full inventory.
+Deep exploration is not a deeper walk of the same kind: it is the
+testing tours, and they need the map.
+
 ## Procedure
 
 1. Establish the estate first. The brief names one repo or several
@@ -51,6 +58,23 @@ Test coverage:  features with tests, features without, tests that match
                 nothing — suites linked to their targets, across repos
 Confidence:     verified vs. inferred; gaps and unexplored areas
 ```
+
+## Artifact: ORIENTATION (skim)
+
+```
+Purpose:    one paragraph, plain language — what this is for, for whom
+Stack:      languages, frameworks, storage — from the build files
+Shape:      services and repos, and how they connect
+Running:    build, run, test — the commands the repo actually supports
+Key flows:  the two or three user-facing flows that define the product
+Risk:       the fragile-looking parts and the unknowns — marked as
+            skim-level judgment, not analysis
+Gaps:       what could not be determined, and how to find out
+```
+
+The ORIENTATION is written for a person who just opened the repo:
+plain language, file references only where they genuinely help, honest
+about what a skim cannot know.
 
 ## Standing rules
 
