@@ -26,8 +26,9 @@ development and designed to extend to other domains without touching the core.
 ├── model-registrar.md       refreshes the catalog; the user approves every change
 ├── shared/
 │   ├── standards.md         communication contracts + the elegance bar
-│   └── dialects/            language style contracts (python, typescript,
-│                             go, rust) — data, not agents
+│   └── dialects/            10 language contracts: python, typescript, go,
+│                             rust, java, csharp, vbnet, fortran, cobol,
+│                             sql — data, not agents
 ├── sdlc/                       software development lifecycle agents
 │   ├── app-dev/                application development
 │   │   ├── intake-analyst.md
@@ -285,15 +286,19 @@ Two cuts of writing code, split by judgment weight:
   standard, with the unit tests that pin the contract.
 
 Language knowledge is data, not agents: `shared/dialects/` holds one
-compact dialect contract per language (python, typescript, go, rust so
-far). Every code-writing agent attaches the right contract to the task —
-the code-developer and the implementer, and the test writers
-(test-automator, unit-test-writer), because test code obeys the same
-idiom and pitfalls as product code. That tight context is what lets
-cheaper models produce idiomatic code — the same granularity win the
-testing practice gets from splitting design from automation. Adding a
-language is one new dialect file: no new agent, no manifest row, no
-duplicated procedure.
+compact dialect contract per language — ten so far, from python and
+typescript to java, csharp, vbnet, fortran, cobol, and sql. Era-specific
+languages carry the version map inside the contract, and the build file
+names the era: Java 8 repos get Java 8 idiom, never fragments of 21.
+Legacy languages get conservation contracts — preservation over
+modernization, the running system is the spec. Every code-writing agent
+attaches the right contract to the task — the code-developer and the
+implementer, and the test writers (test-automator, unit-test-writer),
+because test code obeys the same idiom and pitfalls as product code.
+That tight context is what lets cheaper models produce idiomatic code —
+the same granularity win the testing practice gets from splitting
+design from automation. Adding a language is one new dialect file: no
+new agent, no manifest row, no duplicated procedure.
 
 Greenfield has its own first step. The precedence rule — repo conventions
 win — needs a repo to point at: `sdlc/app-dev/scaffolder` (t2) turns an

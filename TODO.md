@@ -22,14 +22,13 @@ never by silent accumulation.
 - [ ] Per-language tier defaults (Rust costing more than Python, say):
       unblock when a real workload escalates repeatedly on one language.
       The fix is a manifest data change, never new agents.
-- [ ] More dialects (Java, C#, others): unblock at the first real task
-      in that language — one file under `shared/dialects/`, no agent,
-      no manifest row.
 - [ ] Manifest whitespace realignment: cosmetic; batch it with the next
       manifest edit.
 
 ## Done or absorbed — do not reopen
 
+- ~~more dialects~~ — added java, csharp, vbnet, fortran, cobol; era
+  maps inside the contract, conservation contracts for the legacy pair.
 - ~~data_lc expansion~~ — built as the `data/` domain: steward, auditor,
   query-optimizer, engineer, analyst.
 - ~~security/ domain~~ — built: threat-modeler, supply-chain-auditor,
