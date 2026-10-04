@@ -6,6 +6,14 @@ changelogs are for users, not for git history. Format per
 [Keep a Changelog](https://keepachangelog.com); semver: breaking = major,
 feature = minor, fix = patch.
 
+## [0.6.0] — 2026-10-04
+
+### Added
+
+- Add Eras sections to python (2 vs 3), rust (editions), go (version
+  thresholds), typescript (module systems): the build names the era;
+  ports are migration briefs, never ride-alongs.
+
 ## [0.5.0] — 2026-10-04
 
 ### Added
