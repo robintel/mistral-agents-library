@@ -45,7 +45,11 @@ the way they attach any other context.
   so `nosql.md` carries the modeling discipline — access-pattern-
   first, denormalization, consistency as a dial — and store contracts
   (`cassandra`, `mongodb`, `redis`, `hbase`, `elasticsearch`,
-  `dynamodb`) attach alongside with the idiom and traps.
+  `dynamodb`) attach alongside with the idiom and traps. The legacy
+  mainframe stores (`ims`, `vsam`, `idms`, `adabas`, `cache-iris`) are
+  conservation contracts in the same folder: experimental status,
+  standalone attach — the nosql core descends from disciplines these
+  stores invented, not the other way around.
 - Messaging is two-layer like NoSQL: `messaging.md` carries the
   shared delivery semantics — the guarantees vocabulary, idempotent
   consumers, dead-lettering, replay policy — and broker contracts
