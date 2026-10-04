@@ -6,6 +6,38 @@ changelogs are for users, not for git history. Format per
 [Keep a Changelog](https://keepachangelog.com); semver: breaking = major,
 feature = minor, fix = patch.
 
+## [0.10.0] — 2026-10-04
+
+### Added
+
+- Add the graphql dialect: schema-first contracts, thin resolvers
+  (the N+1 resolver named as the classic defect), cursor connections,
+  partial-error responses, depth and complexity guarding.
+- Add the etl pattern contract — a new contract kind, attached by the
+  shape of the work (the data-engineer's pipeline briefs): idempotency
+  as the law, T-placement as a priced decision (PII shaped before it
+  lands pre-empts the GDPR finding), backfill as a designed capability,
+  reconciliation at every hop.
+- Add engine contracts: sqlite (type affinity, per-connection foreign
+  keys), sqlserver (compatibility-level eras, NOLOCK as a dirty-read
+  generator), snowflake (compute-time cost dial, auto-suspend
+  mandatory) — SQL coverage reaches seven engines.
+- Add the dynamodb store contract: single-table design, conditional
+  writes as the concurrency tool, hot partitions at AWS scale.
+- Add platform contracts: kafka (the replayable log — partitions as
+  order, consumer idempotency, at-least-once as the default world)
+  and spark (DataFrames over the RDD era, shuffle as the cost,
+  streaming with checkpointing as contract).
+- Add the messaging two-layer: messaging.md core — guarantees
+  vocabulary, idempotent consumers, dead-lettering as designed
+  capability, replay as policy — plus broker contracts: rabbitmq
+  (topology as design, quorum-era queues), sqs (visibility-timeout
+  leases, DLQ redrive), ibm-mq (syncpoint, queue managers, the
+  oldest broker alive), solace (per-message direct-vs-guaranteed,
+  VPN tenancy), activemq (Classic-to-Artemis era), nats (core
+  at-most-once versus JetStream, stated per integration). Kafka
+  joins its siblings under the core.
+
 ## [0.9.0] — 2026-10-04
 
 ### Added
