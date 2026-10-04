@@ -53,8 +53,11 @@ development and designed to extend to other domains without touching the core.
 │   │   ├── tour-guidebook.md
 │   │   ├── tour-supper-model.md
 │   │   ├── tour-fedex.md
+│   │   ├── tour-lineage.md
 │   │   ├── tour-landlord.md
 │   │   ├── tour-rained-out.md
+│   │   ├── tour-siren.md
+│   │   ├── tour-sentry.md
 │   │   ├── tour-all-nighter.md
 │   │   ├── tour-bad-neighborhood.md
 │   │   └── tour-back-alley.md
@@ -64,8 +67,16 @@ development and designed to extend to other domains without touching the core.
 │       ├── migration-engineer.md  breaking upgrades, runtimes
 │       ├── data-migration-engineer.md  schema + data, rollback-first
 │       └── rollback-operator.md   rehearses and executes rollback plans
-└── data_lc/                data lifecycle agents (first extension domain)
+├── security/                security practice: designs, pipelines, data locks
+│   ├── threat-modeler.md      STRIDE at trust boundaries, requirements into the SPEC
+│   ├── supply-chain-auditor.md  CI/CD and dependency poisoning
+│   ├── data-security-auditor.md  encryption, keys, access enforcement
+│   └── qastell-guide.md        QAstell: security rules inside browser test suites
+└── data/                   data lifecycle: catalog, pipelines, audit, queries
+    ├── data-steward.md       the DATA CATALOG: states, roles, owners, retention
     ├── data-engineer.md
+    ├── data-auditor.md
+    ├── query-optimizer.md
     └── data-analyst.md
 ```
 
@@ -131,8 +142,15 @@ Routing lives in `manifest.yaml`; this table is the human-readable view.
 | debugging, root-cause | `sdlc/app-dev/debugger` | t3 (t4 when hard) |
 | CI/CD, infra, scripts | `sdlc/app-dev/devops` | t2 |
 | release, versioning | `sdlc/app-dev/release-manager` | t1 |
-| data pipelines | `data_lc/data-engineer` | t2 |
-| analysis, insight | `data_lc/data-analyst` | t1 |
+| data pipelines | `data/data-engineer` | t2 |
+| data catalog, lifecycle, retention | `data/data-steward` | t2 |
+| data policy/compliance review | `data/data-auditor` | t3 |
+| query optimization (cost/speed) | `data/query-optimizer` | t2 |
+| analysis, insight | `data/data-analyst` | t1 |
+| threat modeling | `security/threat-modeler` | t3 |
+| CI/CD + dependency supply chain audit | `security/supply-chain-auditor` | t2 |
+| data protections audit | `security/data-security-auditor` | t3 |
+| QAstell security-in-tests integration | `security/qastell-guide` | t2 |
 | model catalog refresh | `model-registrar` | t1 |
 | app discovery, mapping | `sdlc/testing/app-cartographer` | t2 |
 | testing tours | `sdlc/testing/tour-coordinator` | t2 |
@@ -215,8 +233,11 @@ Tours that work at agent level, against code and docs:
 | guidebook | documented behavior vs. code | drift, unimplemented promises, dead features |
 | supper-model | state machines | forbidden transitions, stuck states |
 | fedex | one data item end to end | silent coercion, partial writes |
+| lineage | the data flow graph: sources, transforms, consumers | undocumented hops, shape drift, hidden consumers |
 | landlord | validation at creation points | guards at the wrong layer |
 | rained-out | cancelled, interrupted operations | orphaned side effects |
+| siren | error paths: detection, honesty, handling | missing, silenced, and lying errors |
+| sentry | trust boundaries: validation, authz, resource cost | injection, IDOR, DoS by design, memory unsafety |
 | all-nighter | resource lifecycles over time | leaks, unbounded growth |
 | bad-neighborhood | defect-prone hotspots | the recurring bug pattern nearby |
 | back-alley | rarely executed paths | swallowed errors, unreachable code |
@@ -231,6 +252,12 @@ The coordinator is a scoped single source of truth: tour agents brief and
 report only through it, and it returns one TOUR REPORT to the orchestrator —
 which dispatches the follow-ups: fixes to the implementer, adversarial cases
 to the test-engineer, the live-test checklist to a human.
+
+Multi-service estates — one window, several repos — map as one estate:
+the app-cartographer classifies each root by role and links test suites
+to the code they target across repos; the coordinator tours each service
+separately, bounded by the budget, and elevates findings that repeat
+across services as systemic.
 
 ## Code development
 
@@ -318,9 +345,71 @@ the formulaic loop (measure, write, re-measure); expensive models run the
 judgment work (reviews, flaky root-cause). Raising coverage is never worth
 tests that test nothing — a cosmetic test is a finding against the suite.
 
+## Security practice
+
+`security/` splits by phase and surface — the sentry tour walks existing
+code white-box; these agents own the rest of the lifecycle:
+
+- `security/threat-modeler` (t3): STRIDE at every trust boundary at
+  design time. Kept threats mitigate into testable SPEC requirements or
+  get accepted in writing — never silently ignored.
+- `security/supply-chain-auditor` (t2): audits what could poison the
+  build — unpinned steps, secrets in pipelines, unsigned artifacts,
+  gates that warn but do not block.
+- `security/data-security-auditor` (t3): the locks, not the law —
+  encryption in transit and at rest, key rotation, server-side access
+  enforcement. The data-auditor checks policy; this one checks the
+  machinery.
+- `security/qastell-guide` (t2): QAstell (qastell.eu) puts 250+
+  security rules inside existing Playwright, Puppeteer, Cypress, and
+  Selenium suites — CVSS severity, OWASP Top 10 and CWE references,
+  SARIF into code scanning. The guide never proposes QAstell
+  unsolicited: a web UI without web tests gets a prerequisite path
+  first — framework asked, Playwright recommended, suite built through
+  the testing practice — and integration happens only once a suite
+  exists.
+
+White-box and black-box triangulate: sentry reads the code, QAstell
+audits the running app from inside the browser, and the threat model
+decides what both should be looking for.
+
+## Data practice
+
+The data domain is built around one artifact: the DATA CATALOG. The
+`data/data-steward` (t2) maintains it — every dataset's classification,
+roles (producer, custodian, owner, consumers), lifecycle state
+(hot -> warm -> cold -> archived -> destroyed), and retention rule, with
+unowned and unclassified data surfacing as findings. Irreversible
+transitions — off-site archival, deletion — are proposed and executed only
+with the user's approval.
+
+Around the catalog:
+
+- `data/data-engineer` (t2): pipelines with invariants and quality gates;
+  mechanical storage moves are pipelines too.
+- `data/data-auditor` (t3): reviews data work against the catalog —
+  classification boundaries, retention inherited by copies and exports,
+  side-door leaks through logs and analytics events; violations are
+  BLOCKERs.
+- `data/query-optimizer` (t2): cheaper or faster queries, the brief
+  naming the objective — baseline, plan, change, re-measure; an
+  optimization without before-and-after numbers is an opinion.
+- `data/data-analyst` (t1): answers from data with the uncertainty stated.
+
+The lineage tour (`sdlc/testing/tour-lineage.md`) audits the flow graph —
+where data comes from, where it goes, and what shape it wears at each hop
+(SQL row to JSON to a different row) — treating the DATA CATALOG as its
+baseline and feeding both tour findings and catalog gaps back to the
+steward.
+
+Schema migrations live in `sdlc/app-upgrades/data-migration-engineer`;
+the steward and auditor own the lifecycle the migrator does not. Query
+work attaches `shared/dialects/sql.md` like code attaches its language
+contracts.
+
 ## Extending
 
-1. Create a domain folder (e.g. `security/`).
+1. Create a domain folder (e.g. `observability/`).
 2. Add agent files using the shared frontmatter schema:
    `name`, `domain`, `tier`, `escalate`, `accepts`.
 3. Register them in `manifest.yaml` under `agents` and add `routing` rows.

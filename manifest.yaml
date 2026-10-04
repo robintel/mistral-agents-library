@@ -44,6 +44,11 @@ models:
     # leanstral. Add a selector only when a family fills a tier gap.
 
   resolved:  # data, not policy: current members, $/1M tokens (in/out); -latest aliases
+    # Aliases verified 2026-10-04: mistral-large-latest and mistral-small-latest
+    # appear as model IDs in Mistral's chat API docs; mistral-medium-latest in
+    # third-party listings; ministral (ministral-3b-2512) and codestral follow
+    # the same alias pattern. GET /v1/models at first account refresh is the
+    # authoritative confirmation.
     t0: [ministral-3b-latest, ministral-8b-latest]     # 0.10/0.10, 0.15/0.15
     t1: [ministral-14b-latest, mistral-small-latest]   # 0.20/0.20, 0.15/0.60
     t2: [codestral-latest]                             # 0.30/0.90
@@ -68,8 +73,11 @@ agents:
   - { name: tour-guidebook,   path: sdlc/testing/tour-guidebook.md,    domain: sdlc,    tier: t2, escalate: t3, accepts: [tour-guidebook] }
   - { name: tour-supper-model, path: sdlc/testing/tour-supper-model.md, domain: sdlc,  tier: t2, escalate: t3, accepts: [tour-supper-model] }
   - { name: tour-fedex,       path: sdlc/testing/tour-fedex.md,       domain: sdlc,    tier: t2, escalate: t3, accepts: [tour-fedex] }
+  - { name: tour-lineage,     path: sdlc/testing/tour-lineage.md,     domain: sdlc,    tier: t2, escalate: t3, accepts: [tour-lineage] }
   - { name: tour-landlord,    path: sdlc/testing/tour-landlord.md,    domain: sdlc,    tier: t2, escalate: t3, accepts: [tour-landlord] }
   - { name: tour-rained-out,  path: sdlc/testing/tour-rained-out.md,  domain: sdlc,    tier: t2, escalate: t3, accepts: [tour-rained-out] }
+  - { name: tour-siren,       path: sdlc/testing/tour-siren.md,       domain: sdlc,    tier: t2, escalate: t3, accepts: [tour-siren] }
+  - { name: tour-sentry,      path: sdlc/testing/tour-sentry.md,      domain: sdlc,    tier: t3, escalate: t4, accepts: [tour-sentry] }
   - { name: tour-all-nighter, path: sdlc/testing/tour-all-nighter.md, domain: sdlc,    tier: t2, escalate: t3, accepts: [tour-all-nighter] }
   - { name: tour-bad-neighborhood, path: sdlc/testing/tour-bad-neighborhood.md, domain: sdlc, tier: t2, escalate: t3, accepts: [tour-bad-neighborhood] }
   - { name: tour-back-alley,  path: sdlc/testing/tour-back-alley.md,  domain: sdlc,    tier: t2, escalate: t3, accepts: [tour-back-alley] }
@@ -85,8 +93,15 @@ agents:
   - { name: migration-engineer, path: sdlc/app-upgrades/migration-engineer.md, domain: sdlc, tier: t3, escalate: t4, accepts: [migration] }
   - { name: data-migration-engineer, path: sdlc/app-upgrades/data-migration-engineer.md, domain: sdlc, tier: t3, escalate: t4, accepts: [data-migration] }
   - { name: rollback-operator, path: sdlc/app-upgrades/rollback-operator.md, domain: sdlc, tier: t2, escalate: t3, accepts: [rollback] }
-  - { name: data-engineer,    path: data_lc/data-engineer.md,  domain: data_lc, tier: t2, escalate: t3, accepts: [data-pipeline] }
-  - { name: data-analyst,     path: data_lc/data-analyst.md,   domain: data_lc, tier: t1, escalate: t4, accepts: [analysis] }
+  - { name: data-engineer,    path: data/data-engineer.md,  domain: data, tier: t2, escalate: t3, accepts: [data-pipeline] }
+  - { name: data-steward,     path: data/data-steward.md,   domain: data, tier: t2, escalate: t3, accepts: [data-governance] }
+  - { name: data-auditor,     path: data/data-auditor.md,   domain: data, tier: t3, escalate: t4, accepts: [data-audit] }
+  - { name: query-optimizer,  path: data/query-optimizer.md, domain: data, tier: t2, escalate: t3, accepts: [query-optimization] }
+  - { name: data-analyst,     path: data/data-analyst.md,   domain: data, tier: t1, escalate: t4, accepts: [analysis] }
+  - { name: threat-modeler,  path: security/threat-modeler.md,  domain: security, tier: t3, escalate: t4, accepts: [threat-modeling] }
+  - { name: supply-chain-auditor, path: security/supply-chain-auditor.md, domain: security, tier: t2, escalate: t3, accepts: [supply-chain-audit] }
+  - { name: data-security-auditor, path: security/data-security-auditor.md, domain: security, tier: t3, escalate: t4, accepts: [data-security] }
+  - { name: qastell-guide,   path: security/qastell-guide.md,   domain: security, tier: t2, escalate: t3, accepts: [qastell] }
 
 routing:  # task_class -> agent
   intake: intake-analyst
@@ -100,6 +115,9 @@ routing:  # task_class -> agent
   ops: devops
   release: release-manager
   data-pipeline: data-engineer
+  data-governance: data-steward
+  data-audit: data-auditor
+  query-optimization: query-optimizer
   analysis: data-analyst
   catalog: model-registrar
   discovery: app-cartographer
@@ -107,8 +125,11 @@ routing:  # task_class -> agent
   tour-guidebook: tour-guidebook
   tour-supper-model: tour-supper-model
   tour-fedex: tour-fedex
+  tour-lineage: tour-lineage
   tour-landlord: tour-landlord
   tour-rained-out: tour-rained-out
+  tour-siren: tour-siren
+  tour-sentry: tour-sentry
   tour-all-nighter: tour-all-nighter
   tour-bad-neighborhood: tour-bad-neighborhood
   tour-back-alley: tour-back-alley
@@ -124,6 +145,10 @@ routing:  # task_class -> agent
   migration: migration-engineer
   data-migration: data-migration-engineer
   rollback: rollback-operator
+  threat-modeling: threat-modeler
+  supply-chain-audit: supply-chain-auditor
+  data-security: data-security-auditor
+  qastell: qastell-guide
 
 profiles:
   frugal:

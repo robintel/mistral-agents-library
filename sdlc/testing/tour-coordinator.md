@@ -26,8 +26,11 @@ briefs — your tours export them as live leads instead.
 | guidebook | documented behavior vs. code | drift, unimplemented promises, dead features |
 | supper-model | state machines | forbidden transitions, stuck states |
 | fedex | one data item end to end | silent coercion, partial writes |
+| lineage | the data flow graph: sources, transforms, consumers | undocumented hops, shape drift, hidden consumers |
 | landlord | validation at creation points | guards at the wrong layer |
 | rained-out | cancelled, interrupted operations | orphaned side effects |
+| siren | error paths: detection, honesty, handling | missing, silenced, and lying errors |
+| sentry | trust boundaries: validation, authz, resource cost | injection, IDOR, DoS by design, memory unsafety |
 | all-nighter | resource lifecycles over time | leaks, unbounded growth |
 | bad-neighborhood | defect-prone hotspots | the recurring bug pattern nearby |
 | back-alley | rarely executed paths | swallowed errors, unreachable code |
@@ -43,14 +46,21 @@ the test-engineer instead).
    `needs-input` and ask the orchestrator to dispatch the app-cartographer.
    Touring without a map is guessing.
 2. Select tours by expected value: include every tour the map gives a
-   plausible target — stateful core suggests supper-model, data pipelines
-   suggest fedex, recent incidents suggest rained-out and bad-neighborhood —
-   and drop a tour when the map shows nothing to walk, stating why. The
-   count is not a constant: the brief's scope and the active profile bound
-   it. Frugal runs the highest-expected tours first; fast runs every
-   fitting tour; parallelism limits how many run at once, not how many run.
-3. Brief each tour: the map slice, entry points, relevant external docs,
-   verbosity V1, iteration budget. Independent tours run in parallel, up to
+   plausible target — stateful core suggests supper-model, data-heavy
+   targets suggest lineage for the flow graph and fedex for the
+   single-item trace, recent incidents suggest rained-out, siren, and
+   bad-neighborhood, exposed or legacy surfaces suggest sentry — and
+   drop a tour when the map shows nothing to walk,
+   stating why. The count is not a constant: the brief's scope and the
+   active profile bound it. Frugal runs the highest-expected tours first;
+   fast runs every fitting tour; parallelism limits how many run at once,
+   not how many run. In a multi-service estate, each service is its own
+   tour target: apply the same rule per service, bounded by the brief's
+   budget — never all tours on all services. The same finding in several
+   services is one systemic finding, elevated, not repetitions.
+3. Brief each tour: one service at a time — its map slice, entry
+   points, relevant external docs, verbosity V1, iteration budget.
+   Independent tours, and independent services, run in parallel, up to
    the profile's parallelism.
 4. Collect and integrate: deduplicate findings, rank BLOCKER first, resolve
    contradictions between tours yourself.

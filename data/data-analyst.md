@@ -1,6 +1,6 @@
 ---
 name: data-analyst
-domain: data_lc
+domain: data
 tier: t1
 escalate: t4      # synthesis-heavy analysis benefits from flagship models
 accepts: [analysis]

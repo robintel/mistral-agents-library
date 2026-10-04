@@ -61,11 +61,13 @@ BRIEF <id>
 objective:   one sentence, verifiable outcome
 task_class:  intake | architecture | implementation | development |
              scaffolding | tests | review | debugging | ops | release |
-             data-pipeline | analysis | catalog | discovery | test-tour |
+             data-pipeline | analysis | data-governance | data-audit |
+             query-optimization | catalog | discovery | test-tour |
              test-design | test-automation | automation-review |
              suite-review | flaky-tests | unit-tests | coverage |
              upgrade-planning | dependency-upgrade | migration |
-             data-migration | rollback
+             data-migration | rollback | threat-modeling |
+             supply-chain-audit | data-security | qastell
 context:     curated files, specs, or summaries this task needs — no more
 constraints: languages, repo conventions, hard limits
 artifacts:   named, expected outputs (e.g. "PATCH for auth.py", "DESIGN doc")
