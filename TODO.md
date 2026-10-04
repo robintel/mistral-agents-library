@@ -6,10 +6,12 @@ never by silent accumulation.
 
 ## Next
 
-- [ ] First real-world run: point the orchestrator at a real repository
-      and observe which tiers over- or under-deliver. The orchestrator's
-      cost discipline collects the evidence; the parked items below
-      unlock or die on that evidence.
+- [ ] First real-world run: deploy per DEPLOYING.md (orchestrator
+      profile + specialist subagents + workflow skills), point it at
+      a real repository, and observe which tiers over- or
+      under-deliver. The orchestrator's cost discipline collects the
+      evidence; the parked items below unlock or die on that
+      evidence.
 - [ ] Verify the model catalog against the account: `GET /v1/models`
       with `MISTRAL_API_KEY` is the authoritative confirmation of the
       `-latest` aliases recorded in `manifest.yaml` (provenance and

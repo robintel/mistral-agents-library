@@ -243,6 +243,9 @@ reports; the `security/secret-cleaner` removes committed secrets at the
 source, which is the durable fix: once removed, no agent ever reads
 them again.
 
+For the concrete Mistral Vibe deployment — agent profiles, subagents,
+skills, and the first-run recipe — see [DEPLOYING.md](DEPLOYING.md).
+
 ## Discovery and depth
 
 Exploration has a depth ladder, and the depth is chosen by the question,
