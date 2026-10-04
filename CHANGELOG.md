@@ -6,6 +6,15 @@ changelogs are for users, not for git history. Format per
 [Keep a Changelog](https://keepachangelog.com); semver: breaking = major,
 feature = minor, fix = patch.
 
+## [0.7.0] — 2026-10-04
+
+### Added
+
+- Add discovery depth to the app-cartographer: skim answers "what is
+  this repo?" with a user-facing ORIENTATION; map stays the working
+  APP MAP; the tours are the deep phase. Depth is chosen by the brief,
+  never paid by default.
+
 ## [0.6.0] — 2026-10-04
 
 ### Added
