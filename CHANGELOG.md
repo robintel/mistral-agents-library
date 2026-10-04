@@ -6,6 +6,24 @@ changelogs are for users, not for git history. Format per
 [Keep a Changelog](https://keepachangelog.com); semver: breaking = major,
 feature = minor, fix = patch.
 
+## [0.9.0] — 2026-10-04
+
+### Added
+
+- Add NoSQL contracts: nosql.md modeling core — access-pattern-first,
+  denormalization, consistency as a dial — plus cassandra store
+  contract (partition-key design, quorum math, tombstones). Hadoop
+  covered as a platform (HDFS, the compute eras), with HBase named as
+  its own contract when used. The stores share no language: the core
+  is thin, the store contract carries the weight.
+- Add NoSQL store contracts: mongodb, redis, hbase, elasticsearch —
+  attaching with the modeling core, each with its era map (MongoDB
+  4.0 transactions, Elasticsearch typed queries dying across 6/7,
+  HBase 1.x/2.x, Redis deployment modes).
+- Add the bigquery engine contract: cost is bytes scanned — SELECT *
+  is a financial event; partitioning and clustering are the cost
+  mechanism; the dry-run API prices a query before it runs.
+
 ## [0.8.0] — 2026-10-04
 
 ### Added
