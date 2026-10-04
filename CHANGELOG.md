@@ -6,6 +6,21 @@ changelogs are for users, not for git history. Format per
 [Keep a Changelog](https://keepachangelog.com); semver: breaking = major,
 feature = minor, fix = patch.
 
+## [0.4.0] — 2026-10-04
+
+### Added
+
+- Add `gdpr-auditor`: GDPR readiness assessment for EU-bound systems —
+  applicability first, "not applicable" a complete result; findings
+  framed as exposure, never verdicts.
+- Add `tour-config`: configuration surfaces — shared credentials,
+  dev-in-prod values, environment drift, dead settings; secrets
+  reported by relationship, never by value.
+- Add `security/secret-cleaner`: remove committed credentials, wire
+  references, plan rotation; history scrubs proposed, never run.
+- Add the shared secret-hygiene standard: values never enter reports
+  or artifacts; harness-level redaction documented for deployment.
+
 ## [0.3.0] — 2026-10-04
 
 ### Added
