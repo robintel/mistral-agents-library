@@ -6,6 +6,17 @@ changelogs are for users, not for git history. Format per
 [Keep a Changelog](https://keepachangelog.com); semver: breaking = major,
 feature = minor, fix = patch.
 
+## [0.14.0] — 2026-10-05
+
+### Added
+
+- Add DEPLOYING.md with the schema verified from the mistral-vibe
+  source: profiles carry their instructions inline (one TOML per
+  agent, name = filename); safety values, agent_type, enabled_tools,
+  and per-tool permissions confirmed. A live test deployment was
+  installed to ~/.vibe/agents/ (orchestrator + app-cartographer
+  subagent) and the VS Code smoke-test steps recorded.
+
 ## [0.13.0] — 2026-10-04
 
 ### Added
