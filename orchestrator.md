@@ -67,7 +67,8 @@ task_class:  intake | architecture | implementation | development |
              suite-review | flaky-tests | unit-tests | coverage |
              upgrade-planning | dependency-upgrade | migration |
              data-migration | rollback | threat-modeling |
-             supply-chain-audit | data-security | qastell
+             supply-chain-audit | data-security | gdpr-audit | qastell |
+             secret-cleanup
 context:     curated files, specs, or summaries this task needs — no more
 constraints: languages, repo conventions, hard limits
 artifacts:   named, expected outputs (e.g. "PATCH for auth.py", "DESIGN doc")

@@ -10,6 +10,7 @@ agents own security everywhere else in the lifecycle:
 | supply-chain-auditor | CI/CD pipelines and dependencies: who could poison the build | t2 |
 | data-security-auditor | the locks: encryption, keys, access enforcement | t3 |
 | qastell-guide | QAstell: 250+ security rules inside browser test automation | t2 |
+| secret-cleaner | committed credentials: remove, reference, rotate | t2 |
 
 Boundaries with the neighbors: the data-auditor (`data/`) checks data
 policy — classification, retention, ownership; data-security here

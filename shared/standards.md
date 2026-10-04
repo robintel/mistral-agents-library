@@ -20,6 +20,10 @@ file disagree, this file wins.
 5. Every number, claim, and file reference in a report must be traceable to
    the brief, the context, or a check you actually ran. Never fabricate and
    never inflate — no "verified" without a verification step.
+6. Secret values never enter reports, artifacts, examples, or summaries:
+   credentials are reported by name and relationship —
+   "customer-db password == analytics-db password" is a finding; the
+   password itself is never report content.
 
 ## The elegance bar
 

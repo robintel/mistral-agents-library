@@ -78,6 +78,7 @@ agents:
   - { name: tour-rained-out,  path: sdlc/testing/tour-rained-out.md,  domain: sdlc,    tier: t2, escalate: t3, accepts: [tour-rained-out] }
   - { name: tour-siren,       path: sdlc/testing/tour-siren.md,       domain: sdlc,    tier: t2, escalate: t3, accepts: [tour-siren] }
   - { name: tour-sentry,      path: sdlc/testing/tour-sentry.md,      domain: sdlc,    tier: t3, escalate: t4, accepts: [tour-sentry] }
+  - { name: tour-config,      path: sdlc/testing/tour-config.md,      domain: sdlc,    tier: t2, escalate: t3, accepts: [tour-config] }
   - { name: tour-all-nighter, path: sdlc/testing/tour-all-nighter.md, domain: sdlc,    tier: t2, escalate: t3, accepts: [tour-all-nighter] }
   - { name: tour-rush-hour,  path: sdlc/testing/tour-rush-hour.md,  domain: sdlc,    tier: t2, escalate: t3, accepts: [tour-rush-hour] }
   - { name: tour-bad-neighborhood, path: sdlc/testing/tour-bad-neighborhood.md, domain: sdlc, tier: t2, escalate: t3, accepts: [tour-bad-neighborhood] }
@@ -97,12 +98,14 @@ agents:
   - { name: data-engineer,    path: data/data-engineer.md,  domain: data, tier: t2, escalate: t3, accepts: [data-pipeline] }
   - { name: data-steward,     path: data/data-steward.md,   domain: data, tier: t2, escalate: t3, accepts: [data-governance] }
   - { name: data-auditor,     path: data/data-auditor.md,   domain: data, tier: t3, escalate: t4, accepts: [data-audit] }
+  - { name: gdpr-auditor,     path: data/gdpr-auditor.md,   domain: data, tier: t3, escalate: t4, accepts: [gdpr-audit] }
   - { name: query-optimizer,  path: data/query-optimizer.md, domain: data, tier: t2, escalate: t3, accepts: [query-optimization] }
   - { name: data-analyst,     path: data/data-analyst.md,   domain: data, tier: t1, escalate: t4, accepts: [analysis] }
   - { name: threat-modeler,  path: security/threat-modeler.md,  domain: security, tier: t3, escalate: t4, accepts: [threat-modeling] }
   - { name: supply-chain-auditor, path: security/supply-chain-auditor.md, domain: security, tier: t2, escalate: t3, accepts: [supply-chain-audit] }
   - { name: data-security-auditor, path: security/data-security-auditor.md, domain: security, tier: t3, escalate: t4, accepts: [data-security] }
   - { name: qastell-guide,   path: security/qastell-guide.md,   domain: security, tier: t2, escalate: t3, accepts: [qastell] }
+  - { name: secret-cleaner,  path: security/secret-cleaner.md,  domain: security, tier: t2, escalate: t3, accepts: [secret-cleanup] }
 
 routing:  # task_class -> agent
   intake: intake-analyst
@@ -118,6 +121,7 @@ routing:  # task_class -> agent
   data-pipeline: data-engineer
   data-governance: data-steward
   data-audit: data-auditor
+  gdpr-audit: gdpr-auditor
   query-optimization: query-optimizer
   analysis: data-analyst
   catalog: model-registrar
@@ -131,6 +135,7 @@ routing:  # task_class -> agent
   tour-rained-out: tour-rained-out
   tour-siren: tour-siren
   tour-sentry: tour-sentry
+  tour-config: tour-config
   tour-all-nighter: tour-all-nighter
   tour-rush-hour: tour-rush-hour
   tour-bad-neighborhood: tour-bad-neighborhood
@@ -151,6 +156,7 @@ routing:  # task_class -> agent
   supply-chain-audit: supply-chain-auditor
   data-security: data-security-auditor
   qastell: qastell-guide
+  secret-cleanup: secret-cleaner
 
 profiles:
   frugal:

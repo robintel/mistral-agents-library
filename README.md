@@ -58,6 +58,7 @@ development and designed to extend to other domains without touching the core.
 │   │   ├── tour-rained-out.md
 │   │   ├── tour-siren.md
 │   │   ├── tour-sentry.md
+│   │   ├── tour-config.md
 │   │   ├── tour-all-nighter.md
 │   │   ├── tour-rush-hour.md
 │   │   ├── tour-bad-neighborhood.md
@@ -72,11 +73,13 @@ development and designed to extend to other domains without touching the core.
 │   ├── threat-modeler.md      STRIDE at trust boundaries, requirements into the SPEC
 │   ├── supply-chain-auditor.md  CI/CD and dependency poisoning
 │   ├── data-security-auditor.md  encryption, keys, access enforcement
-│   └── qastell-guide.md        QAstell: security rules inside browser test suites
+│   ├── qastell-guide.md        QAstell: security rules inside browser test suites
+│   └── secret-cleaner.md       removes committed credentials, plans rotation
 └── data/                   data lifecycle: catalog, pipelines, audit, queries
     ├── data-steward.md       the DATA CATALOG: states, roles, owners, retention
     ├── data-engineer.md
     ├── data-auditor.md
+    ├── gdpr-auditor.md
     ├── query-optimizer.md
     └── data-analyst.md
 ```
@@ -146,12 +149,14 @@ Routing lives in `manifest.yaml`; this table is the human-readable view.
 | data pipelines | `data/data-engineer` | t2 |
 | data catalog, lifecycle, retention | `data/data-steward` | t2 |
 | data policy/compliance review | `data/data-auditor` | t3 |
+| GDPR readiness assessment | `data/gdpr-auditor` | t3 |
 | query optimization (cost/speed) | `data/query-optimizer` | t2 |
 | analysis, insight | `data/data-analyst` | t1 |
 | threat modeling | `security/threat-modeler` | t3 |
 | CI/CD + dependency supply chain audit | `security/supply-chain-auditor` | t2 |
 | data protections audit | `security/data-security-auditor` | t3 |
 | QAstell security-in-tests integration | `security/qastell-guide` | t2 |
+| committed-secret removal + rotation plan | `security/secret-cleaner` | t2 |
 | model catalog refresh | `model-registrar` | t1 |
 | app discovery, mapping | `sdlc/testing/app-cartographer` | t2 |
 | testing tours | `sdlc/testing/tour-coordinator` | t2 |
@@ -217,6 +222,14 @@ Each agent file is a system prompt assembled from parts, in this order:
   prompt; the agents become roles it dispatches to, and the harness
   composes standards and dialect attachments itself.
 
+**Secret hygiene at deployment**: where your harness supports it, run a
+redaction filter in front of file reads — agents need the pattern, never
+the value, so `password: $DB_PASSWORD` teaches them everything they
+need. The shared standards forbid agents echoing secret values in
+reports; the `security/secret-cleaner` removes committed secrets at the
+source, which is the durable fix: once removed, no agent ever reads
+them again.
+
 ## Testing tours
 
 Exploratory testing tours, adapted to what an agent can actually do. The
@@ -239,6 +252,7 @@ Tours that work at agent level, against code and docs:
 | rained-out | cancelled, interrupted operations | orphaned side effects |
 | siren | error paths: detection, honesty, handling | missing, silenced, and lying errors |
 | sentry | trust boundaries: validation, authz, resource cost | injection, IDOR, DoS by design, memory unsafety |
+| config | configuration surfaces across environments | shared credentials, dev-in-prod values, drift, dead settings |
 | all-nighter | resource lifecycles over time | leaks, unbounded growth |
 | rush-hour | non-functional: hot paths, races, logging | slow algorithms, check-then-act races, log volume and PII in logs |
 | bad-neighborhood | defect-prone hotspots | the recurring bug pattern nearby |
@@ -371,6 +385,13 @@ code white-box; these agents own the rest of the lifecycle:
   the testing practice — and integration happens only once a suite
   exists.
 
+- `security/secret-cleaner` (t2): removes committed credentials from
+  source and wires references in their place — env variables, secret
+  stores, CI variables — then produces the ROTATION PLAN, because a
+  secret that sat in git is burned regardless of removal. History
+  scrubs are proposed for user approval, never run; and it never
+  echoes values in its own reports.
+
 White-box and black-box triangulate: sentry reads the code, QAstell
 audits the running app from inside the browser, and the threat model
 decides what both should be looking for.
@@ -393,6 +414,10 @@ Around the catalog:
   classification boundaries, retention inherited by copies and exports,
   side-door leaks through logs and analytics events; violations are
   BLOCKERs.
+- `data/gdpr-auditor` (t3): the regulation layer — GDPR readiness for
+  EU-bound systems, applicability checked first and "not applicable"
+  a complete result. Findings are exposure, never verdicts: the agent
+  assesses engineering readiness; the DPO decides.
 - `data/query-optimizer` (t2): cheaper or faster queries, the brief
   naming the objective — baseline, plan, change, re-measure; an
   optimization without before-and-after numbers is an opinion.
