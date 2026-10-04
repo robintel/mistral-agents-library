@@ -6,6 +6,17 @@ changelogs are for users, not for git history. Format per
 [Keep a Changelog](https://keepachangelog.com); semver: breaking = major,
 feature = minor, fix = patch.
 
+## [0.5.0] — 2026-10-04
+
+### Added
+
+- Add dialects: java, csharp, vbnet, fortran, cobol. Era maps inside
+  the contract — the build names the era, never a modernization
+  ride-along; fortran and cobol get conservation contracts, where
+  preservation beats idiom and the running system is the spec. The
+  legacy pair ships experimental: never validated against a real
+  estate, findings get practitioner review.
+
 ## [0.4.0] — 2026-10-04
 
 ### Added
