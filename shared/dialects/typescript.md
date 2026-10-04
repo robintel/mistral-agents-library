@@ -4,6 +4,13 @@ Baseline style for TypeScript work. The repo's pinned conventions win on
 conflict; when the repo is empty or silent, the Starting from scratch
 section supplies the defaults.
 
+## Eras
+
+The module system is the practical era: CommonJS versus ESM, named by
+the tsconfig `module` and package.json `type`. Write the era you find —
+mixed module systems cause most "cannot use import outside a module"
+pain. A CJS -> ESM port is its own brief.
+
 ## Idiom
 
 - Strict mode; `unknown` over `any`; no non-null assertions (`!`) in

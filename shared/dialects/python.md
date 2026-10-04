@@ -4,6 +4,15 @@ Baseline style for Python work. The repo's pinned conventions win on
 conflict; when the repo is empty or silent, the Starting from scratch
 section supplies the defaults.
 
+## Eras
+
+Python 2 and Python 3 are different disciplines, and the code declares
+which: print statements, `iteritems`, implicit str tell 2; the build's
+`python_requires` names the floor. Write the era you find. A 2 -> 3
+port is a migration-engineer brief, not a ride-along: the str/bytes
+distinction is resolved case by case, and bilingual code (`six`-style)
+is not a port, it is debt.
+
 ## Idiom
 
 - PEP 8. If the repo pins a formatter or linter (ruff, black), its word is

@@ -4,6 +4,13 @@ Baseline style for Go work. The repo's pinned conventions win on
 conflict; when the repo is empty or silent, the Starting from scratch
 section supplies the defaults.
 
+## Eras
+
+The go.mod names the version, and two thresholds change idiom:
+generics (1.18+) and per-iteration loop variables (1.22+). Code
+written before 1.22 captures the loop variable per-loop — copying was
+the idiom; do not assume the new semantics when editing old code.
+
 ## Idiom
 
 - gofmt output is non-negotiable; no cleverness the formatter did not ask

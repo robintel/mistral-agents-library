@@ -13,10 +13,13 @@ attach a dialect to a task the way they attach any other context.
 - Sections: Idiom, Structure, Errors, Testing, Dependencies, Starting
   from scratch, Pitfalls. Keep the file under ~40 lines — every line is
   paid again as context on every code task.
-- Eras: when idiom is era-specific — Java 8 versus 21, fixed-form
-  versus free-form Fortran, .NET Framework versus .NET 8 — one Eras or
-  Form section maps them, and the build file names the era. Write the
-  era you find; modernizing is its own brief, never a ride-along.
+- Eras: assume a language has eras until proven otherwise — Python 2
+  versus 3, Rust editions, Go version thresholds, CommonJS versus
+  ESM, Java 8 versus 21, fixed-form versus free-form Fortran. One
+  Eras or Form section maps them, and the build names the era
+  (`python_requires`, Cargo.toml edition, go.mod, tsconfig, pom,
+  csproj). Write the era you find; modernizing is its own brief,
+  never a ride-along.
 - Two kinds of dialect: modern languages get idiom floors; legacy
   languages (fortran, cobol, classic VB) get conservation contracts —
   preservation over modernization, the running system is the spec, the

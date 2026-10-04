@@ -4,6 +4,13 @@ Baseline style for Rust work. The repo's pinned conventions win on
 conflict; when the repo is empty or silent, the Starting from scratch
 section supplies the defaults.
 
+## Eras
+
+Rust names its eras in Cargo.toml: edition 2015, 2018, 2021, 2024 —
+each changes defaults, not just syntax. Write the edition you find;
+edition migration is supported tooling (`cargo fix --edition`) and its
+own brief, never a ride-along.
+
 ## Idiom
 
 - rustfmt output; clippy clean, not clippy silenced.
