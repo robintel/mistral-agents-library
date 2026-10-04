@@ -6,6 +6,20 @@ changelogs are for users, not for git history. Format per
 [Keep a Changelog](https://keepachangelog.com); semver: breaking = major,
 feature = minor, fix = patch.
 
+## [0.13.0] — 2026-10-04
+
+### Added
+
+- Add assembly and embedded support: asm-x86-64 (the System V ABI as
+  the contract, AT&T vs Intel as the syntax era) and asm-arm
+  (AArch64/AArch32/Cortex-M profiles, AAPCS), both standalone
+  language contracts; the embedded pattern contract (volatile
+  hardware registers, no heap in ISRs, cycle budgets, atomicity on
+  8-bit MCUs); platform contracts for arduino (AVR/SAMD eras,
+  String as the heap-fragmenter) and esp32 (Xtensa vs RISC-V eras,
+  FreeRTOS discipline, brownout as the classic mystery); c and cpp
+  route firmware work to the embedded pattern.
+
 ## [0.12.0] — 2026-10-04
 
 ### Added
