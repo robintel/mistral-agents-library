@@ -1,8 +1,9 @@
 # SQL dialect
 
-Baseline style for SQL work. The engine's conventions and the warehouse's
-own dialect win on conflict; when the repo is empty or silent, the
-Starting from scratch section supplies the defaults.
+Baseline style for SQL work — the vendor-neutral core. The engine
+names its contract: `postgres`, `mysql`, or `oracle` attaches
+alongside this one and extends it; where the engine file is silent,
+this core applies. The repo's pinned conventions win on conflict.
 
 ## Idiom
 

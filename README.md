@@ -26,9 +26,11 @@ development and designed to extend to other domains without touching the core.
 ├── model-registrar.md       refreshes the catalog; the user approves every change
 ├── shared/
 │   ├── standards.md         communication contracts + the elegance bar
-│   └── dialects/            10 language contracts: python, typescript, go,
-│                             rust, java, csharp, vbnet, fortran, cobol,
-│                             sql — data, not agents
+│   └── dialects/            19 contracts: 16 languages (python,
+│                             javascript, typescript, go, rust, c, cpp,
+│                             java, csharp, vbnet, php, ruby, perl,
+│                             fortran, cobol) + SQL two-layer (sql core
+│                             + postgres, mysql, oracle engines) — data
 ├── sdlc/                       software development lifecycle agents
 │   ├── app-dev/                application development
 │   │   ├── intake-analyst.md
@@ -305,12 +307,16 @@ Two cuts of writing code, split by judgment weight:
   standard, with the unit tests that pin the contract.
 
 Language knowledge is data, not agents: `shared/dialects/` holds one
-compact dialect contract per language — ten so far, from python and
-typescript to java, csharp, vbnet, fortran, cobol, and sql. Era-specific
-languages carry the version map inside the contract, and the build file
-names the era: Java 8 repos get Java 8 idiom, never fragments of 21.
-Legacy languages get conservation contracts — preservation over
-modernization, the running system is the spec. Every code-writing agent
+compact dialect contract per language — sixteen so far: python,
+javascript, typescript, go, rust, c, cpp, java, csharp, vbnet, php,
+ruby, perl, fortran, cobol, sql. Era-specific languages carry the
+version map inside the contract, and the build file names the era:
+Java 8 repos get Java 8 idiom, never fragments of 21; the C++ standard
+flag and PHP's composer.json do the same. Legacy languages get
+conservation contracts — preservation over modernization, the running
+system is the spec. SQL is two-layer: a vendor-neutral core plus
+engine contracts (postgres, mysql, oracle) that attach alongside it,
+each carrying its own era map. Every code-writing agent
 attaches the right contract to the task — the code-developer and the
 implementer, and the test writers (test-automator, unit-test-writer),
 because test code obeys the same idiom and pitfalls as product code.
