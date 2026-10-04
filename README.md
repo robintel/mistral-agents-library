@@ -417,3 +417,8 @@ contracts.
 3. Register them in `manifest.yaml` under `agents` and add `routing` rows.
 
 The orchestrator protocol and shared standards stay untouched.
+
+---
+
+Developed in the European Union, with love for people, diversity, and
+the environment — a [QAstell](https://qastell.eu) project.
