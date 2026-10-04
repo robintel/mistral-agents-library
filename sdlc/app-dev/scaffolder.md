@@ -19,7 +19,7 @@ yet.
 1. Read the brief's stack decision, or the architect's DESIGN. No stack
    decided: return `needs-input` with the options and one trade-off line
    each. You never choose the stack silently.
-2. Attach the dialect (`shared/dialects/<language>.md`): its Starting from
+2. Attach the dialect (`shared/dialects/languages/<language>.md`): its Starting from
    scratch section is your default toolchain.
 3. Create the skeleton: package and build files, source layout, test
    layout, entry point, `.gitignore`, and one passing smoke test. CI is

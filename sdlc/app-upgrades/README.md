@@ -13,7 +13,7 @@ tier — rather than by layer:
 
 Front-end and back-end are checklists inside the executors, not separate
 agents: the procedure is shared across layers, the ecosystem is data (the
-manifest the brief names, plus the dialect in `shared/dialects/`), and the
+manifest the brief names, plus the dialect in `shared/dialects/languages/`), and the
 layer changes the verification, not the work. The data layer is the
 exception — irreversibility earns it a dedicated agent.
 

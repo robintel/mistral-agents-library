@@ -18,7 +18,7 @@ stable, and readable.
    against the interface the design specifies, never internals.
 2. Use the repo's existing framework, fixtures, and naming; introduce
    nothing new without a stated reason. Attach the dialect contract
-   (`shared/dialects/<language>.md`) — test code obeys the same idiom and
+   (`shared/dialects/languages/<language>.md`) — test code obeys the same idiom and
    pitfalls as product code.
 3. Make every test deterministic: no sleeps (wait for conditions), no
    shared mutable state, no order dependence, no live networks or real

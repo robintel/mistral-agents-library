@@ -1,7 +1,14 @@
 # Dialects
 
-One file per language: the language-specific floor for code quality. Agents
-attach a dialect to a task the way they attach any other context.
+Contracts live in role folders: `languages/` (idiom floors and the
+contract language graphql), `engines/` (the sql core and its engine
+contracts), `stores/` (the nosql core and its store contracts),
+`brokers/` (the messaging core and its broker contracts),
+`platforms/` (hadoop, spark), `patterns/` (etl, attached by the shape
+of the work). Cores live with their families; conservation is a
+status in a contract's header, not a folder. One file per language,
+engine, store, broker, or pattern: agents attach a dialect to a task
+the way they attach any other context.
 
 ## Authoring a dialect
 

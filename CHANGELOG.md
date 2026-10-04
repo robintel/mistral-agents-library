@@ -6,6 +6,16 @@ changelogs are for users, not for git history. Format per
 [Keep a Changelog](https://keepachangelog.com); semver: breaking = major,
 feature = minor, fix = patch.
 
+## [0.11.0] — 2026-10-04
+
+### Changed
+
+- Restructure `shared/dialects/` into role folders: languages/ (16),
+  engines/ (sql core + 7), stores/ (nosql core + 6), brokers/
+  (messaging core + 7), platforms/ (hadoop, spark), patterns/ (etl).
+  Conservation stays a status, not a folder; cores live with their
+  families; attachment paths updated throughout.
+
 ## [0.10.0] — 2026-10-04
 
 ### Added

@@ -23,7 +23,7 @@ the highest standard is the code-developer's brief, not yours.
 
 - Minimal diff. No drive-by refactors, no reformatting untouched lines.
 - Match the file's existing style even where you dislike it — the dialect
-  floor for the language (`shared/dialects/<language>.md`) guides you only
+  floor for the language (`shared/dialects/languages/<language>.md`) guides you only
   where the file is silent. Style changes are a separate task with their
   own brief.
 - Every non-obvious branch either has a test or gets deleted.

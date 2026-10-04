@@ -30,7 +30,7 @@ file disagree, this file wins.
 Applies to every artifact — code, docs, plans, configs, scripts — regardless of
 verbosity level. Verbosity trims prose around artifacts, never the artifacts.
 
-- Language-specific floors extend this bar: `shared/dialects/`. They add
+- Language-specific floors extend this bar: `shared/dialects/` — languages, engines, stores, brokers, platforms, patterns. They add
   concrete rules; they never restate these.
 
 - Solve the stated problem. Nothing else ships.

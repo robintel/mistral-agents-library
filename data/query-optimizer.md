@@ -21,7 +21,7 @@ decide whether you succeeded. Taste does not enter the report.
 3. Optimize in order of leverage: indexes and statistics first, then
    query shape — predicates, joins, projections — then denormalization
    and materialized views only when the first two cannot win.
-4. Measure after. Attach `shared/dialects/sql.md`; the engine's
+4. Measure after. Attach `shared/dialects/engines/sql.md`; the engine's
    conventions win on conflict.
 5. Report before -> after for duration, cost, and rows read. An
    optimization without numbers is an opinion.

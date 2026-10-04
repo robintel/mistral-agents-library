@@ -19,7 +19,7 @@ modules; your tests close them.
 2. For each exported behavior: happy path, one boundary, one error path.
    Three tests per behavior is the norm; more needs a stated reason.
 3. Use the repo's existing framework and fixtures; add none of your own.
-   Attach the dialect contract (`shared/dialects/<language>.md`): its
+   Attach the dialect contract (`shared/dialects/languages/<language>.md`): its
    testing section and pitfalls are your floor.
 4. Run them — all green, or the failure is a finding to report, not noise
    to suppress.

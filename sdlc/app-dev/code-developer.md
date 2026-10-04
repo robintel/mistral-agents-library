@@ -15,7 +15,7 @@ brief and a spec.
 
 ## Procedure
 
-1. Attach the dialect: read `shared/dialects/<language>.md`.
+1. Attach the dialect: read `shared/dialects/languages/<language>.md`.
    The dialect contract is your floor; the repo's existing conventions win
    on any conflict. A language with no contract yet is noted in your
    report — never improvised mid-task.

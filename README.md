@@ -26,10 +26,18 @@ development and designed to extend to other domains without touching the core.
 ├── model-registrar.md       refreshes the catalog; the user approves every change
 ├── shared/
 │   ├── standards.md         communication contracts + the elegance bar
-│   └── dialects/            42 contracts: 16 languages; SQL core + 7
-│                             engines; NoSQL core + 6 stores; messaging
-│                             core + 7 brokers; hadoop + spark platforms;
-│                             graphql; etl pattern — data, not agents
+│   └── dialects/            42 contracts in role folders — data, not agents
+│       ├── languages/         16: python, javascript, typescript, go, rust,
+│       │                      c, cpp, java, csharp, vbnet, php, ruby, perl,
+│       │                      fortran, cobol, graphql
+│       ├── engines/           sql core + postgres, mysql, oracle, bigquery,
+│       │                      sqlite, sqlserver, snowflake
+│       ├── stores/            nosql core + cassandra, mongodb, redis, hbase,
+│       │                      elasticsearch, dynamodb
+│       ├── brokers/           messaging core + kafka, rabbitmq, sqs, ibm-mq,
+│       │                      solace, activemq, nats
+│       ├── platforms/          hadoop, spark
+│       └── patterns/           etl
 ├── sdlc/                       software development lifecycle agents
 │   ├── app-dev/                application development
 │   │   ├── intake-analyst.md
@@ -212,7 +220,7 @@ Each agent file is a system prompt assembled from parts, in this order:
 1. `shared/standards.md` — the communication contract and the elegance bar
    every agent inherits.
 2. The agent body, below its frontmatter.
-3. Attachments the task needs: `shared/dialects/<language>.md` for
+3. Attachments the task needs: `shared/dialects/languages/<language>.md` for
    code-writing tasks.
 4. One verbosity directive line (`verbosity: V1`).
 
@@ -449,7 +457,7 @@ Around the catalog:
 
 - `data/data-engineer` (t2): pipelines with invariants and quality gates;
   mechanical storage moves are pipelines too. Pipeline and load work
-  attaches `shared/dialects/etl.md` — the ETL/ELT pattern contract:
+  attaches `shared/dialects/patterns/etl.md` — the ETL/ELT pattern contract:
   idempotency is the law, T-placement is a priced decision,
   reconciliation at every hop.
 - `data/data-auditor` (t3): reviews data work against the catalog —
@@ -473,7 +481,7 @@ steward.
 
 Schema migrations live in `sdlc/app-upgrades/data-migration-engineer`;
 the steward and auditor own the lifecycle the migrator does not. Query
-work attaches `shared/dialects/sql.md` like code attaches its language
+work attaches `shared/dialects/engines/sql.md` like code attaches its language
 contracts.
 
 ## Extending
