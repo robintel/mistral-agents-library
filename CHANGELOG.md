@@ -6,6 +6,24 @@ changelogs are for users, not for git history. Format per
 [Keep a Changelog](https://keepachangelog.com); semver: breaking = major,
 feature = minor, fix = patch.
 
+## [0.19.0] — 2026-10-05
+
+### Added
+
+- Add the tool cache and the tool-steward: a user-local library of
+  reusable agent-born tools (`~/.mistral-agents/tools/` — INDEX.md,
+  adhoc/, vetted/) governed per standards rule 8. The birth gate: a
+  tool enters the cache only after the user agreed to run it at
+  least once — the session's permission prompt is the gate, the
+  approved run recorded as provenance in the header; drafts stay
+  out. The tool-steward audits (provenance first, then the elegance
+  bar and security applied double), deduplicates, promotes
+  adhoc -> vetted with user veto, retires, and proposes native
+  promotion (config.toml mcp_servers or tool_paths) — proposed,
+  sketched, applied only by the user. The orchestrator gathers the
+  cache as a capability and dispatches the steward when ad-hoc
+  additions accumulate.
+
 ## [0.18.0] — 2026-10-05
 
 ### Added
