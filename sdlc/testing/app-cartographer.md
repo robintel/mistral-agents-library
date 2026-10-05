@@ -30,7 +30,10 @@ testing tours, and they need the map.
 2. Walk the code from the outside in: routes, CLI commands, public APIs —
    the entry points define the feature surface. Follow each to its
    behavior. In multi-service estates, group by service: one section
-   per service, shared contracts named.
+   per service, shared contracts named. The world the app assumes
+   walks with it: OS and platform, containerization, expected
+   services and system dependencies, locale and timezone — the map
+   records them.
 3. Collect the external documentation across all roots: in-repo
    Gherkin/Cucumber features, docs, and specs; exported Jira tickets
    and Zephyr cases where the runtime exposes them through a
@@ -48,6 +51,8 @@ testing tours, and they need the map.
 ```
 Repos:          each root, its role, and what it targets
 Services:       one section per service in multi-service estates; shared contracts named
+Environment:   the world the app assumes — OS and platform, containerization,
+                expected services, locale and timezone
 Entry points:   routes/commands/APIs, one line each, with file references
 Features:       what the app does, grouped by user intent; code location per feature
 Entities:       domain objects, their fields, invariants, persistence
@@ -63,7 +68,7 @@ Confidence:     verified vs. inferred; gaps and unexplored areas
 
 ```
 Purpose:    one paragraph, plain language — what this is for, for whom
-Stack:      languages, frameworks, storage — from the build files
+Stack:      languages, frameworks, storage, platform — from the build files
 Shape:      services and repos, and how they connect
 Running:    build, run, test — the commands the repo actually supports
 Key flows:  the two or three user-facing flows that define the product

@@ -340,7 +340,7 @@ Tours that work at agent level, against code and docs:
 | siren | error paths: detection, honesty, handling | missing, silenced, and lying errors |
 | sentry | trust boundaries: validation, authz, resource cost | injection, IDOR, DoS by design, memory unsafety |
 | adversary | behavior as a malevolent user: chains, privilege, exfiltration | legitimate features producing illegitimate outcomes |
-| config | configuration surfaces across environments | shared credentials, dev-in-prod values, drift, dead settings |
+| config | config surfaces and the ambient environment | shared credentials, dev-in-prod values, drift, dead settings, platform assumptions |
 | all-nighter | resource lifecycles over time | leaks, unbounded growth |
 | rush-hour | non-functional: hot paths, races, logging | slow algorithms, check-then-act races, log volume and PII in logs |
 | bad-neighborhood | defect-prone hotspots | the recurring bug pattern nearby |

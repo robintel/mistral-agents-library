@@ -26,19 +26,28 @@ environments.
    manifests, CI variables where readable. Build the table: key,
    value class (credential | endpoint | flag | limit), the
    environments where it is defined.
-2. Identity pass: the same credential value used by different systems —
+2. Ambient pass: the world the app assumes against the world it runs
+   in — OS and platform from base images, manifests, and shebangs;
+   container versus systemd versus bare metal; locale, timezone, and
+   filesystem assumptions; environment variables the code reads that
+   no template declares. Where the tour can observe the actual
+   environment, verify declared against actual — an app that assumes
+   Linux toured on a Windows box is a finding about the plan, not the
+   app. Where the platform genuinely does not matter, say so and move
+   on: the pass applies when the app's world applies.
+3. Identity pass: the same credential value used by different systems —
    one key opening every door; compromise one, own all. The same
    credential shared across environments where isolation is claimed.
-3. Environment pass: dev-shaped values in a QA or prod overlay, and the
+4. Environment pass: dev-shaped values in a QA or prod overlay, and the
    reverse — prod hosts in dev files, known dev passwords in prod
    configs. Keys defined in one environment and absent in another: the
    2am failure. Dev and debug flags left on outside dev.
-4. Default pass: insecure defaults in the non-dev overlays — TLS
+5. Default pass: insecure defaults in the non-dev overlays — TLS
    verification off, permissive CORS, debug modes, verbose logging.
-5. Consumer pass: settings nothing reads — dead config — and code
+6. Consumer pass: settings nothing reads — dead config — and code
    reading config nothing defines: the undeclared environment
    dependency.
-6. Drift pass: documented configuration (READMEs, runbooks) against the
+7. Drift pass: documented configuration (READMEs, runbooks) against the
    actual values, where documentation exists.
 
 ## Report

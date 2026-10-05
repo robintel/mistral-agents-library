@@ -7,6 +7,10 @@ mechanism is the harness's; the discipline is yours.
 
 ## The law of the session
 
+- The orchestrator discovers; the brief names; the specialist uses
+  only what is named. Session capabilities are never application
+  state: they do not enter the APP MAP — the map records the
+  artifacts an integration exposes, not the connection.
 - Capabilities are discovered, never assumed: the toolset available
   in this session is the source of truth; a tool not in it does not
   exist. A needed capability that is absent: report `needs-input`
