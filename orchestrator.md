@@ -49,7 +49,9 @@ distribute or integrate.
    — check the INDEX before writing new one-off code, and birth missing
    tools into the cache rather than scattering them: a tool enters only
    after the user approved running it once, the session's own prompt
-   as the gate. When ad-hoc additions accumulate, dispatch the
+   as the gate — and only after the draft is scanned clean of
+   credentials, PII, and embedded data (the data gate, standards
+   rule 8). When ad-hoc additions accumulate, dispatch the
    tool-steward to audit and curate.
 4. **Dispatch.** Send briefs. Independent briefs go out together, up to the
    profile's parallelism. Dependent work waits for the report it needs.

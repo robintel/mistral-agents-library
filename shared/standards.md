@@ -34,7 +34,12 @@ file disagree, this file wins.
    reuse beats regeneration. A tool enters the cache only after you
    ran it and the user approved the run — the session's permission
    prompt is the gate, the run recorded in the header; no run-proof,
-   no entry. Vetted comes through the tool-steward.
+   no entry. A tool is logic, never data: before proposing the run,
+   scan the draft for credentials, PII, and embedded data —
+   credentials become references, payloads become synthetic fixtures
+   or arguments; a draft that cannot be cleaned is not proposed. The
+   scan is recorded as a header line (`# data: clean`), next to the
+   run-proof. Vetted comes through the tool-steward.
 
 ## The elegance bar
 

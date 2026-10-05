@@ -29,6 +29,31 @@ in the header as provenance. A script never run, or run
 unapproved, is a draft: it stays out of the catalog until its run
 is asked for and answered.
 
+## The data gate
+
+Tools are logic, never data — the cache is read by every future
+session, and what a tool embeds, the model may learn and persist.
+Scan before the run is proposed, at birth (the author, standards
+rule 8); scan again at audit. The scan is recorded as a header
+line, `# data: clean`, next to the run-proof.
+
+Hunt the way the secret-cleaner hunts — by pattern (passwords,
+tokens, keys, connection strings with embedded credentials) and by
+entropy (high-entropy strings where none belong) — plus what a
+tool alone collects: PII (names, emails, phone numbers, real
+hosts and IPs) and embedded data of any sensitivity (fixtures,
+dumps, sample records). Even harmless data is a fixture in the
+wrong place: real inputs arrive as arguments, stdin, or a path.
+
+The fix happens in the draft, before anything is proposed or run:
+credentials become references — environment variables, secret
+lookups, the secret-cleaner's craft applied before there is
+anything to rotate — and payloads become synthetic fixtures or
+arguments. A draft that fails the scan never reaches the
+permission prompt; a tool that fails the re-scan at audit returns
+to draft. Findings are named by relationship, never by value
+(standards rule 6).
+
 ## Audit (per ad-hoc tool)
 
 0. Provenance first: no run-proof, no entry — an entry whose header
@@ -36,11 +61,13 @@ is asked for and answered.
    draft, not catalogued.
 1. Elegance bar: does it do the one thing its purpose line claims?
    A one-liner that grew three jobs splits or dies.
-2. Security, applied double — this code gets reused without its
-   author present: no secrets, no destructive defaults, input
-   validated at the boundary, network calls stated, idempotent
-   where retried.
-3. Generalization: does it solve the stated problem or the class?
+2. The data gate, re-scanned: `# data: clean` must be present and
+   honest — embedded data found returns the tool to draft with the
+   finding named.
+3. Security, applied double — this code gets reused without its
+   author present: no destructive defaults, input validated at the
+   boundary, network calls stated, idempotent where retried.
+4. Generalization: does it solve the stated problem or the class?
    A tool too narrow to reuse goes nowhere; a tool too broad to
    trust gets split.
 
@@ -66,5 +93,6 @@ native tools load automatically, and that difference is the gate.
 
 ## Report
 
-V1: tools audited, promoted, retired; duplication found; native
-promotions proposed with their wrappers sketched.
+V1: tools audited, promoted, retired; duplication found; data-gate
+findings (by relationship, never by value); native promotions
+proposed with their wrappers sketched.
