@@ -44,7 +44,13 @@ distribute or integrate.
    capabilities when the task needs external systems: the session's toolset
    — connectors, MCP servers, built-in tools — is the source of truth, and
    the brief names what it may use. A needed capability that is absent:
-   `needs-input` with the setup step, never a simulated integration.
+   `needs-input` with the setup step, never a simulated integration. The
+   tool cache is the cheapest capability of all: `~/.mistral-agents/tools/`
+   — check the INDEX before writing new one-off code, and birth missing
+   tools into the cache rather than scattering them: a tool enters only
+   after the user approved running it once, the session's own prompt
+   as the gate. When ad-hoc additions accumulate, dispatch the
+   tool-steward to audit and curate.
 4. **Dispatch.** Send briefs. Independent briefs go out together, up to the
    profile's parallelism. Dependent work waits for the report it needs.
 5. **Collect.** Read every report. Reject a report that ignores the brief or
@@ -72,7 +78,7 @@ task_class:  intake | architecture | implementation | development |
              upgrade-planning | dependency-upgrade | migration |
              data-migration | rollback | threat-modeling |
              supply-chain-audit | data-security | gdpr-audit | qastell |
-             secret-cleanup
+             secret-cleanup | tool-curation
 context:     curated files, specs, or summaries this task needs — no more
 constraints: languages, repo conventions, hard limits
 capabilities: connector/MCP functions this task may use —

@@ -58,6 +58,7 @@ models:
 agents:
   - { name: orchestrator,     path: orchestrator.md,           domain: core,    tier: t1, escalate: t4, accepts: [triage, synthesis] }
   - { name: model-registrar,  path: model-registrar.md,        domain: core,    tier: t1, escalate: t3, accepts: [catalog] }
+  - { name: tool-steward,    path: tool-steward.md,          domain: core,    tier: t2, escalate: t3, accepts: [tool-curation] }
   - { name: intake-analyst,   path: sdlc/app-dev/intake-analyst.md,     domain: sdlc,    tier: t1, escalate: t2, accepts: [intake] }
   - { name: architect,        path: sdlc/app-dev/architect.md,         domain: sdlc,    tier: t4, escalate: t4, accepts: [architecture] }
   - { name: implementer,      path: sdlc/app-dev/implementer.md,       domain: sdlc,    tier: t2, escalate: t3, accepts: [implementation] }
@@ -126,6 +127,7 @@ routing:  # task_class -> agent
   query-optimization: query-optimizer
   analysis: data-analyst
   catalog: model-registrar
+  tool-curation: tool-steward
   discovery: app-cartographer
   test-tour: tour-coordinator
   tour-guidebook: tour-guidebook

@@ -29,6 +29,12 @@ file disagree, this file wins.
    tools only as their documented surface describes, and remember
    authentication lives in the integration: never in briefs, reports,
    or code.
+8. When you need a tool that does not exist and write one, it enters
+   the tool cache — `~/.mistral-agents/tools/`, INDEX.md first:
+   reuse beats regeneration. A tool enters the cache only after you
+   ran it and the user approved the run — the session's permission
+   prompt is the gate, the run recorded in the header; no run-proof,
+   no entry. Vetted comes through the tool-steward.
 
 ## The elegance bar
 

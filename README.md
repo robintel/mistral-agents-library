@@ -75,6 +75,7 @@ The full mapping — profiles, subagents, skills — and its caveats:
 ├── orchestrator.md         the single source of truth agent
 ├── manifest.yaml            agents, tier selectors, catalog, routing, profiles
 ├── model-registrar.md       refreshes the catalog; the user approves every change
+├── tool-steward.md          audits and curates the user-local tool cache
 ├── shared/
 │   ├── standards.md         communication contracts + the elegance bar
 │   └── dialects/            57 contracts in role folders — data, not agents
@@ -223,6 +224,7 @@ Routing lives in `manifest.yaml`; this table is the human-readable view.
 | QAstell security-in-tests integration | `security/qastell-guide` | t2 |
 | committed-secret removal + rotation plan | `security/secret-cleaner` | t2 |
 | model catalog refresh | `model-registrar` | t1 |
+| tool cache curation | `tool-steward` | t2 |
 | app discovery, mapping | `sdlc/testing/app-cartographer` | t2 |
 | testing tours | `sdlc/testing/tour-coordinator` | t2 |
 | test design | `sdlc/testing/test-designer` | t2 |
