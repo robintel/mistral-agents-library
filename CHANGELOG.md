@@ -6,6 +6,25 @@ changelogs are for users, not for git history. Format per
 [Keep a Changelog](https://keepachangelog.com); semver: breaking = major,
 feature = minor, fix = patch.
 
+## [0.18.0] — 2026-10-05
+
+### Added
+
+- Add the ambient pass to tour-config: the world the app assumes
+  against the world it runs in — OS and platform from base images,
+  manifests, and shebangs; container versus systemd versus bare
+  metal; locale, timezone, and filesystem assumptions; declared
+  verified against actual where the environment is observable, and
+  the pass self-disclaims where the platform genuinely does not
+  matter.
+- Add Environment to the APP MAP and platform to the ORIENTATION
+  stack: the map records the world the app assumes — OS, platform,
+  containerization, expected services, locale and timezone.
+- Sharpen the integrations boundary: the orchestrator discovers, the
+  brief names, the specialist uses only what is named — session
+  capabilities never enter the APP MAP; the map records artifacts,
+  not connections.
+
 ## [0.17.0] — 2026-10-05
 
 ### Added
