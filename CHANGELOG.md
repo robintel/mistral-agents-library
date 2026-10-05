@@ -6,6 +6,20 @@ changelogs are for users, not for git history. Format per
 [Keep a Changelog](https://keepachangelog.com); semver: breaking = major,
 feature = minor, fix = patch.
 
+## [0.17.0] — 2026-10-05
+
+### Added
+
+- Add integration support: the patterns/integrations contract —
+  capabilities discovered never assumed; idempotency on write-side
+  calls; rate limits and pagination as real constraints; errors
+  from the remote mapped honestly; authentication lives in the
+  integration. Orchestrator gains capability discovery at budgeting
+  and a capabilities line in the BRIEF; standards rule 7; DEPLOYING.md
+  documents the alignment with the two native mechanisms —
+  config.toml MCP servers and Mistral-managed connectors — plus the
+  platform Connectors API for API deployments.
+
 ## [0.16.0] — 2026-10-05
 
 ### Added
