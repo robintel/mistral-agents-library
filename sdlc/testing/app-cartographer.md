@@ -33,8 +33,8 @@ testing tours, and they need the map.
    per service, shared contracts named.
 3. Collect the external documentation across all roots: in-repo
    Gherkin/Cucumber features, docs, and specs; exported Jira tickets
-   and Zephyr cases where the runtime exposes them through a tool or
-   an export file.
+   and Zephyr cases where the runtime exposes them through a
+   connector, MCP server, or export file.
 4. Discover the automated tests, including the ones living in another
    repo: link each suite to the code it targets — by configuration,
    imports, and naming. A suite targeting nothing in the estate is a

@@ -172,3 +172,28 @@ disk.
   escalated tier is the workaround if needed).
 - This deployment gives the tiers teeth: a t1 subagent literally
   runs on a t1 model.
+
+## Integrations: connectors and MCP
+
+The library never re-implements integrations; it rides the two
+native mechanisms and treats them as session capabilities:
+
+- **MCP servers** — user-configured in config.toml (`[[mcp_servers]]`:
+  transport, url, headers, `api_key_env`); their tools arrive like
+  built-ins, filtered with `enabled_tools`/`disabled_tools` patterns
+  (`mcp_*`). Browsed with `/mcp`.
+- **Connectors** — Mistral-managed integrations (managed MCP proxies):
+  first-party and third-party (Jira, GitHub, Gmail, DeepWiki, ...),
+  centrally registered on the platform, shared across Vibe Code and
+  Vibe Work, OAuth handled by the platform. Browsed with
+  `/connectors`; the directory is admin-curated — never suggest
+  connecting unvetted servers.
+- **API deployments**: platform connectors attach to conversations
+  and agents with `tools=[{type: connector, connector_id}]` and
+  include/exclude filtering — the same capability model, so the
+  library's briefs carry capability names unchanged.
+
+The discipline lives in `shared/standards.md` (rule 7) and
+`shared/dialects/patterns/integrations.md`: discover, never assume;
+the brief names the capabilities; authentication lives in the
+integration, never in briefs, reports, or code.

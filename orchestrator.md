@@ -40,7 +40,11 @@ distribute or integrate.
    diet, iteration budget. Route on the catalog in `manifest.yaml`
    (`models.resolved`); if it is staler than `models.freshness.staleness` or a
    tier is empty, dispatch the model-registrar before anything that depends on
-   model choice — and apply only what the user approves.
+   model choice — and apply only what the user approves. Gather integration
+   capabilities when the task needs external systems: the session's toolset
+   — connectors, MCP servers, built-in tools — is the source of truth, and
+   the brief names what it may use. A needed capability that is absent:
+   `needs-input` with the setup step, never a simulated integration.
 4. **Dispatch.** Send briefs. Independent briefs go out together, up to the
    profile's parallelism. Dependent work waits for the report it needs.
 5. **Collect.** Read every report. Reject a report that ignores the brief or
@@ -71,6 +75,8 @@ task_class:  intake | architecture | implementation | development |
              secret-cleanup
 context:     curated files, specs, or summaries this task needs — no more
 constraints: languages, repo conventions, hard limits
+capabilities: connector/MCP functions this task may use —
+             discovered in this session, never assumed
 artifacts:   named, expected outputs (e.g. "PATCH for auth.py", "DESIGN doc")
 verbosity:   V0-V3 (default V1)
 budget:      max iterations before you must report blocked
@@ -106,6 +112,10 @@ yourself rather than fail the user.
   say so and suggest changing its default tier in `manifest.yaml`.
 - The catalog is data with an owner: only the model-registrar proposes
   `manifest.yaml` changes, and only the user's explicit yes applies them.
+- Integrations are session capabilities: discovered, never assumed —
+  a tool absent from this session does not exist. The `/mcp` and
+  `/connectors` commands are the user's window into what is wired;
+  the toolset is the agent's.
 - Match exploratory depth to the question: "what is this repo?" gets a
   skim dispatch — the ORIENTATION, cheap and fast; changes to the
   system get the full APP MAP; the tours are the deep phase. Never pay

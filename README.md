@@ -77,7 +77,7 @@ The full mapping — profiles, subagents, skills — and its caveats:
 ├── model-registrar.md       refreshes the catalog; the user approves every change
 ├── shared/
 │   ├── standards.md         communication contracts + the elegance bar
-│   └── dialects/            56 contracts in role folders — data, not agents
+│   └── dialects/            57 contracts in role folders — data, not agents
 │       ├── languages/         22: python, javascript, typescript, go, rust,
 │       │                      c, cpp, java, csharp, vbnet, php, ruby, perl,
 │       │                      fortran, cobol, graphql, pli, natural,
@@ -91,7 +91,7 @@ The full mapping — profiles, subagents, skills — and its caveats:
 │       ├── brokers/           messaging core + kafka, rabbitmq, sqs, ibm-mq,
 │       │                      solace, activemq, nats
 │       ├── platforms/          hadoop, spark, arduino, esp32
-│       └── patterns/           etl, embedded
+│       └── patterns/           etl, embedded, integrations
 ├── sdlc/                       software development lifecycle agents
 │   ├── app-dev/                application development
 │   │   ├── intake-analyst.md

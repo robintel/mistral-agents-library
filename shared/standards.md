@@ -24,6 +24,11 @@ file disagree, this file wins.
    credentials are reported by name and relationship —
    "customer-db password == analytics-db password" is a finding; the
    password itself is never report content.
+7. Integrations are session capabilities: discovered, never assumed —
+   a tool absent from this session's toolset does not exist. Call
+   tools only as their documented surface describes, and remember
+   authentication lives in the integration: never in briefs, reports,
+   or code.
 
 ## The elegance bar
 
