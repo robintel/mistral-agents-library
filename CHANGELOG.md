@@ -6,6 +6,20 @@ changelogs are for users, not for git history. Format per
 [Keep a Changelog](https://keepachangelog.com); semver: breaking = major,
 feature = minor, fix = patch.
 
+## [0.20.0] — 2026-10-05
+
+### Added
+
+- Add the data gate to the tool cache: tools are logic, never data.
+  Before a run is proposed, the draft is scanned for credentials,
+  PII, and embedded data (pattern and entropy, per the
+  secret-cleaner's hunt); credentials become references, payloads
+  become synthetic fixtures or arguments, and a draft that cannot
+  be cleaned is not proposed. The scan is recorded as a `# data:
+  clean` header line next to the run-proof, and the tool-steward
+  re-scans at audit — a failure returns the tool to draft, the
+  finding named by relationship, never by value.
+
 ## [0.19.0] — 2026-10-05
 
 ### Added
