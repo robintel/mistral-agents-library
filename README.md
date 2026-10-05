@@ -545,6 +545,32 @@ the steward and auditor own the lifecycle the migrator does not. Query
 work attaches `shared/dialects/engines/sql.md` like code attaches its language
 contracts.
 
+## Scaling limits
+
+The design holds to a few hundred agents. Past that, three structural
+limits arrive in this order.
+
+1. **Orchestrator triage.** Routing works because the table fits in one
+   model's attention; when triage accuracy or its token cost degrades,
+   the escape hatch is already in the pattern set — generalize the
+   scoped-coordinator pattern (the tour-coordinator's) into domain-level
+   routers, so the orchestrator dispatches domains and routers dispatch
+   agents.
+2. **The `accepts` taxonomy.** One agent per task class, first match
+   wins. As domains mature, classes overlap (security and SDLC tours
+   already brush against each other). This is the first limit felt in
+   practice, and it is governance, not refactoring: a new job gets a new
+   class name; an overloaded class splits.
+3. **`manifest.yaml` as one file.** Fine into the low hundreds of agents;
+   past that, split into per-domain registries with the orchestrator
+   holding only the domain map.
+
+What does not need attention: adding an agent is O(1) — one file, one
+manifest row; dialect contracts load only when a brief names them, so
+the contracts on disk are not contracts in context; and cost scales by
+profile without structural change. The limits above are parked in
+TODO.md with their unblock conditions.
+
 ## Extending
 
 1. Create a domain folder (e.g. `observability/`).

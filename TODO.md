@@ -30,6 +30,17 @@ never by silent accumulation.
       The fix is a manifest data change, never new agents.
 - [ ] Manifest whitespace realignment: cosmetic; batch it with the next
       manifest edit.
+- [ ] Domain-level routers (orchestrator triage ceiling): generalize the
+      tour-coordinator pattern so the orchestrator dispatches domains,
+      routers dispatch agents. Unblock: repeated misroutes or visibly
+      rising triage cost on real runs.
+- [ ] `accepts` taxonomy governance: one agent per class, first match
+      wins; a class that overlaps between domains splits rather than
+      overloads (security vs SDLC tours are the candidates). Unblock:
+      the first observed misroute through routing.
+- [ ] Per-domain registry split: `manifest.yaml` stays one file into the
+      low hundreds of agents. Unblock: the routing table stops fitting
+      a single read.
 
 ## Done or absorbed — do not reopen
 
