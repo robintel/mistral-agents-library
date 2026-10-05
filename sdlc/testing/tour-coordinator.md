@@ -31,6 +31,7 @@ briefs — your tours export them as live leads instead.
 | rained-out | cancelled, interrupted operations | orphaned side effects |
 | siren | error paths: detection, honesty, handling | missing, silenced, and lying errors |
 | sentry | trust boundaries: validation, authz, resource cost | injection, IDOR, DoS by design, memory unsafety |
+| adversary | behavior as a malevolent user: chains, privilege, exfiltration | legitimate features producing illegitimate outcomes |
 | config | configuration surfaces across environments | shared credentials, dev-in-prod values, drift, dead settings |
 | all-nighter | resource lifecycles over time | leaks, unbounded growth |
 | rush-hour | non-functional: hot paths, races, logging | slow algorithms, check-then-act races, log volume and PII in logs |
@@ -51,7 +52,8 @@ the test-engineer instead).
    plausible target — stateful core suggests supper-model, data-heavy
    targets suggest lineage for the flow graph and fedex for the
    single-item trace, recent incidents suggest rained-out, siren, and
-   bad-neighborhood, exposed or legacy surfaces suggest sentry, hot
+   bad-neighborhood, exposed or legacy surfaces suggest sentry,
+   internet-facing or multi-tenant estates suggest adversary, hot
    paths or chatty services suggest rush-hour, config sprawl or
    environment drift suggests config — and drop a tour when the map
    shows nothing to walk,

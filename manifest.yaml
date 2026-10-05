@@ -78,6 +78,7 @@ agents:
   - { name: tour-rained-out,  path: sdlc/testing/tour-rained-out.md,  domain: sdlc,    tier: t2, escalate: t3, accepts: [tour-rained-out] }
   - { name: tour-siren,       path: sdlc/testing/tour-siren.md,       domain: sdlc,    tier: t2, escalate: t3, accepts: [tour-siren] }
   - { name: tour-sentry,      path: sdlc/testing/tour-sentry.md,      domain: sdlc,    tier: t3, escalate: t4, accepts: [tour-sentry] }
+  - { name: tour-adversary,   path: sdlc/testing/tour-adversary.md,   domain: sdlc,    tier: t3, escalate: t4, accepts: [tour-adversary] }
   - { name: tour-config,      path: sdlc/testing/tour-config.md,      domain: sdlc,    tier: t2, escalate: t3, accepts: [tour-config] }
   - { name: tour-all-nighter, path: sdlc/testing/tour-all-nighter.md, domain: sdlc,    tier: t2, escalate: t3, accepts: [tour-all-nighter] }
   - { name: tour-rush-hour,  path: sdlc/testing/tour-rush-hour.md,  domain: sdlc,    tier: t2, escalate: t3, accepts: [tour-rush-hour] }
@@ -135,6 +136,7 @@ routing:  # task_class -> agent
   tour-rained-out: tour-rained-out
   tour-siren: tour-siren
   tour-sentry: tour-sentry
+  tour-adversary: tour-adversary
   tour-config: tour-config
   tour-all-nighter: tour-all-nighter
   tour-rush-hour: tour-rush-hour

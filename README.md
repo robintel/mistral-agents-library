@@ -122,6 +122,7 @@ The full mapping — profiles, subagents, skills — and its caveats:
 │   │   ├── tour-rained-out.md
 │   │   ├── tour-siren.md
 │   │   ├── tour-sentry.md
+│   │   ├── tour-adversary.md
 │   │   ├── tour-config.md
 │   │   ├── tour-all-nighter.md
 │   │   ├── tour-rush-hour.md
@@ -338,6 +339,7 @@ Tours that work at agent level, against code and docs:
 | rained-out | cancelled, interrupted operations | orphaned side effects |
 | siren | error paths: detection, honesty, handling | missing, silenced, and lying errors |
 | sentry | trust boundaries: validation, authz, resource cost | injection, IDOR, DoS by design, memory unsafety |
+| adversary | behavior as a malevolent user: chains, privilege, exfiltration | legitimate features producing illegitimate outcomes |
 | config | configuration surfaces across environments | shared credentials, dev-in-prod values, drift, dead settings |
 | all-nighter | resource lifecycles over time | leaks, unbounded growth |
 | rush-hour | non-functional: hot paths, races, logging | slow algorithms, check-then-act races, log volume and PII in logs |
