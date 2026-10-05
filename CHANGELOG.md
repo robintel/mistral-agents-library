@@ -6,6 +6,16 @@ changelogs are for users, not for git history. Format per
 [Keep a Changelog](https://keepachangelog.com); semver: breaking = major,
 feature = minor, fix = patch.
 
+## [0.21.0] — 2026-10-05
+
+### Added
+
+- Document the scaling limits and their escape hatches: the README
+  gains a "Scaling limits" section (orchestrator triage ceiling
+  solved by domain routers, `accepts` taxonomy governance, manifest
+  split threshold), and TODO parks each limit with its unblock
+  condition.
+
 ## [0.20.0] — 2026-10-05
 
 ### Added
