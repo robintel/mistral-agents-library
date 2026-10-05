@@ -6,6 +6,17 @@ changelogs are for users, not for git history. Format per
 [Keep a Changelog](https://keepachangelog.com); semver: breaking = major,
 feature = minor, fix = patch.
 
+## [0.16.0] — 2026-10-05
+
+### Added
+
+- Add `tour-adversary`: the malevolent-user walk — legitimate
+  features chained into illegitimate outcomes, privilege skipped
+  through behavior, export and reporting as exfiltration, runtime
+  third-party blast radius. Distinct from sentry (code) and
+  supply-chain (pipeline): this tours behavior, and its live leads
+  are literal step-by-step attack scripts.
+
 ## [0.15.0] — 2026-10-05
 
 ### Added
