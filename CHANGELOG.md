@@ -6,6 +6,30 @@ changelogs are for users, not for git history. Format per
 [Keep a Changelog](https://keepachangelog.com); semver: breaking = major,
 feature = minor, fix = patch.
 
+## [0.22.0] — 2026-10-07
+
+### Added
+
+- Add the clean-room smoke test: `smoke/Dockerfile` (the environment
+  spec — Vibe CLI + Python, nothing library-specific baked in) and
+  `smoke/smoke.sh` (install into the container HOME, run the
+  orchestrator in the CLI's verified programmatic mode against the
+  library itself, assert shape: answer present and on-target, target
+  unmodified, tool cache empty — the birth gate, headless). First
+  end-to-end run green on podman 4.9: 52 profiles, on-target
+  135-word answer in 13s; one image fix found on first contact —
+  PATH must be exported before the Vibe installer, which exits
+  non-zero when its own command is not on PATH. DEPLOYING.md
+  documents the recipe, the podman variant, and the mode-600
+  hardening note.
+- Add the Windows-installer parity test: `smoke/parity.sh` runs
+  install.ps1 under the cross-platform pwsh (pinned 7.6.6 in the
+  image, plus libicu76 for Debian trixie — .NET aborts without ICU)
+  and diffs it byte-for-byte against install.py's batch: 52
+  profiles, byte-identical, no API key needed. The release test
+  DEPLOYING.md names is now executable; Windows-native behavior
+  remains for the future windows-latest CI job.
+
 ## [0.21.0] — 2026-10-05
 
 ### Added
