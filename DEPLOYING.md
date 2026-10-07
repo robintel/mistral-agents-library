@@ -69,7 +69,8 @@ batch to `~/.vibe/agents/`:
 On Windows, `py install.py ...`; on Windows without Python,
 `.\install.ps1` — same composition, same defaults, and the same
 generated header, so the two installers recognize and prune each
-other's stale output. Equivalence between them is a release test:
+other's stale output. Equivalence between them is a release test
+(`smoke/parity.sh` runs it):
 both must compose byte-identical profiles. Both read every source
 through LF normalization — a `core.autocrlf` checkout and a
 Windows library path (whose backslashes are escapes in TOML)
@@ -142,6 +143,64 @@ disk.
    profile; the agent library lives at <path>." Per Mistral's own
    guidance, AGENTS.md stays small; the specialists and skills carry
    the detail, loaded only when dispatched.
+
+## Clean-room smoke test
+
+`smoke/` ships a container-based smoke test that exercises the
+deployed batch without touching the host: the image is the
+environment spec (Vibe CLI + Python, nothing library-specific baked
+in), the library mounts read-only, and the whole HOME dies with the
+container.
+
+```sh
+docker build -t mistral-agents-smoke smoke/
+docker run --rm -e MISTRAL_API_KEY \
+  -v "$(pwd)":/library:ro mistral-agents-smoke /library/smoke/smoke.sh
+```
+
+Knobs: `TARGET_URL` clones a fixture repo instead of the default
+target (the library itself — known ground truth, so the assertion is
+checkable), `MAX_TURNS` (12) and `TIMEOUT_SECS` (300) bound the run.
+The same image is the CI job: a GitHub Actions workflow is a thin
+scheduler around the same `docker run`. With podman instead of
+Docker, replace `docker` with `podman` in both commands and add
+`:Z` to the volume (SELinux labeling; harmless elsewhere) — the
+image and script are runtime-agnostic.
+
+The run uses the CLI's verified programmatic mode (docs.mistral.ai,
+Vibe Code > CLI > Work with the CLI): `vibe --agent orchestrator
+--prompt "..." --max-turns N --output text --trust`, with
+`MISTRAL_API_KEY` as an environment reference and `--trust` granting
+folder trust per invocation. Asserts shape, not prose: the answer is
+answer-length, describes the target, the target repo is unmodified,
+and the tool cache stays empty — no permission prompt was answered,
+so no tool may have been born (the birth gate, headless).
+
+The image build and the first end-to-end run are verified (podman
+4.9): 52 profiles installed, an on-target 135-word answer in 13
+seconds, tool cache empty. Two hardening notes from that first
+contact: export `PATH` before the Vibe installer — it exits
+non-zero when its own command is not found on PATH — and a tree
+written by mode-restricted tools (files at 600) must be
+`chmod -R a+rX` before mounting, since the container runs as an
+unprivileged user; a fresh git clone is already 644/755. Approval
+semantics for a `neutral`-safety agent in programmatic mode stayed
+unblocked on the observed run — the timeout remains the guard that
+turns a blocked approval into a loud failure rather than a hung CI
+job.
+
+## Windows coverage, in two honest layers
+
+A Linux host cannot run Windows containers, so the Windows installer
+is tested where it can run: `smoke/parity.sh` executes install.ps1's
+composition under the cross-platform pwsh and diffs it byte-for-byte
+against install.py's batch — no API key, no model calls, pure
+composition. This proves the two engines agree; it cannot cover
+Windows-native behavior (backslash library paths, ANSI decoding,
+ExecutionPolicy), which needs a real Windows runner — the
+windows-latest CI job to come. The image pins PowerShell (7.6.6) and
+carries libicu76 for Debian trixie: .NET aborts without ICU, a
+failure the build catches at `pwsh --version`.
 
 ## Caveats
 

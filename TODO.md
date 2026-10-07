@@ -6,6 +6,13 @@ never by silent accumulation.
 
 ## Next
 
+- [ ] Promote the smoke to CI: the clean-room smoke ran green on
+      podman (52 profiles, on-target answer, empty tool cache), and
+      the parity test is green (install.ps1 == install.py,
+      byte-identical). Add the GitHub Actions workflow on tag push:
+      the smoke and parity jobs run the existing image; a
+      windows-latest job runs install.ps1 natively to cover the
+      Windows-only behavior (backslash paths, ANSI decoding).
 - [ ] First real-world run: deploy per DEPLOYING.md (orchestrator
       profile + specialist subagents + workflow skills), point it at
       a real repository, and observe which tiers over- or
@@ -43,6 +50,12 @@ never by silent accumulation.
       a single read.
 
 ## Done or absorbed — do not reopen
+
+- ~~first clean-room smoke run~~ — green on podman 4.9 via the host
+  bridge: image built (one fix — PATH exported before the Vibe
+  installer, which exits non-zero otherwise), 52 profiles installed,
+  on-target 135-word answer in 13s, tool cache empty (the birth gate,
+  headless).
 
 - ~~more dialects~~ — added java, csharp, vbnet, fortran, cobol; era
   maps inside the contract, conservation contracts for the legacy pair.

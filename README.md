@@ -76,6 +76,7 @@ The full mapping — profiles, subagents, skills — and its caveats:
 ├── manifest.yaml            agents, tier selectors, catalog, routing, profiles
 ├── model-registrar.md       refreshes the catalog; the user approves every change
 ├── tool-steward.md          audits and curates the user-local tool cache
+├── smoke/                   the clean-room smoke test: Dockerfile + smoke.sh
 ├── shared/
 │   ├── standards.md         communication contracts + the elegance bar
 │   └── dialects/            57 contracts in role folders — data, not agents
