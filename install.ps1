@@ -12,6 +12,7 @@
 #   .\install.ps1 -Dest DIR             install elsewhere
 #   .\install.ps1 -Target REPO          also write a thin AGENTS.md into REPO
 #   .\install.ps1 -DryRun               print the plan, write nothing
+#   install.bat                          same, from cmd
 #   powershell -ExecutionPolicy Bypass -File .\install.ps1
 #                                       (if running scripts is disabled)
 #
@@ -150,11 +151,14 @@ function ConvertTo-TomlArray($Values) {
 }
 
 function ConvertTo-TomlMultiline([string]$Content) {
-    # Backslashes are escapes in TOML basic strings, and a Windows
-    # library path is full of them. install.py validates every
-    # profile by parsing it back; this port is proven by the
+    # LF-normalize before anything else: a CRLF checkout of this
+    # very script leaks \r into its here-strings, and Python
+    # normalizes install.py's source - byte-parity needs the same
+    # here. Backslashes are escapes in TOML basic strings, and a
+    # Windows library path is full of them. install.py validates
+    # every profile by parsing it back; this port is proven by the
     # equivalence test against install.py's output.
-    $c = $Content.Replace('\', '\\')
+    $c = $Content.Replace("`r`n", "`n").Replace('\', '\\')
     if (-not $c.EndsWith("`n")) { $c = $c + "`n" }
     'instructions = """' + "`n" + $c + '"""' + "`n"
 }
@@ -307,7 +311,7 @@ Run the `orchestrator` agent profile (Shift+Tab, or
 shared/standards.md the shared contract, shared/dialects/
 the language floors. Specialists arrive as briefs from the
 orchestrator, never as direct commands.
-'@).Replace("{library}", $Repo) + "`n", $Utf8NoBom)
+'@).Replace("`r`n", "`n").Replace("{library}", $Repo) + "`n", $Utf8NoBom)
     Write-Host "Wrote $agentsMd"
 }
 

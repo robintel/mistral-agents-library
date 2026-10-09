@@ -3,7 +3,12 @@
 # cross-platform pwsh) and install.py must compose byte-identical
 # profile batches from the same manifest — the release test
 # DEPLOYING.md names, made executable. No model calls, no API key:
-# pure composition, so it runs anywhere the image runs.
+# pure composition, so it runs anywhere the image runs. On a
+# Windows host, WSL runs it with no container: pwsh from a
+# user-local tarball, LIBRARY at the /mnt/c checkout — which
+# exercises the CRLF checkout the container's LF clone cannot
+# (.gitattributes pins LF checkouts, so it runs as-is; a legacy
+# CRLF checkout needs a CR-strip first: bash cannot run CRLF).
 #
 # Scope, honestly: on identical Linux paths this proves the two
 # composition engines agree byte for byte. It cannot cover

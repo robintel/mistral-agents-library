@@ -66,10 +66,15 @@ batch to `~/.vibe/agents/`:
 ./install.py --dry-run             # print the plan, write nothing
 ```
 
-On Windows, `py install.py ...`; on Windows without Python,
-`.\install.ps1` — same composition, same defaults, and the same
-generated header, so the two installers recognize and prune each
-other's stale output. Equivalence between them is a release test
+On Windows, every shell installs the same batch: `install.bat`
+from cmd, `.\install.ps1` from PowerShell, or `py install.py` —
+same composition, same defaults, and the same generated header, so
+the installers recognize and prune each other's stale output.
+install.bat is a one-liner wrapper,
+`powershell -ExecutionPolicy Bypass -File .\install.ps1` with the
+arguments forwarded, so cmd needs no script-policy detour and no
+Python: every entry point composes the same profiles. Equivalence
+between them is a release test
 (`smoke/parity.sh` runs it):
 both must compose byte-identical profiles. Both read every source
 through LF normalization — a `core.autocrlf` checkout and a
@@ -189,18 +194,35 @@ unblocked on the observed run — the timeout remains the guard that
 turns a blocked approval into a loud failure rather than a hung CI
 job.
 
-## Windows coverage, in two honest layers
+## Windows coverage, in three honest layers
 
 A Linux host cannot run Windows containers, so the Windows installer
 is tested where it can run: `smoke/parity.sh` executes install.ps1's
 composition under the cross-platform pwsh and diffs it byte-for-byte
 against install.py's batch — no API key, no model calls, pure
-composition. This proves the two engines agree; it cannot cover
-Windows-native behavior (backslash library paths, ANSI decoding,
-ExecutionPolicy), which needs a real Windows runner — the
-windows-latest CI job to come. The image pins PowerShell (7.6.6) and
-carries libicu76 for Debian trixie: .NET aborts without ICU, a
-failure the build catches at `pwsh --version`.
+composition. The image pins PowerShell (7.6.6) and carries libicu76
+for Debian trixie: .NET aborts without ICU, a failure the build
+catches at `pwsh --version`.
+
+A Windows machine with WSL adds a second layer, no container
+needed: run parity.sh against the Windows checkout mounted at
+/mnt/c, pwsh from a user-local tarball. Before .gitattributes
+pinned working trees to LF, this run caught a real leak the
+container's LF clone could never see:
+install.ps1's here-strings carried the checkout's \r into
+every composed profile (Python normalizes install.py's source;
+PowerShell keeps the CR), so the two installers diverged on any
+Windows checkout. Composed text is LF-normalized at emission now
+(ConvertTo-TomlMultiline and the AGENTS.md template) — the
+normalization stays load-bearing for pre-pin checkouts — and
+parity passes from both a CRLF mount and an LF clone; the native
+Windows PowerShell 5.1 batch (via install.bat) matches both
+except the embedded library path, C:... backslash-escaped as
+designed.
+
+The third layer is the real Windows runner — Windows-native
+Python composing backslash paths, ANSI decoding, ExecutionPolicy
+— the windows-latest CI job to come.
 
 ## Caveats
 

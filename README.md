@@ -13,11 +13,12 @@ cd mistral-agents-library
 ./install.py
 ```
 
-On Windows, run `.\install.ps1` — no Python needed (if running
-scripts is disabled: `powershell -ExecutionPolicy Bypass -File
-.\install.ps1`). With Python installed, `py install.py` works too;
-both installers produce byte-identical profiles on Linux, macOS,
-and Windows — CRLF checkouts and Windows path backslashes are
+On Windows, any shell installs the same batch: `install.bat`
+from cmd (a thin wrapper — `powershell -ExecutionPolicy Bypass
+-File .\install.ps1`, so no script-policy detour), `.\install.ps1`
+from PowerShell, no Python needed, or `py install.py` with Python.
+All three produce byte-identical profiles on Linux, macOS, and
+Windows — CRLF checkouts and Windows path backslashes are
 normalized before composing.
 
 Then two manual steps, both short:
@@ -68,9 +69,11 @@ The full mapping — profiles, subagents, skills — and its caveats:
 
 ```
 .
+├── .gitattributes           line endings: the repo's, not the machine's
 ├── README.md               this file
 ├── install.py              one command: compose and install the profiles
 ├── install.ps1             the same, for Windows without Python
+├── install.bat              the same, from cmd
 ├── DEPLOYING.md            the Mistral Vibe mapping and first-run recipe
 ├── orchestrator.md         the single source of truth agent
 ├── manifest.yaml            agents, tier selectors, catalog, routing, profiles
