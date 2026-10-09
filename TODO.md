@@ -6,6 +6,27 @@ never by silent accumulation.
 
 ## Next
 
+- [ ] Wire the tool cache into the installer (tools design, pieces
+      2-3): install.py must copy tools/ into the cache location and
+      emit the discovery addendum into the subagent profiles —
+      verbs, INDEX.md first, runtime line, report the missing verb
+      rather than emulating. The ledger (orchestrator.md) is
+      already shipped; the parity test (tools/test/run.sh) is green
+      on WSL (LF and CRLF legs) and on the Windows filesystem via
+      /mnt/c. A Windows-native leg needs a host interpreter — see
+      the host-Python item below.
+- [ ] Verify Vibe's Linux bundle ships rg/fd the way the Windows
+      extension does (rg.exe/fd.exe next to vibe-acp.exe): if it
+      does, discovery should prefer the bundled binaries for the
+      list/search verbs — native and behaviorally identical on both
+      platforms — and the Python cache serves only the verbs no
+      binary covers. Unblock: one look inside the Linux CLI install.
+- [ ] Host-Python decision for the Windows host: no interpreter
+      exists (Store stubs only; the user's install path is
+      install.ps1). Either winget-install Python (user approval —
+      it is their machine) or accept WSL as the runtime bridge the
+      discovery probe used (MSYS_NO_PATHCONV=1 for Git Bash path
+      mangling). Unblock: the user's call.
 - [ ] Promote the smoke to CI: the clean-room smoke ran green on
       podman (52 profiles, on-target answer, empty tool cache), and
       the parity test is green (install.ps1 == install.py,
