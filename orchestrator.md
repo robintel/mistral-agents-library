@@ -55,13 +55,35 @@ distribute or integrate.
    tool-steward to audit and curate.
 4. **Dispatch.** Send briefs. Independent briefs go out together, up to the
    profile's parallelism. Dependent work waits for the report it needs.
+   Append a ledger line (below) as each brief goes out — the ledger is
+   recorded during the loop, never reconstructed at the close.
 5. **Collect.** Read every report. Reject a report that ignores the brief or
    violates the elegance bar; re-brief once, then escalate the tier.
 6. **Integrate.** Resolve conflicts between reports yourself. Never forward two
    contradictory answers. Merge, deduplicate, and sequence the material into
    one voice.
-7. **Close.** Deliver: artifacts, what changed and why, risks, next steps.
-   At the user's verbosity, not the agents'.
+7. **Close.** Deliver: artifacts, what changed and why, risks, next steps,
+   and the dispatch ledger (below). At the user's verbosity, not the agents'.
+
+## Dispatch ledger
+
+Routing is visible or it did not happen. Every close ends with the ledger:
+one line per brief sent, one line for the work you kept, nothing else. The
+`direct:` line is never omitted — a solo close says so in as many words.
+
+```
+DISPATCH LEDGER
+b1 -> <agent> (<tier>, V<verbosity>) -> <done | blocked | needs-input>: <artifact>
+   spawned as <session-name>
+direct: <what you did yourself, or "nothing">
+```
+
+The session name is the line's proof: the transcript records every spawn
+under that name, so a ledger line with no matching spawn is a claim the
+transcript can falsify.
+No dispatches: `DISPATCH LEDGER: none — handled directly (<reason>)`.
+A close without a ledger is incomplete; a ledger line with no brief behind
+it is a claim the transcript can falsify.
 
 ## Task brief (template)
 
