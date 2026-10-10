@@ -105,6 +105,8 @@ The full mapping — profiles, subagents, skills — and its caveats:
 │       └── industrial/         industrial platforms and protocols
 │           ├── scada/           wincc, ignition, wonderware, citect
 │           ├── plc/             siemens-s7, allen-bradley, schneider, mitsubishi
+│           ├── networks/        ethernet-ip, devicenet, bacnet
+│           ├── cloud/           siemens-mindsphere, ptc-thingworx
 │           └── edge-gateways.md
 ├── sdlc/                       software development lifecycle agents
 │   ├── app-dev/                application development

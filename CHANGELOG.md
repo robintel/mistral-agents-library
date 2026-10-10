@@ -6,6 +6,19 @@ changelogs are for users, not for git history. Format per
 [Keep a Changelog](https://keepachangelog.com); semver: breaking = major,
 feature = minor, fix = patch.
 
+## [0.30.0] — 2026-10-10
+
+### Added
+
+- Add Phase 5 IoT industrial network protocols: EtherNet/IP (Common Industrial
+  Protocol, implicit/explicit messaging, CIP object model, connection management),
+  DeviceNet (CAN-based industrial network, UCMM, explicit/implicit messaging),
+  BACnet (building automation protocol, ASHRAE 135, COV subscriptions, alarms).
+- Add Phase 5 IoT industrial cloud platforms: PTC ThingWorx (model-based RAD
+  platform, Kepware integration, edge computing, digital twins, analytics).
+- Update industrial/ folder in shared/dialects with networks/ and cloud/
+  subfolders.
+
 ## [0.29.0] — 2026-10-10
 
 ### Added
