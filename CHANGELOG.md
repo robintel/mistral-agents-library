@@ -6,6 +6,16 @@ changelogs are for users, not for git history. Format per
 [Keep a Changelog](https://keepachangelog.com); semver: breaking = major,
 feature = minor, fix = patch.
 
+## [0.29.0] — 2026-10-10
+
+### Added
+
+- Add Phase 4 IoT industrial platform dialects: Citect SCADA (comprehensive
+  SCADA system with Cicode scripting, Genies, alarming, trending, reporting),
+  Industrial Edge Gateways (architecture, protocol support, data processing,
+  edge computing, security, management for OT-IT convergence).
+- Update industrial/ folder in shared/dialects with scada/ and plc/ subfolders.
+
 ## [0.28.0] — 2026-10-10
 
 ### Added
