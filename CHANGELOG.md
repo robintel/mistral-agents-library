@@ -6,6 +6,21 @@ changelogs are for users, not for git history. Format per
 [Keep a Changelog](https://keepachangelog.com); semver: breaking = major,
 feature = minor, fix = patch.
 
+## [0.32.0] — 2026-10-10
+
+### Added
+
+- Complete Phase 7: add shared integration dialects to eliminate
+  duplication across industrial protocol files. New contracts:
+  `shared/dialects/integrations/scada.md` (SCADA/HMI integration patterns),
+  `integrations/mes.md` (Manufacturing Execution System integration),
+  `integrations/erp.md` (ERP system integration patterns),
+  `integrations/dcs.md` (Distributed Control System integration),
+  `integrations/cloud.md` (cloud integration patterns for industrial IoT),
+  `integrations/protocol-gateways.md` (protocol conversion and routing
+  patterns). Each dialect captures common SCADA, MES, ERP, DCS, cloud,
+  and gateway patterns across all industrial protocol contracts.
+
 ## [0.31.0] — 2026-10-10
 
 ### Added

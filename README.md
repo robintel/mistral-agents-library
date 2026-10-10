@@ -101,7 +101,8 @@ The full mapping — profiles, subagents, skills — and its caveats:
 │       │                              raspberry-pi, beaglebone, jetson
 │       ├── protocols/          industrial: modbus, opc-ua, profinet,
 │       │                              embedded: i2c, spi, uart, onewire, can
-│       ├── patterns/           etl, embedded, integrations
+│       ├── patterns/           etl, embedded
+│       ├── integrations/       shared: scada, mes, erp, dcs, cloud, protocol-gateways
 │       └── industrial/         industrial platforms and protocols
 │           ├── scada/           wincc, ignition, wonderware, citect
 │           ├── plc/             siemens-s7, allen-bradley, schneider, mitsubishi
