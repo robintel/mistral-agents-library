@@ -6,6 +6,20 @@ changelogs are for users, not for git history. Format per
 [Keep a Changelog](https://keepachangelog.com); semver: breaking = major,
 feature = minor, fix = patch.
 
+## [0.34.0] — 2026-10-10
+
+### Added
+
+- Add RTOS dialect contracts: core RTOS pattern contract (`patterns/rtos.md`)
+  documenting shared concepts (tasks, scheduling, synchronization,
+  timing, ISR constraints, common pitfalls) plus individual RTOS
+  dialects in `platforms/rtos/`: FreeRTOS (open-source standard),
+  Zephyr (Linux Foundation, Kconfig-based), ThreadX (Azure RTOS,
+  industrial-grade), SafeRTOS (safety-certified FreeRTOS variant),
+  QNX (microkernel, POSIX-compliant), VxWorks (commercial, aerospace/defense
+  proven). Hybrid approach mirrors existing sql/engines and nosql/stores
+  patterns: one core contract plus implementation-specific files.
+
 ## [0.33.0] — 2026-10-10
 
 ### Added

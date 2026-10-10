@@ -102,9 +102,11 @@ The full mapping — profiles, subagents, skills — and its caveats:
 │       │                              nxp, microchip, nordic, stm32,
 │       │                              renesas, infineon, toshiba-mcu,
 │       │                              sony-spresense, fujitsu-enterprise
+│       │                              rtos/ freertos, zephyr, threadx,
+│       │                              safertos, qnx, vxworks
 │       ├── protocols/          industrial: modbus, opc-ua, profinet,
 │       │                              embedded: i2c, spi, uart, onewire, can
-│       ├── patterns/           etl, embedded
+│       ├── patterns/           etl, embedded, rtos
 │       ├── integrations/       shared: scada, mes, erp, dcs, cloud, protocol-gateways
 │       └── industrial/         industrial platforms and protocols
 │           ├── scada/           wincc, ignition, wonderware, citect
