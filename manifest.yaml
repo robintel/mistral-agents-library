@@ -97,7 +97,9 @@ agents:
   - { name: migration-engineer, path: sdlc/app-upgrades/migration-engineer.md, domain: sdlc, tier: t3, escalate: t4, accepts: [migration] }
   - { name: data-migration-engineer, path: sdlc/app-upgrades/data-migration-engineer.md, domain: sdlc, tier: t3, escalate: t4, accepts: [data-migration] }
   - { name: rollback-operator, path: sdlc/app-upgrades/rollback-operator.md, domain: sdlc, tier: t2, escalate: t3, accepts: [rollback] }
+  - { name: modernization-agent, path: sdlc/app-upgrades/modernization-agent.md, domain: sdlc, tier: t3, escalate: t4, accepts: [modernization] }
   - { name: data-engineer,    path: data/data-engineer.md,  domain: data, tier: t2, escalate: t3, accepts: [data-pipeline] }
+  - { name: data-orchestrator, path: data/data-orchestrator.md, domain: data, tier: t3, escalate: t4, accepts: [data-orchestration] }
   - { name: data-steward,     path: data/data-steward.md,   domain: data, tier: t2, escalate: t3, accepts: [data-governance] }
   - { name: data-auditor,     path: data/data-auditor.md,   domain: data, tier: t3, escalate: t4, accepts: [data-audit] }
   - { name: gdpr-auditor,     path: data/gdpr-auditor.md,   domain: data, tier: t3, escalate: t4, accepts: [gdpr-audit] }
@@ -121,6 +123,7 @@ routing:  # task_class -> agent
   ops: devops
   release: release-manager
   data-pipeline: data-engineer
+  data-orchestration: data-orchestrator
   data-governance: data-steward
   data-audit: data-auditor
   gdpr-audit: gdpr-auditor
@@ -156,6 +159,7 @@ routing:  # task_class -> agent
   migration: migration-engineer
   data-migration: data-migration-engineer
   rollback: rollback-operator
+  modernization: modernization-agent
   threat-modeling: threat-modeler
   supply-chain-audit: supply-chain-auditor
   data-security: data-security-auditor
