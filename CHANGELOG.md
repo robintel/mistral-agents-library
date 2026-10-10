@@ -6,6 +6,17 @@ changelogs are for users, not for git history. Format per
 [Keep a Changelog](https://keepachangelog.com); semver: breaking = major,
 feature = minor, fix = patch.
 
+## [0.31.0] — 2026-10-10
+
+### Added
+
+- Add Phase 6 IoT industrial wireless protocols: WirelessHART (IEC 62591,
+  HART Communication Foundation standard, mesh networking with TDMA and
+  frequency hopping, 2.4 GHz ISM band, self-organizing/self-healing), ISA100
+  Wireless (IEC 62734, ISA100.11a, IPv6-based mesh networking, 6LoWPAN,
+  IEEE 802.15.4, multi-band support including sub-GHz).
+- Update industrial/networks/ folder with wireless protocol dialects.
+
 ## [0.30.0] — 2026-10-10
 
 ### Added
