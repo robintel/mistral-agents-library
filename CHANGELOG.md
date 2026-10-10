@@ -6,6 +6,15 @@ changelogs are for users, not for git history. Format per
 [Keep a Changelog](https://keepachangelog.com); semver: breaking = major,
 feature = minor, fix = patch.
 
+## [0.28.0] — 2026-10-10
+
+### Added
+
+- Add Phase 3 IoT industrial protocol dialects: Modbus (RTU/TCP with
+  PDU/ADU structure, function codes, addressing, error handling, timing),
+  OPC UA (information model, services, transport mechanisms, security),
+  PROFINET (RT classes, DCP, MRP/MRPD redundancy, PTP synchronization).
+
 ## [0.27.0] — 2026-10-10
 
 ### Added
