@@ -6,6 +6,22 @@ changelogs are for users, not for git history. Format per
 [Keep a Changelog](https://keepachangelog.com); semver: breaking = major,
 feature = minor, fix = patch.
 
+## [0.33.0] — 2026-10-10
+
+### Added
+
+- Add European and Japanese MCU manufacturer platform dialects:
+  NXP Semiconductors (LPC, Kinetis, i.MX RT, S32, Qorivva, wireless
+  families), Microchip Technology (PIC 8/16/32-bit, dsPIC, SAM, AVR),
+  Nordic Semiconductor (nRF51/52/53/54/91/7 series), STMicroelectronics
+  (STM32 Cortex-M families: M0/M0+/M3/M4/M7, MP1, MP2, STM8),
+  Renesas (RX, RL78, RH850, RA, RE, RZ families, R-Car),
+  Infineon (XMC, AURIX TC2xx/TC3xx/TC4xx, PSoC, MOTIONCONTROL),
+  Toshiba (TXZ, TMPM, TLX, M32C families), Sony SPRESENSE
+  (CXD5247/5602/5249/5281/5282 series). Each dialect organized by
+  architecture families with development ecosystems, peripheral
+  modules, and best practices.
+
 ## [0.32.0] — 2026-10-10
 
 ### Added

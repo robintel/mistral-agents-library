@@ -98,7 +98,10 @@ The full mapping — profiles, subagents, skills — and its caveats:
 │       ├── brokers/           messaging core + kafka, rabbitmq, sqs, ibm-mq,
 │       │                      solace, activemq, nats
 │       ├── platforms/          hadoop, spark, arduino, esp32,
-│       │                              raspberry-pi, beaglebone, jetson
+│       │                              raspberry-pi, beaglebone, jetson,
+│       │                              nxp, microchip, nordic, stm32,
+│       │                              renesas, infineon, toshiba-mcu,
+│       │                              sony-spresense, fujitsu-enterprise
 │       ├── protocols/          industrial: modbus, opc-ua, profinet,
 │       │                              embedded: i2c, spi, uart, onewire, can
 │       ├── patterns/           etl, embedded
