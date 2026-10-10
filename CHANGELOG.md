@@ -6,6 +6,51 @@ changelogs are for users, not for git history. Format per
 [Keep a Changelog](https://keepachangelog.com); semver: breaking = major,
 feature = minor, fix = patch.
 
+## [0.27.0] — 2026-10-10
+
+### Added
+
+- Add Salesforce integration dialect: REST, SOAP, Bulk, Streaming, and
+  Metadata APIs; OAuth 2.0 flows (Web Server, User-Agent, JWT Bearer);
+  data models for standard and custom objects; migration patterns for
+  legacy CRM to Salesforce; governor limits and query optimization
+  strategies; modernization approaches and best practices.
+
+## [0.26.0] — 2026-10-10
+
+### Added
+
+- Add Tier 2 European dialects: Scaleway Object Storage (French cloud),
+  T-Systems Object Storage (German telecom), Sovereign Cloud/
+  Gaia-X patterns (EU data sovereignty).
+- Add Tier 2 Japanese dialects: NTT Communications Cloud Storage,
+  IIJ G.IO Object Storage.
+- Add Tier 3 legacy dialects: IBM i (AS/400) integration (European
+  enterprise legacy), Fujitsu Enterprise systems (Japanese legacy).
+
+## [0.25.0] — 2026-10-10
+
+### Added
+
+- Add Tier 1 European dialects: OVHcloud Object Storage (GDPR-compliant
+  European cloud).
+- Add Tier 1 Japanese dialects: Sakura Object Storage (Japanese market
+  leader).
+- Add SAP integration patterns dialect: comprehensive enterprise
+  integration (BAPI, IDoc, OData, RFC, Web Services).
+
+## [0.24.0] — 2026-10-10
+
+### Added
+
+- Add modernization-agent: architectural transformation with explicit
+  hybrid (on-prem + cloud) support.
+- Add data-orchestrator: data movement and synchronization coordination.
+- Add object storage dialects: S3 (AWS), Google Cloud Storage, Azure
+  Blob Storage, HPE Object Storage.
+- Add data-sync pattern dialect: synchronization strategies and CDC
+  (Change Data Capture) patterns.
+
 ## [0.23.0] — 2026-10-10
 
 ### Added
