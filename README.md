@@ -84,7 +84,7 @@ The full mapping — profiles, subagents, skills — and its caveats:
 │                          /gdpr-audit, /upgrade
 ├── shared/
 │   ├── standards.md         communication contracts + the elegance bar
-│   └── dialects/            97 contracts in role folders — data, not agents
+│   └── dialects/            98 contracts in role folders — data, not agents
 │       ├── languages/         22: python, javascript, typescript, go, rust,
 │       │                      c, cpp, java, csharp, vbnet, php, ruby, perl,
 │       │                      fortran, cobol, graphql, pli, natural,
@@ -106,7 +106,8 @@ The full mapping — profiles, subagents, skills — and its caveats:
 │       │                              safertos, qnx, vxworks
 │       ├── protocols/          industrial: modbus, opc-ua, profinet,
 │       │                              embedded: i2c, spi, uart, onewire, can
-│       ├── patterns/           etl, embedded, rtos, mainframe-modernization
+│       ├── patterns/           etl, embedded, rtos, firmware-upgrade,
+│       │                              mainframe-modernization
 │       ├── integrations/       shared: scada, mes, erp, dcs, cloud, protocol-gateways
 │       ├── domains/            banking
 │       └── industrial/         industrial platforms and protocols

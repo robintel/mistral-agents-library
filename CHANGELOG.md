@@ -6,6 +6,22 @@ changelogs are for users, not for git history. Format per
 [Keep a Changelog](https://keepachangelog.com); semver: breaking = major,
 feature = minor, fix = patch.
 
+## [0.36.0] — 2026-10-10
+
+### Added
+
+- Add firmware upgrade pattern dialect: `shared/dialects/patterns/firmware-upgrade.md`
+  encodes platform-specific patterns for MCU firmware upgrades — dual-bank
+  vs external storage vs delta updates vs direct programming; bootloader
+  requirements (verification, rollback, watchdog feeding, power-loss
+  resilience); OTA patterns (pull-based, push-based, hybrid); security
+  patterns (signing, encryption, secure communication, anti-rollback);
+  platform-specific implementation for STM32, ESP32, Nordic nRF5, NXP
+  (MCUboot), Microchip (PIC32, SAM, AVR), Renesas, Infineon; verification
+  patterns (CRC, hash, signature); data compatibility; rollback patterns;
+  pitfalls and checklist. Addresses the platform-specific nature of MCU
+  firmware upgrades while capturing universal patterns.
+
 ## [0.35.0] — 2026-10-10
 
 ### Added
