@@ -84,7 +84,7 @@ The full mapping — profiles, subagents, skills — and its caveats:
 │                          /gdpr-audit, /upgrade
 ├── shared/
 │   ├── standards.md         communication contracts + the elegance bar
-│   └── dialects/            73 contracts in role folders — data, not agents
+│   └── dialects/            79 contracts in role folders — data, not agents
 │       ├── languages/         22: python, javascript, typescript, go, rust,
 │       │                      c, cpp, java, csharp, vbnet, php, ruby, perl,
 │       │                      fortran, cobol, graphql, pli, natural,
