@@ -34,7 +34,7 @@ What the command does: `install.py` reads `manifest.yaml` — the
 single source of truth — and composes every agent into a
 self-contained profile in `~/.vibe/agents/`: `shared/standards.md`
 plus the agent body, the tier's model, the role's tool surface. The
-orchestrator lands as a selectable profile; the 49 specialists land
+orchestrator lands as a selectable profile; the 51 specialists land
 as subagents it spawns by name.
 
 Day to day:
@@ -80,6 +80,8 @@ The full mapping — profiles, subagents, skills — and its caveats:
 ├── model-registrar.md       refreshes the catalog; the user approves every change
 ├── tool-steward.md          audits and curates the user-local tool cache
 ├── smoke/                   the clean-room smoke test: Dockerfile + smoke.sh
+├── skills/                 the five workflow skills: /orient, /tour, /coverage,
+│                          /gdpr-audit, /upgrade
 ├── shared/
 │   ├── standards.md         communication contracts + the elegance bar
 │   └── dialects/            57 contracts in role folders — data, not agents
@@ -379,9 +381,10 @@ Two cuts of writing code, split by judgment weight:
   standard, with the unit tests that pin the contract.
 
 Language knowledge is data, not agents: `shared/dialects/` holds one
-compact dialect contract per language — sixteen so far: python,
+compact dialect contract per language — twenty-two so far: python,
 javascript, typescript, go, rust, c, cpp, java, csharp, vbnet, php,
-ruby, perl, fortran, cobol, sql. Era-specific languages carry the
+ruby, perl, fortran, cobol, graphql, pli, natural, objectscript,
+xbase, asm-x86-64, asm-arm. Era-specific languages carry the
 version map inside the contract, and the build file names the era:
 Java 8 repos get Java 8 idiom, never fragments of 21; the C++ standard
 flag and PHP's composer.json do the same. Legacy languages get

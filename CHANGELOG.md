@@ -6,6 +6,22 @@ changelogs are for users, not for git history. Format per
 [Keep a Changelog](https://keepachangelog.com); semver: breaking = major,
 feature = minor, fix = patch.
 
+## [Unreleased]
+
+### Added
+
+- Add the five workflow skills: `skills/orient/SKILL.md` through
+  `skills/upgrade/SKILL.md` implement /orient, /tour, /coverage,
+  /gdpr-audit, and /upgrade as slash commands in the CLI and VS
+  Code. Both installers (install.py and install.ps1) now copy
+  skill directories to `~/.vibe/skills/`; smoke test confirmed
+  they load and respond.
+
+### Fixed
+
+- Fix TOML generation in install.py: display_name suffix now properly
+  quoted inside toml_string to generate valid TOML profiles.
+
 ## [0.22.0] — 2026-10-07
 
 ### Added

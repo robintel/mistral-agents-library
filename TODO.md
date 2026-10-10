@@ -46,10 +46,11 @@ never by silent accumulation.
       check date documented there).
 - [ ] Catalog refresh when stale: the model-registrar proposes a refresh
       when `models.freshness.checked` ages past `models.freshness.staleness`.
-- [ ] Workflow skills (/orient, /tour, /coverage, /gdpr-audit,
-      /upgrade): the profiles ship via `install.py`; the SKILL.md
-      content does not exist yet. Write the five skills, then teach
-      `install.py` to place them in `~/.vibe/skills/`.
+- [ ] Workflow skills verified: wrote the five workflow skills
+      (/orient, /tour, /coverage, /gdpr-audit, /upgrade), updated
+      both installers to copy them to ~/.vibe/skills/, smoke test
+      confirmed they load as slash commands. Native Windows test
+      of the skills remains for the CI windows-latest job.
 
 ## Parked — unblock conditions attached
 

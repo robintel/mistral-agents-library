@@ -241,13 +241,14 @@ foreach ($agent in $agents) {
         $rows = foreach ($cls in $routing.Keys) { "- $cls -> $($routing[$cls])" }
         $instructions = $instructions + ($rows -join "`n") + "`n"
         $text = $Header + "`n" +
+            "display_name = " + (ConvertTo-TomlString (Get-DisplayName $name + " (Mistral Agents Library)")) + "`n" +
             "description = " + (ConvertTo-TomlString $tagline) + "`n" +
             'safety = "neutral"' + "`n" +
             "active_model = " + (ConvertTo-TomlString $agent["model"]) + "`n`n" +
             (ConvertTo-TomlMultiline $instructions)
     } else {
         $text = $Header + "`n" +
-            "display_name = " + (ConvertTo-TomlString (Get-DisplayName $name)) + "`n" +
+            "display_name = " + (ConvertTo-TomlString (Get-DisplayName $name + " (Mistral Agents Library)")) + "`n" +
             "description = " + (ConvertTo-TomlString $tagline) + "`n" +
             "safety = " + (ConvertTo-TomlString $toolset[1]) + "`n" +
             'agent_type = "subagent"' + "`n" +
@@ -280,6 +281,24 @@ if ($stale.Count -gt 0) {
     Write-Host "$pruneVerb (stale, not in manifest):"
     foreach ($name in ($stale | Sort-Object)) { Write-Host "  $name" }
 }
+
+# Skills: ship every directory that contains a SKILL.md to
+# ~/.vibe/skills (or the corresponding sibling of -Dest).
+$skillsDest = [System.IO.Path]::Combine(
+    [System.IO.Path]::GetDirectoryName($Dest), "skills")
+$skillsInstalled = @()
+$skillsSrc = [System.IO.Path]::Combine($Repo, "skills")
+if ([System.IO.Directory]::Exists($skillsSrc)) {
+    foreach ($skillDir in [System.IO.Directory]::GetDirectories($skillsSrc)) {
+        $skillMd = [System.IO.Path]::Combine($skillDir, "SKILL.md")
+        if (-not [System.IO.File]::Exists($skillMd)) { continue }
+        $skillsInstalled += [System.IO.Path]::GetFileName($skillDir)
+    }
+    $verb = "Would install"
+    if (-not $DryRun) { $verb = "Installed" }
+    Write-Host "$verb $($skillsInstalled.Count) skills -> $skillsDest"
+}
+
 if ($DryRun) { return }
 
 if (-not [System.IO.Directory]::Exists($Dest)) {
@@ -292,6 +311,25 @@ foreach ($p in $profiles) {
 }
 foreach ($name in $stale) {
     [System.IO.File]::Delete([System.IO.Path]::Combine($Dest, $name))
+}
+
+# Copy skills for real
+if ($skillsInstalled.Count -gt 0) {
+    foreach ($skillDir in [System.IO.Directory]::GetDirectories($skillsSrc)) {
+        $skillMd = [System.IO.Path]::Combine($skillDir, "SKILL.md")
+        if (-not [System.IO.File]::Exists($skillMd)) { continue }
+        $targetSkillDir = [System.IO.Path]::Combine(
+            $skillsDest, [System.IO.Path]::GetFileName($skillDir))
+        if ([System.IO.Directory]::Exists($targetSkillDir)) {
+            [System.IO.Directory]::Delete($targetSkillDir, $true)
+        }
+        [System.IO.Directory]::CreateDirectory($targetSkillDir) | Out-Null
+        foreach ($file in [System.IO.Directory]::GetFiles($skillDir)) {
+            $targetFile = [System.IO.Path]::Combine(
+                $targetSkillDir, [System.IO.Path]::GetFileName($file))
+            [System.IO.File]::Copy($file.FullName, $targetFile)
+        }
+    }
 }
 
 if ($Target -ne "") {
