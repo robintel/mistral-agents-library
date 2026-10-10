@@ -6,7 +6,7 @@ changelogs are for users, not for git history. Format per
 [Keep a Changelog](https://keepachangelog.com); semver: breaking = major,
 feature = minor, fix = patch.
 
-## [Unreleased]
+## [0.23.0] — 2026-10-10
 
 ### Added
 
