@@ -61,11 +61,11 @@ never by silent accumulation.
 
 ## Parked — unblock conditions attached
 
-- [ ] Dialects - Tier 2 (European): Scaleway Object Storage,
+- [x] Dialects - Tier 2 (European): Scaleway Object Storage,
       T-Systems Object Storage, Sovereign Cloud/Gaia-X patterns
-- [ ] Dialects - Tier 2 (Japanese): NTT Communications Cloud Storage,
+- [x] Dialects - Tier 2 (Japanese): NTT Communications Cloud Storage,
       IIJ G.IO Object Storage
-- [ ] Dialects - Tier 3 (European): IBM i (AS/400) integration patterns,
+- [x] Dialects - Tier 3 (European): IBM i (AS/400) integration patterns,
       FUJITSU Enterprise systems
 - [ ] Per-language tier defaults (Rust costing more than Python, say):
       unblock when a real workload escalates repeatedly on one language.
