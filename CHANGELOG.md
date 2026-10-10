@@ -6,6 +6,26 @@ changelogs are for users, not for git history. Format per
 [Keep a Changelog](https://keepachangelog.com); semver: breaking = major,
 feature = minor, fix = patch.
 
+## [0.35.0] — 2026-10-10
+
+### Added
+
+- Add modernization capabilities for legacy system upgrades:
+  `sdlc/app-upgrades/modernization-agent.md` orchestrates end-to-end
+  modernization from legacy platforms to modern architectures;
+  `shared/dialects/domains/banking.md` encodes banking domain invariants
+  (double-entry accounting, reconciliation, auditability, time boundaries,
+  compliance requirements) for financial system migrations;
+  `shared/dialects/patterns/mainframe-modernization.md` documents patterns,
+  pitfalls, and best practices for migrating IBM z/OS and other mainframe
+  applications — centralization vs distribution, batch vs real-time,
+  transaction vs service orientation, stateful vs stateless design,
+  data migration strategies (IMS/VSAM to RDBMS/NoSQL), transaction
+  pipeline migration (CICS to REST/Kafka), hybrid on-prem+cloud paths,
+  common failure modes and mitigation strategies. Hybrid approach:
+  core patterns + domain-specific knowledge mirrors existing
+  sql/engines and nosql/stores structures.
+
 ## [0.34.0] — 2026-10-10
 
 ### Added

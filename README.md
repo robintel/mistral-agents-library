@@ -84,7 +84,7 @@ The full mapping — profiles, subagents, skills — and its caveats:
 │                          /gdpr-audit, /upgrade
 ├── shared/
 │   ├── standards.md         communication contracts + the elegance bar
-│   └── dialects/            95 contracts in role folders — data, not agents
+│   └── dialects/            97 contracts in role folders — data, not agents
 │       ├── languages/         22: python, javascript, typescript, go, rust,
 │       │                      c, cpp, java, csharp, vbnet, php, ruby, perl,
 │       │                      fortran, cobol, graphql, pli, natural,
@@ -106,8 +106,9 @@ The full mapping — profiles, subagents, skills — and its caveats:
 │       │                              safertos, qnx, vxworks
 │       ├── protocols/          industrial: modbus, opc-ua, profinet,
 │       │                              embedded: i2c, spi, uart, onewire, can
-│       ├── patterns/           etl, embedded, rtos
+│       ├── patterns/           etl, embedded, rtos, mainframe-modernization
 │       ├── integrations/       shared: scada, mes, erp, dcs, cloud, protocol-gateways
+│       ├── domains/            banking
 │       └── industrial/         industrial platforms and protocols
 │           ├── scada/           wincc, ignition, wonderware, citect
 │           ├── plc/             siemens-s7, allen-bradley, schneider, mitsubishi
@@ -151,6 +152,7 @@ The full mapping — profiles, subagents, skills — and its caveats:
 │   │   ├── tour-bad-neighborhood.md
 │   │   └── tour-back-alley.md
 │   └── app-upgrades/           application upgrades
+│       ├── modernization-agent.md  end-to-end legacy-to-modern orchestration
 │       ├── upgrade-planner.md     the UPGRADE PLAN is the interface
 │       ├── dependency-upgrader.md safe bumps, any ecosystem
 │       ├── migration-engineer.md  breaking upgrades, runtimes
