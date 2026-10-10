@@ -84,7 +84,7 @@ The full mapping — profiles, subagents, skills — and its caveats:
 │                          /gdpr-audit, /upgrade
 ├── shared/
 │   ├── standards.md         communication contracts + the elegance bar
-│   └── dialects/            82 contracts in role folders — data, not agents
+│   └── dialects/            86 contracts in role folders — data, not agents
 │       ├── languages/         22: python, javascript, typescript, go, rust,
 │       │                      c, cpp, java, csharp, vbnet, php, ruby, perl,
 │       │                      fortran, cobol, graphql, pli, natural,
@@ -97,7 +97,10 @@ The full mapping — profiles, subagents, skills — and its caveats:
 │       │                      adabas, cache-iris (experimental)
 │       ├── brokers/           messaging core + kafka, rabbitmq, sqs, ibm-mq,
 │       │                      solace, activemq, nats
-│       ├── platforms/          hadoop, spark, arduino, esp32
+│       ├── platforms/          hadoop, spark, arduino, esp32,
+│       │                              raspberry-pi, beaglebone, jetson
+│       ├── protocols/          industrial: modbus, opc-ua, profinet,
+│       │                              embedded: i2c, spi, uart, onewire, can
 │       └── patterns/           etl, embedded, integrations
 ├── sdlc/                       software development lifecycle agents
 │   ├── app-dev/                application development
