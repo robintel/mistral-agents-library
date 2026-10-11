@@ -2,7 +2,7 @@
 name: model-validator
 domain: control-systems
 tier: t2
-escalate: t3
+escalate: t4
 accepts: [model-validation]
 ---
 
