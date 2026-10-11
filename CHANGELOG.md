@@ -6,6 +6,28 @@ changelogs are for users, not for git history. Format per
 [Keep a Changelog](https://keepachangelog.com); semver: breaking = major,
 feature = minor, fix = patch.
 
+## [0.38.0] — 2026-10-11
+
+### Added
+
+- Add AI/RAG foundation: Phase 1 of AI domain with `ai/rag-engineer.md`
+  designing and implementing production-grade RAG pipelines — architecture
+  patterns (Naive RAG, Query Expansion, Multi-Hop, Graph RAG, Agentic RAG),
+  component contracts (document processing, retrieval, generation),
+  evaluation frameworks (RAGAS, A/B testing), and anti-patterns to avoid;
+  `ai/ai-security-auditor.md` auditing AI systems for prompt injection,
+  training data poisoning, model extraction, insecure output handling,
+  DoS attacks, data privacy violations, supply chain attacks, and adversarial
+  manipulations with AI-specific threat modeling, mitigation design,
+  compliance assessment (OWASP LLM Top 10, NIST AI RMF, GDPR),
+  red teaming, and monitoring; `shared/dialects/ai/rag-pattern.md`
+  encoding the RAG pattern contract with modular architectures, document
+  processing strategies, retrieval patterns (hybrid search, multi-vector,
+  time-aware), generation patterns (structured output, citation-aware,
+  confidence-aware, multi-persona), evaluation patterns (RAGAS, human-in-the-loop,
+  A/B testing), and anti-patterns. Establishes the AI domain to support
+  industrial RAG, European compliance, and production AI deployments.
+
 ## [0.37.0] — 2026-10-11
 
 ### Added

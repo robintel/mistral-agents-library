@@ -119,6 +119,17 @@ agents:
   - { name: plc-code-generator,  path: control-systems/plc-code-generator.md,  domain: control-systems, tier: t3, escalate: t4, accepts: [plc-generation] }
   - { name: simulink-migrator,   path: control-systems/simulink-migrator.md,   domain: control-systems, tier: t3, escalate: t4, accepts: [simulink-migration] }
   - { name: requirements-analyst, path: control-systems/requirements-analyst.md, domain: control-systems, tier: t2, escalate: t3, accepts: [control-requirements] }
+  # Evaluation domain - validation agents
+  - { name: system-validator, path: evaluation/system-validator.md, domain: evaluation, tier: t4, escalate: t4, accepts: [system-validation] }
+  - { name: requirement-validator, path: evaluation/requirement-validator.md, domain: evaluation, tier: t3, escalate: t4, accepts: [requirement-validation] }
+  - { name: architecture-validator, path: evaluation/architecture-validator.md, domain: evaluation, tier: t4, escalate: t4, accepts: [architecture-validation] }
+  - { name: stakeholder-validator, path: evaluation/stakeholder-validator.md, domain: evaluation, tier: t3, escalate: t4, accepts: [stakeholder-validation] }
+  - { name: feasibility-validator, path: evaluation/feasibility-validator.md, domain: evaluation, tier: t3, escalate: t4, accepts: [feasibility-validation] }
+  - { name: alternative-evaluator, path: evaluation/alternative-evaluator.md, domain: evaluation, tier: t3, escalate: t4, accepts: [alternative-evaluation] }
+  - { name: risk-analyst, path: evaluation/risk-analyst.md, domain: evaluation, tier: t3, escalate: t4, accepts: [risk-assessment] }
+  # AI domain - artificial intelligence and RAG
+  - { name: rag-engineer, path: ai/rag-engineer.md, domain: ai, tier: t3, escalate: t4, accepts: [rag-pipeline] }
+  - { name: ai-security-auditor, path: ai/ai-security-auditor.md, domain: ai, tier: t3, escalate: t4, accepts: [ai-security-audit] }
 
 routing:  # task_class -> agent
   intake: intake-analyst
@@ -183,6 +194,17 @@ routing:  # task_class -> agent
   plc-generation: plc-code-generator
   simulink-migration: simulink-migrator
   control-requirements: requirements-analyst
+  # Evaluation domain - validation task classes
+  system-validation: system-validator
+  requirement-validation: requirement-validator
+  architecture-validation: architecture-validator
+  stakeholder-validation: stakeholder-validator
+  feasibility-validation: feasibility-validator
+  alternative-evaluation: alternative-evaluator
+  risk-assessment: risk-analyst
+  # AI domain - artificial intelligence and RAG task classes
+  rag-pipeline: rag-engineer
+  ai-security-audit: ai-security-auditor
 
 profiles:
   frugal:
