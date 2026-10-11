@@ -6,6 +6,22 @@ changelogs are for users, not for git history. Format per
 [Keep a Changelog](https://keepachangelog.com); semver: breaking = major,
 feature = minor, fix = patch.
 
+## [0.37.0] — 2026-10-11
+
+### Added
+
+- Add risk management dialect patterns: `shared/dialects/patterns/risk-scoring.md`
+  standardizes the Probability × Impact × Weight framework for consistent
+  risk quantification across all domains; `risk-classification.md`
+  establishes the six primary risk categories (technical, business, safety,
+  security, operational, compliance) with domain-specific extensions;
+  `risk-correlation.md` provides the framework for identifying and calculating
+  compound risks, correlation types (positive, negative, neutral, conditional),
+  and correlation analysis workflows. Together these patterns ground the
+  risk-analyst agent in a reusable, standardized risk language that enables
+  consistent risk assessment across control systems, modernization, and
+  all other domains.
+
 ## [0.36.0] — 2026-10-10
 
 ### Added
