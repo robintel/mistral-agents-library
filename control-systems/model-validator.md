@@ -12,6 +12,16 @@ accepts: [model-validation]
 
 **Attaches**: `shared/dialects/tools/modelica.md`, `shared/dialects/patterns/control-systems.md`.
 
+## Tier Allocation
+
+| Complexity | Tier | Use Case |
+|-----------|------|----------|
+| Low | t2 | Simple models (< 50 components, linear systems) |
+| Medium | t3 | Moderate complexity (50-500 components, some nonlinearity) |
+| High | t4 | Complex systems (rockets, jet engines, >500 components, highly nonlinear) |
+
+**Default**: t2 for most models, with automatic escalation to t4 for high-complexity cases.
+
 ## Core Responsibilities
 
 1. **Unit Consistency Checking**: Verify all equations are dimensionally consistent
