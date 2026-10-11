@@ -110,6 +110,15 @@ agents:
   - { name: data-security-auditor, path: security/data-security-auditor.md, domain: security, tier: t3, escalate: t4, accepts: [data-security] }
   - { name: qastell-guide,   path: security/qastell-guide.md,   domain: security, tier: t2, escalate: t3, accepts: [qastell] }
   - { name: secret-cleaner,  path: security/secret-cleaner.md,  domain: security, tier: t2, escalate: t3, accepts: [secret-cleanup] }
+  # Control Systems domain
+  - { name: modelica-translator, path: control-systems/modelica-translator.md, domain: control-systems, tier: t3, escalate: t4, accepts: [model-translation] }
+  - { name: control-designer,   path: control-systems/control-designer.md,   domain: control-systems, tier: t4, escalate: t4, accepts: [control-design] }
+  - { name: model-validator,     path: control-systems/model-validator.md,     domain: control-systems, tier: t2, escalate: t3, accepts: [model-validation] }
+  - { name: hil-test-agent,     path: control-systems/hil-test-agent.md,     domain: control-systems, tier: t3, escalate: t4, accepts: [hil-testing] }
+  - { name: digital-twin-builder, path: control-systems/digital-twin-builder.md, domain: control-systems, tier: t4, escalate: t4, accepts: [digital-twin] }
+  - { name: plc-code-generator,  path: control-systems/plc-code-generator.md,  domain: control-systems, tier: t3, escalate: t4, accepts: [plc-generation] }
+  - { name: simulink-migrator,   path: control-systems/simulink-migrator.md,   domain: control-systems, tier: t3, escalate: t4, accepts: [simulink-migration] }
+  - { name: requirements-analyst, path: control-systems/requirements-analyst.md, domain: control-systems, tier: t2, escalate: t3, accepts: [control-requirements] }
 
 routing:  # task_class -> agent
   intake: intake-analyst
@@ -165,6 +174,15 @@ routing:  # task_class -> agent
   data-security: data-security-auditor
   qastell: qastell-guide
   secret-cleanup: secret-cleaner
+  # Control Systems domain
+  model-translation: modelica-translator
+  control-design: control-designer
+  model-validation: model-validator
+  hil-testing: hil-test-agent
+  digital-twin: digital-twin-builder
+  plc-generation: plc-code-generator
+  simulink-migration: simulink-migrator
+  control-requirements: requirements-analyst
 
 profiles:
   frugal:
