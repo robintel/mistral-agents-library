@@ -172,6 +172,31 @@ The full mapping — profiles, subagents, skills — and its caveats:
     ├── gdpr-auditor.md
     ├── query-optimizer.md
     └── data-analyst.md
+├── agent-dialects/          domain-specific terminology for agents
+│   ├── zero-trust-dialect.md
+│   ├── general-zero-trust-dialect.md
+│   ├── blockchain-dialect.md
+│   ├── general-blockchain-dialect.md
+│   ├── ot-security-dialect.md
+│   ├── iec-62443-dialect.md
+│   └── danfoss-security-dialect.md
+├── zero-trust/              cross-domain Zero Trust coordinators
+│   └── zero-trust-coordinator.md
+├── blockchain/              cross-domain Blockchain coordinators
+│   └── blockchain-coordinator.md
+└── ot-security/             OT-specific security agents
+    ├── zero-trust/
+    │   ├── zero-trust-coordinator.md
+    │   ├── zero-trust-auditor.md
+    │   ├── ot-identity-manager.md
+    │   ├── micro-segmentation-engineer.md
+    │   └── continuous-verification-monitor.md
+    └── blockchain/
+        ├── blockchain-coordinator.md
+        ├── blockchain-auditor.md
+        ├── ot-blockchain-integrity.md
+        ├── distributed-trust-monitor.md
+        └── smart-contract-engineer.md
 ```
 
 ## The four dials

@@ -130,6 +130,27 @@ agents:
   # AI domain - artificial intelligence and RAG
   - { name: rag-engineer, path: ai/rag-engineer.md, domain: ai, tier: t3, escalate: t4, accepts: [rag-pipeline] }
   - { name: ai-security-auditor, path: ai/ai-security-auditor.md, domain: ai, tier: t3, escalate: t4, accepts: [ai-security-audit] }
+  # OT Security domain
+  - { name: ot-security-architect, path: ot-security/ot-security-architect.md, domain: ot-security, tier: t4, escalate: t4, accepts: [ot-architecture, ics-design, ot-hardening, zone-design] }
+  - { name: ot-pentester, path: ot-security/ot-pentester.md, domain: ot-security, tier: t3, escalate: t4, accepts: [ot-pentest, ics-assessment, ot-vulnerability-scan] }
+  - { name: ics-incident-respondent, path: ot-security/ics-incident-respondent.md, domain: ot-security, tier: t3, escalate: t4, accepts: [ics-incident, ot-incident, ics-ir] }
+  - { name: embedded-systems-auditor, path: ot-security/embedded-systems-auditor.md, domain: ot-security, tier: t3, escalate: t4, accepts: [embedded-audit, firmware-security, hardware-security] }
+  # Zero Trust sub-domain
+  - { name: zero-trust-coordinator, path: ot-security/zero-trust/zero-trust-coordinator.md, domain: ot-security, subdomain: zero-trust, tier: t4, escalate: t4, accepts: [ot-zero-trust, ics-zero-trust, zero-trust-architecture] }
+  - { name: zero-trust-auditor, path: ot-security/zero-trust/zero-trust-auditor.md, domain: ot-security, subdomain: zero-trust, tier: t3, escalate: t4, accepts: [zero-trust-audit, ot-compliance, ics-zero-trust-audit] }
+  - { name: ot-identity-manager, path: ot-security/zero-trust/ot-identity-manager.md, domain: ot-security, subdomain: zero-trust, tier: t3, escalate: t4, accepts: [ot-identity, device-auth, non-human-identity, certificate-management] }
+  - { name: micro-segmentation-engineer, path: ot-security/zero-trust/micro-segmentation-engineer.md, domain: ot-security, subdomain: zero-trust, tier: t3, escalate: t4, accepts: [micro-segmentation, ot-segmentation, ics-segmentation, zone-design, conduit-design] }
+  - { name: continuous-verification-monitor, path: ot-security/zero-trust/continuous-verification-monitor.md, domain: ot-security, subdomain: zero-trust, tier: t2, escalate: t3, accepts: [continuous-verification, ot-monitoring, ics-verification, zero-trust-monitoring] }
+  # General Zero Trust domain (cross-domain)
+  - { name: zero-trust-coordinator, path: zero-trust/zero-trust-coordinator.md, domain: zero-trust, tier: t4, escalate: t4, accepts: [zero-trust, zero-trust-architecture, identity-management, network-security, access-control] }
+  # Blockchain sub-domain
+  - { name: blockchain-coordinator, path: ot-security/blockchain/blockchain-coordinator.md, domain: ot-security, subdomain: blockchain, tier: t4, escalate: t4, accepts: [ot-blockchain, ics-blockchain, blockchain-architecture, distributed-ledger, immutable-audit] }
+  # General Blockchain domain (cross-domain)
+  - { name: blockchain-coordinator, path: blockchain/blockchain-coordinator.md, domain: blockchain, tier: t4, escalate: t4, accepts: [blockchain, distributed-ledger, smart-contracts, immutable-audit, consensus, trust-layer] }
+  - { name: blockchain-auditor, path: ot-security/blockchain/blockchain-auditor.md, domain: ot-security, subdomain: blockchain, tier: t3, escalate: t4, accepts: [blockchain-audit, ot-blockchain-audit, ics-blockchain-audit, ledger-verification, blockchain-compliance] }
+  - { name: ot-blockchain-integrity, path: ot-security/blockchain/ot-blockchain-integrity.md, domain: ot-security, subdomain: blockchain, tier: t3, escalate: t4, accepts: [firmware-integrity, device-identity, supply-chain-integrity, config-integrity, ot-hash-anchoring] }
+  - { name: distributed-trust-monitor, path: ot-security/blockchain/distributed-trust-monitor.md, domain: ot-security, subdomain: blockchain, tier: t2, escalate: t3, accepts: [blockchain-monitoring, distributed-trust, ot-trust-verification, consensus-monitoring, node-health] }
+  - { name: smart-contract-engineer, path: ot-security/blockchain/smart-contract-engineer.md, domain: ot-security, subdomain: blockchain, tier: t3, escalate: t4, accepts: [smart-contract, ot-chaincode, ics-chaincode, blockchain-development, distributed-logic] }
 
 routing:  # task_class -> agent
   intake: intake-analyst
@@ -205,6 +226,86 @@ routing:  # task_class -> agent
   # AI domain - artificial intelligence and RAG task classes
   rag-pipeline: rag-engineer
   ai-security-audit: ai-security-auditor
+  # OT Security domain
+  ot-architecture: ot-security-architect
+  ics-design: ot-security-architect
+  ot-hardening: ot-security-architect
+  zone-design: ot-security-architect
+  ot-pentest: ot-pentester
+  ics-assessment: ot-pentester
+  ot-vulnerability-scan: ot-pentester
+  ics-incident: ics-incident-respondent
+  ot-incident: ics-incident-respondent
+  ics-ir: ics-incident-respondent
+  embedded-audit: embedded-systems-auditor
+  firmware-security: embedded-systems-auditor
+  hardware-security: embedded-systems-auditor
+  # Zero Trust sub-domain
+  zero-trust: zero-trust-coordinator
+  zero-trust-architecture: zero-trust-coordinator
+  identity-management: zero-trust-coordinator
+  network-security: zero-trust-coordinator
+  access-control: zero-trust-coordinator
+  
+  # OT-specific Zero Trust (more specific, takes precedence)
+  ot-zero-trust: zero-trust-coordinator
+  ics-zero-trust: zero-trust-coordinator
+  zero-trust-audit: zero-trust-auditor
+  ot-compliance: zero-trust-auditor
+  ics-zero-trust-audit: zero-trust-auditor
+  ot-identity: ot-identity-manager
+  device-auth: ot-identity-manager
+  non-human-identity: ot-identity-manager
+  certificate-management: ot-identity-manager
+  micro-segmentation: micro-segmentation-engineer
+  ot-segmentation: micro-segmentation-engineer
+  ics-segmentation: micro-segmentation-engineer
+  conduit-design: micro-segmentation-engineer
+  continuous-verification: continuous-verification-monitor
+  ot-monitoring: continuous-verification-monitor
+  ics-verification: continuous-verification-monitor
+  zero-trust-monitoring: continuous-verification-monitor
+  # Blockchain sub-domain
+  blockchain: blockchain-coordinator
+  distributed-ledger: blockchain-coordinator
+  smart-contracts: blockchain-coordinator
+  immutable-audit: blockchain-coordinator
+  consensus: blockchain-coordinator
+  trust-layer: blockchain-coordinator
+  blockchain-architecture: blockchain-coordinator
+  
+  # OT-specific Blockchain (more specific, takes precedence)
+  ot-blockchain: blockchain-coordinator
+  ics-blockchain: blockchain-coordinator
+  blockchain-audit: blockchain-auditor
+  ot-blockchain-audit: blockchain-auditor
+  ics-blockchain-audit: blockchain-auditor
+  ledger-verification: blockchain-auditor
+  blockchain-compliance: blockchain-auditor
+  firmware-integrity: ot-blockchain-integrity
+  device-identity: ot-blockchain-integrity
+  supply-chain-integrity: ot-blockchain-integrity
+  config-integrity: ot-blockchain-integrity
+  ot-hash-anchoring: ot-blockchain-integrity
+  blockchain-monitoring: distributed-trust-monitor
+  distributed-trust: distributed-trust-monitor
+  ot-trust-verification: distributed-trust-monitor
+  consensus-monitoring: distributed-trust-monitor
+  node-health: distributed-trust-monitor
+  smart-contract: smart-contract-engineer
+  ot-chaincode: smart-contract-engineer
+  ics-chaincode: smart-contract-engineer
+  blockchain-development: smart-contract-engineer
+  distributed-logic: smart-contract-engineer
+
+dialects:
+  - { name: ot-security-dialect, path: agent-dialects/ot-security-dialect.md, domain: dialects, description: "OT and ICS security terminology and concepts" }
+  - { name: iec-62443-dialect, path: agent-dialects/iec-62443-dialect.md, domain: dialects, description: "IEC 62443 Industrial Cybersecurity Standards implementation" }
+  - { name: danfoss-security-dialect, path: agent-dialects/danfoss-security-dialect.md, domain: dialects, description: "Danfoss-specific security patterns and defense strategies" }
+  - { name: zero-trust-dialect, path: agent-dialects/zero-trust-dialect.md, domain: dialects, description: "Zero Trust Architecture terminology and implementation patterns for OT/ICS" }
+  - { name: general-zero-trust-dialect, path: agent-dialects/general-zero-trust-dialect.md, domain: dialects, description: "Zero Trust Architecture terminology, principles, and implementation patterns across all domains (IT, government, business, finance, healthcare, critical infrastructure)" }
+  - { name: blockchain-dialect, path: agent-dialects/blockchain-dialect.md, domain: dialects, description: "Blockchain terminology and implementation patterns for OT/ICS distributed trust systems" }
+  - { name: general-blockchain-dialect, path: agent-dialects/general-blockchain-dialect.md, domain: dialects, description: "Blockchain and Distributed Ledger Technology terminology, principles, and implementation patterns across all domains" }
 
 profiles:
   frugal:
