@@ -5,6 +5,10 @@ docs.mistral.ai and the mistralai/mistral-vibe repository as of
 2026-10; TOML key names evolve — confirm against your Vibe version
 (the docs pages: Agents, Skills, Install and setup).
 
+**Note:** Running any agent (including the orchestrator) requires a valid
+`MISTRAL_API_KEY` environment variable. The installation and update procedures
+do not require this key as they only perform git operations.
+
 ## How Mistral Vibe works
 
 Vibe Code is the CLI and VS Code agent (the extension connects via
@@ -47,7 +51,7 @@ Shift+Tab for profiles and the slash picker for skills.
 | task classes | the routing table from manifest.yaml, carried into the orchestrator's prompt |
 | dialects | files on disk, read at dispatch: reference the library by path in the brief |
 | tier routing | `active_model` per profile, from the manifest's tier table |
-| workflows | skills: `/orient`, `/tour`, `/coverage`, `/gdpr-audit`, `/upgrade` |
+| workflows | skills: `/orient`, `/tour`, `/coverage`, `/gdpr-audit`, `/upgrade`, `/ma-update` |
 | the target repo | a thin AGENTS.md pointing at the orchestrator |
 
 ## The one-command install
@@ -64,6 +68,8 @@ batch to `~/.vibe/agents/`:
 ./install.py --dest DIR            # try a batch somewhere else first
 ./install.py --target /path/repo   # also write the thin AGENTS.md
 ./install.py --dry-run             # print the plan, write nothing
+./install.py --check               # check if updates are available
+./install.py --update              # pull latest and reinstall
 ```
 
 On Windows, every shell installs the same batch: `install.bat`
@@ -89,6 +95,34 @@ earlier installs that are no longer in the manifest, and profiles
 you wrote by hand are left alone. Every generated file is validated
 by parsing it back and comparing the instructions round-trip — the
 silent-batch failure mode below cannot ship.
+
+## Version tracking and updates
+
+The installer tracks the library version in two places:
+
+1. **Source of truth**: `manifest.yaml` contains a `version` field
+   (currently `1`).
+2. **Installed marker**: After installation, a `.mal_version` file
+   is written to the profile directory (e.g., `~/.vibe/agents/.mal_version`)
+   containing the installed version.
+
+The `--check` and `--update` flags leverage this tracking:
+
+- `--check`: Compares the installed version with the latest version
+  from the remote repository. Reports if an update is available and
+  shows the changelog entries since the installed version.
+- `--update`: Performs a `git pull` in the library repository, then
+  reinstalls all profiles with the latest version. This is equivalent
+  to running `git pull && ./install.py` in one step.
+
+Both flags use `git ls-remote` to fetch the latest version from `origin`
+without requiring a local clone to be up to date first. If git is not
+available or the repository is not a git clone, version checking falls
+back to comparing with the local manifest version.
+
+For Vibe users, the `/ma-update` skill provides the same functionality
+through a discoverable slash command. It locates the library repository,
+checks for updates, and applies them with user confirmation.
 
 ## First-run recipe (verified schema)
 

@@ -17,11 +17,14 @@ Usage:
   ./install.py --dest DIR         install elsewhere
   ./install.py --target REPO      also write a thin AGENTS.md into REPO
   ./install.py --dry-run          print the plan, write nothing
+  ./install.py --check            check if updates are available
+  ./install.py --update           pull latest changes and reinstall
 """
 
 import argparse
 import re
 import shutil
+import subprocess
 import sys
 from pathlib import Path
 
@@ -239,6 +242,88 @@ def validate(name, text, instructions):
         fail(f"{name}: instructions corrupted in TOML escaping")
 
 
+def get_manifest_version():
+    """Read the version from manifest.yaml."""
+    text = read_text(MANIFEST)
+    match = re.search(r'^version:\s*(\S+)', text, re.MULTILINE)
+    if match:
+        return match.group(1)
+    return "unknown"
+
+
+def get_installed_version(dest):
+    """Read the installed version from the version marker file."""
+    version_file = dest / ".mal_version"
+    if version_file.is_file():
+        return version_file.read_text(encoding="utf-8").strip()
+    # Fallback: check if any generated profiles exist
+    for existing in dest.glob("*.toml"):
+        first = existing.read_text(encoding="utf-8").splitlines()[:1]
+        if first and first[0].strip() == HEADER:
+            # Version is embedded in the HEADER comment
+            # For now, return "installed" to indicate something is there
+            return "installed"
+    return None
+
+
+def get_remote_version():
+    """Get the latest version from the remote repository."""
+    try:
+        result = subprocess.run(
+            ["git", "ls-remote", "origin", "HEAD"],
+            cwd=REPO,
+            capture_output=True,
+            text=True,
+            check=True
+        )
+        # Extract commit hash (first field of first line)
+        remote_commit = result.stdout.split()[0] if result.stdout else None
+        if remote_commit:
+            # Get the manifest version from the remote commit
+            result = subprocess.run(
+                ["git", "show", f"{remote_commit}:manifest.yaml"],
+                cwd=REPO,
+                capture_output=True,
+                text=True,
+                check=True
+            )
+            text = result.stdout.replace("\r\n", "\n")
+            match = re.search(r'^version:\s*(\S+)', text, re.MULTILINE)
+            if match:
+                return match.group(1)
+        # If we can't parse the version, return the commit hash as a fallback
+        return remote_commit[:8] if remote_commit else "unknown"
+    except (subprocess.CalledProcessError, FileNotFoundError, IndexError):
+        return "unknown"
+
+
+def show_changelog(current, latest):
+    """Show the changelog entries between current and latest versions."""
+    try:
+        changelog = REPO / "CHANGELOG.md"
+        if not changelog.is_file():
+            return
+        text = read_text(changelog)
+        # Extract version sections
+        sections = re.findall(
+            r'## \[([^\]]+)\]\s*([\s\S]*?)(?=## \[|\Z)',
+            text
+        )
+        found_current = False
+        for version, content in sections:
+            if version == current:
+                found_current = True
+                continue
+            if found_current:
+                if version == latest:
+                    print(f"\nChangelog since v{current}:")
+                    print(content.strip())
+                    break
+                # If we haven't found latest yet, keep looking
+    except Exception:
+        pass  # Silently skip if we can't show changelog
+
+
 def main():
     parser = argparse.ArgumentParser(
         description="Install the agent library as Mistral Vibe profiles.")
@@ -249,12 +334,53 @@ def main():
                         help="also write a thin AGENTS.md into this repo")
     parser.add_argument("--dry-run", action="store_true",
                         help="print the plan, write nothing")
+    parser.add_argument("--check", action="store_true",
+                        help="check if updates are available (no changes)")
+    parser.add_argument("--update", action="store_true",
+                        help="pull latest changes from origin and reinstall")
     args = parser.parse_args()
 
     if not MANIFEST.is_file():
         fail(f"manifest.yaml not found next to the script: {MANIFEST}")
     if not STANDARDS.is_file():
         fail(f"shared/standards.md not found: {STANDARDS}")
+
+    # Handle --check and --update
+    if args.check or args.update:
+        current_version = get_installed_version(args.dest)
+        latest_version = get_remote_version()
+        manifest_version = get_manifest_version()
+
+        if current_version is None:
+            print(f"No installation found in {args.dest}")
+            if args.check:
+                return
+        elif current_version == latest_version or current_version == manifest_version:
+            print(f"Already up to date (v{current_version})")
+            if args.check:
+                return
+        else:
+            print(f"Update available: v{current_version} → v{manifest_version}")
+            if args.check:
+                show_changelog(current_version, manifest_version)
+                return
+            # --update will proceed to pull and install
+
+        if args.update:
+            print("Pulling latest changes...")
+            try:
+                subprocess.run(
+                    ["git", "pull"],
+                    cwd=REPO,
+                    check=True,
+                    capture_output=True,
+                    text=True
+                )
+                print("Latest changes pulled successfully.")
+            except subprocess.CalledProcessError as e:
+                fail(f"Failed to pull changes: {e.stderr}")
+            except FileNotFoundError:
+                fail("git command not found. Please ensure git is installed.")
 
     resolved, agents, routing = parse_manifest(read_text(MANIFEST))
     if len(agents) < 2:
@@ -321,6 +447,10 @@ def main():
         (args.dest / f"{name}.toml").write_text(text, encoding="utf-8")
     for name in stale:
         (args.dest / name).unlink()
+
+    # Write version marker
+    version_file = args.dest / ".mal_version"
+    version_file.write_text(get_manifest_version(), encoding="utf-8")
 
     # Copy skills for real
     if installed_skills:

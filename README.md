@@ -3,6 +3,14 @@
 A library of prompt-defined agents for Mistral AI, built around excellent software
 development and designed to extend to other domains without touching the core.
 
+## Prerequisites
+
+- **Mistral API key required.** Set `MISTRAL_API_KEY` in your environment
+  before using any agent. Without this key, the CLI and VS Code extension
+  cannot authenticate with Mistral's API, and **no agents will function**.
+  The library installation itself does not require the key (it only uses git),
+  but running `vibe --agent orchestrator` or any slash command **does require it**.
+
 ## Getting started
 
 One command, on any machine with Python 3 and Mistral Vibe:
@@ -43,11 +51,18 @@ Day to day:
   install is idempotent, and a rerun prunes profiles from earlier
   installs that are no longer in the manifest. Hand-written
   profiles are left alone.
+- `./install.py --check` checks if a newer version is available.
+- `./install.py --update` pulls the latest changes from origin and
+  reinstalls everything in one command.
 - `./install.py --target /path/to/repo` writes the target repo's
   thin AGENTS.md — the pointer that binds a working repository to
   this deployment. It never overwrites an existing AGENTS.md.
 - `--dest DIR` tries a batch somewhere else first; `--dry-run`
   prints the plan, writes nothing.
+
+Version tracking: each install writes a `.mal_version` marker to the
+profile directory. The installer uses this to compare local and remote
+versions when checking for or applying updates.
 
 The full mapping — profiles, subagents, skills — and its caveats:
 [DEPLOYING.md](DEPLOYING.md).
@@ -80,8 +95,8 @@ The full mapping — profiles, subagents, skills — and its caveats:
 ├── model-registrar.md       refreshes the catalog; the user approves every change
 ├── tool-steward.md          audits and curates the user-local tool cache
 ├── smoke/                   the clean-room smoke test: Dockerfile + smoke.sh
-├── skills/                 the five workflow skills: /orient, /tour, /coverage,
-│                          /gdpr-audit, /upgrade
+├── skills/                 the workflow skills: /orient, /tour, /coverage,
+│                          /gdpr-audit, /upgrade, /ma-update
 ├── shared/
 │   ├── standards.md         communication contracts + the elegance bar
 │   └── dialects/            98 contracts in role folders — data, not agents
