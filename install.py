@@ -135,12 +135,13 @@ def display_name(name):
 
 
 def toml_multiline(content):
-    # Backslashes are escapes in TOML basic strings, and a Windows
-    # library path is full of them; escape before the quote fix-up.
-    content = content.replace("\\", "\\\\")
+    # Use TOML literal strings (single-quoted) to avoid conflicts with
+    # Python docstrings and other content that may contain triple double-quotes.
+    # Literal strings don't interpret escape sequences, so backslashes don't
+    # need escaping, and triple double-quotes in the content are safe.
     if not content.endswith("\n"):
         content += "\n"
-    return f'instructions = """\n{content}"""\n'
+    return f'instructions = \'\'\'\n{content}\'\'\'\n'
 
 
 def toml_string(value):
