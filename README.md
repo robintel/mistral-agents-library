@@ -196,7 +196,8 @@ The full mapping — profiles, subagents, skills — and its caveats:
 │   ├── general-blockchain-dialect.md
 │   ├── ot-security-dialect.md
 │   ├── iec-62443-dialect.md
-│   └── danfoss-security-dialect.md
+│   ├── danfoss-security-dialect.md
+│   └── dixell-security-dialect.md
 ├── zero-trust/              cross-domain Zero Trust coordinators
 │   └── zero-trust-coordinator.md
 ├── blockchain/              cross-domain Blockchain coordinators

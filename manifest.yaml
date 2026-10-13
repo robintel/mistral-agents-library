@@ -302,6 +302,7 @@ dialects:
   - { name: ot-security-dialect, path: agent-dialects/ot-security-dialect.md, domain: dialects, description: "OT and ICS security terminology and concepts" }
   - { name: iec-62443-dialect, path: agent-dialects/iec-62443-dialect.md, domain: dialects, description: "IEC 62443 Industrial Cybersecurity Standards implementation" }
   - { name: danfoss-security-dialect, path: agent-dialects/danfoss-security-dialect.md, domain: dialects, description: "Danfoss-specific security patterns and defense strategies" }
+  - { name: dixell-security-dialect, path: agent-dialects/dixell-security-dialect.md, domain: dialects, description: "Dixell-specific security patterns and defense strategies" }
   - { name: zero-trust-dialect, path: agent-dialects/zero-trust-dialect.md, domain: dialects, description: "Zero Trust Architecture terminology and implementation patterns for OT/ICS" }
   - { name: general-zero-trust-dialect, path: agent-dialects/general-zero-trust-dialect.md, domain: dialects, description: "Zero Trust Architecture terminology, principles, and implementation patterns across all domains (IT, government, business, finance, healthcare, critical infrastructure)" }
   - { name: blockchain-dialect, path: agent-dialects/blockchain-dialect.md, domain: dialects, description: "Blockchain terminology and implementation patterns for OT/ICS distributed trust systems" }
