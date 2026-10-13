@@ -118,10 +118,10 @@ On October 11-13, 2026, **Dixell XWEB refrigeration controllers were compromised
 |---------|-----------|----------|----------|
 | **DIX-001** | Temperature > 10°C above setpoint | **CRITICAL** | Isolate zone, page on-call |
 | **DIX-002** | Temperature > 5°C above setpoint | HIGH | Investigate within 30 min |
-| **DIX-003** | Defrost cycle > 2 hours | HIGH | Investigate within 30 min |
-| **DIX-004** | Defrost cycle > 4 hours | **CRITICAL** | Isolate zone, page on-call |
-| **DIX-005** | Multiple units affected simultaneously | **CRITICAL** | Isolate zone, page on-call |
-| **DIX-006** | Unusual Modbus write operations | HIGH | Investigate within 30 min |
+| **DIX-003** | Temp < -30°C | HIGH | Investigate, alert |
+| **DIX-004** | Rapid temp change (>5°C/5min) | **CRITICAL** | Isolate, page on-call |
+| **DIX-005** | Defrost cycle > 2 hours | HIGH | Investigate within 30 min |
+| **DIX-006** | Defrost cycle > 4 hours | **CRITICAL** | Isolate zone, page on-call |
 | **DIX-007** | Communication loss to XWEB | HIGH | Check connections, restart |
 | **DIX-008** | Authentication failures (3+) | MEDIUM | Investigate within 4 hours |
 
@@ -174,7 +174,7 @@ On October 11-13, 2026, **Dixell XWEB refrigeration controllers were compromised
 ### XWEB PRO / XWEB-500
 - **Critical**: These were the primary attack targets
 - **Action**: Disable web interface if not needed
-- **Patch**: Apply latest firmware (2025+ for XWEB-500 vulnerability fix)
+- **Patch**: Replace or isolate XWEB-500 (no firmware fix available for CVE-2021-45420)
 - **Access**: Restrict to specific IP ranges only
 - **Monitor**: Enable all logging, review regularly
 
@@ -218,7 +218,7 @@ Phase 3: Production (2-4 weeks)
 ```
 
 ### Critical Updates Needed
-- **XWEB-500**: Patch arbitrary file write vulnerability (CVE-2022)
+- **XWEB-500**: Replace or isolate (no firmware fix for CVE-2021-45420)
 - **XWEB PRO**: Update to latest firmware with security fixes
 - **All Systems**: Change default passwords, enable authentication
 
@@ -226,11 +226,11 @@ Phase 3: Production (2-4 weeks)
 
 ## Known Vulnerabilities & Mitigations
 
-### CVE-2022-XXXX: XWEB-500 Arbitrary File Write
+### CVE-2021-45420: XWEB-500 Arbitrary File Write
 - **Risk**: Remote code execution via web interface
 - **Exploit**: File upload to `logo_extra_upload.cgi`
 - **Mitigation**: 
-  - Upgrade to patched firmware
+  - Replace or isolate XWEB-500 (no firmware fix available)
   - Disable web interface
   - Restrict web access
   - Implement input validation

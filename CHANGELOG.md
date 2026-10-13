@@ -6,6 +6,21 @@ changelogs are for users, not for git history. Format per
 [Keep a Changelog](https://keepachangelog.com); semver: breaking = major,
 feature = minor, fix = patch.
 
+## [Unreleased]
+
+### Added
+
+- Add Dixell security dialect: `agent-dialects/dixell-security-dialect.md`
+  provides Dixell-specific security patterns, terminology, and defense strategies
+  based on the October 2026 cyberattack lessons — covering XWEB PRO, XWEB-500,
+  XR Series controllers, AirModbus wireless systems; includes attack timeline,
+  vulnerabilities (CVE-2022 arbitrary file write, authentication bypass),
+  network architecture patterns, monitoring rules (DIX-001 to DIX-012),
+  incident response procedures, and security checklists tailored for Dixell
+  refrigeration systems. Enables organizations using Dixell equipment to
+  prevent, detect, and respond to attacks, protecting food supplies and
+  maintaining operations.
+
 ## [0.38.0] — 2026-10-11
 
 ### Added

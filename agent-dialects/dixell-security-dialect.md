@@ -12,7 +12,7 @@ description: Dialect for Dixell OT systems security patterns, vulnerabilities, a
 
 ## Dialect Overview
 
-**Dixell** is an **Italian multinational** (part of Emerson Electric Co., now under Copeland) specializing in **electronic regulation and control systems** for:
+**Dixell** is an **Italian multinational** (part of Copeland) specializing in **electronic regulation and control systems** for:
 
 - Commercial refrigeration (supermarkets, convenience stores)
 - Industrial refrigeration and cold storage
@@ -32,7 +32,7 @@ description: Dialect for Dixell OT systems security patterns, vulnerabilities, a
 1. **Unique Architecture**: Dixell controllers have specific network topologies using Modbus RTU/TCP and proprietary protocols
 2. **Widespread Deployment**: Over **50,000 active installations worldwide**, heavily used in European retail
 3. **Critical Infrastructure**: Failure affects food safety, public health, and business continuity
-4. **Known Vulnerabilities**: XWEB-500 arbitrary file write (CVE-2022), XWEB PRO authentication issues
+4. **Known Vulnerabilities**: XWEB-500 arbitrary file write (CVE-2021-45420), XWEB PRO authentication issues
 5. **Supply Chain Impact**: Dixell is a key vendor in the commercial refrigeration supply chain
 
 ## Attack Timeline: October 2026 Dixell Cyberattack
@@ -139,9 +139,9 @@ description: Dialect for Dixell OT systems security patterns, vulnerabilities, a
 
 ### Known Vulnerabilities
 
-**CVE-2022-XXXX: XWEB-500 Arbitrary File Write**
+**CVE-2021-45420: XWEB-500 Arbitrary File Write**
 
-**Severity**: CVSS 9.8 (Critical) - Discovered 2022
+**Severity**: CVSS 9.8 (Critical)
 
 **Description**: 
 The Dixell XWEB-500 **allows arbitrary file write** through the web interface via the `logo_extra_upload.cgi` endpoint, enabling **remote code execution** and system compromise.
@@ -160,7 +160,7 @@ The Dixell XWEB-500 **allows arbitrary file write** through the web interface vi
 - System bricking
 
 **Mitigation**:
-- Upgrade to patched firmware (2025+)
+- **Replace or isolate XWEB-500** (no firmware fix available for CVE-2021-45420)
 - Disable web interface if not needed
 - Implement network segmentation
 - Restrict web interface access
@@ -396,7 +396,6 @@ Phase 3: Pilot (1-2 weeks)
 Phase 4: Production (2-4 weeks)
 ├── Schedule maintenance windows (avoid hot days)
 ├── Update in batches (20% at a time)
-├── Wireless systems first (easier to update)
 ├── Maintain rollback capability
 └── Verify each batch before next
 
@@ -535,7 +534,7 @@ Anomaly Indicators:
    - **Contact Dixell/Copeland** for support and guidance
    - **Request emergency patches** if not available
    - **Share indicators of compromise** with vendor
-   - **Engage Emerson** (parent company) for enterprise support
+ 
 
 6. **Regulatory Reporting**:
    - **Food Safety**: Report temperature abuse to authorities
@@ -661,7 +660,7 @@ Anomaly Indicators:
 
 ## Dixell Vendor Security Requirements
 
-### For Dixell/Copeland/Emerson (as Vendor)
+### For Dixell/Copeland (as Vendor)
 
 **Security Requirements for Dixell Products**:
 1. **Secure Development Lifecycle (SDLC)**: Implement IEC 62443-4-1 compliant SDLC
@@ -692,7 +691,7 @@ Anomaly Indicators:
 - [Copeland Dixell Solutions](https://www.copeland.com/en-us/brands/dixell)
 - [Copeland Security Bulletins](https://webapps.copeland.com/dixell/Content/Pages/SystemSoftwareUpdate/)
 - [XWEB PRO Security Update (February 2026)](https://webapps.copeland.com/dixell/Content/Pages/SystemSoftwareUpdate/XWEB-PRO/Security%20update%20%20XWEB-PRO%20-%20Product_Bulletin_February%2026.pdf)
-- [Emerson Cybersecurity](https://www.emerson.com/en-us/automation/cybersecurity)
+- [Copeland Security](https://www.copeland.com/en-us/about/cybersecurity)
 - [XWEB PRO Operating Manual](https://webapps.copeland.com/Dixell/Content/Pages/Manuals/XWEBPRO/XWEBPROV1.0OPERATION/XWEB-PRO-OPR-EN.pdf)
 
 ### Security Tools for Dixell Systems
@@ -861,7 +860,7 @@ Anomaly Indicators:
 4. **Monitoring**: Deploy temperature and Modbus anomaly detection (DIX-001 to DIX-012)
 5. **Access Control**: Implement MFA and RBAC for all controller access
 6. **Incident Response**: Have Dixell-specific IR plan tested and ready
-7. **Vendor Coordination**: Maintain contact with Dixell/Copeland/Emerson security team
+7. **Vendor Coordination**: Maintain contact with Dixell/Copeland security team
 8. **Training**: Ensure all personnel understand Dixell security requirements
 9. **Wireless Security**: Secure all AirModbus wireless deployments
 10. **Default Credentials**: Never use default passwords in production
@@ -889,7 +888,7 @@ Anomaly Indicators:
 - [ ] Lessons learned documented
 - [ ] Security controls updated
 - [ ] Personnel retrained as needed
-- [ ] Vendor notified (Dixell/Copeland/Emerson)
+- [ ] Vendor notified (Dixell/Copeland)
 
 ## Dixell Security Glossary
 
