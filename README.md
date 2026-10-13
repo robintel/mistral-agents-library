@@ -38,6 +38,8 @@ Then two manual steps, both short:
    briefs from the orchestrator — the user never addresses them
    directly.
 
+![Selecting the Orchestrator](docs/1.%20Selecting%20the%20Orchestrator.png)
+
 What the command does: `install.py` reads `manifest.yaml` — the
 single source of truth — and composes every agent into a
 self-contained profile in `~/.vibe/agents/`: `shared/standards.md`
