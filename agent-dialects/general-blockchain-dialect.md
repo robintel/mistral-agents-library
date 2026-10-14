@@ -371,7 +371,7 @@ At its core, blockchain is a **distributed ledger technology** that enables:
 
 | Platform | Type | Consensus | Permission | Language | Performance | Best For |
 |----------|------|-----------|------------|----------|-------------|----------|
-| **Hyperledger Fabric** | Modular | PBFT, Raft | Permissioned | Go, JavaScript | High (1000+ TPS) | General enterprise |
+| **Hyperledger Fabric** | Modular | Raft; BFT (Fabric 3.0) | Permissioned | Go, JavaScript | High (1000+ TPS) | General enterprise |
 | **Hyperledger Sawtooth** | Modular | PoET, PBFT | Both | Python, Go | Medium (100-1000 TPS) | Flexible use cases |
 | **Hyperledger Besu** | Ethereum-based | IBFT, PoA | Both | Solidity | Medium-High | Ethereum compatibility |
 | **Hyperledger Indy** | Specialized | Plenum | Permissioned | Python | Medium | Identity management |
@@ -502,7 +502,7 @@ At its core, blockchain is a **distributed ledger technology** that enables:
 ## Integration with Other Dialects
 
 This dialect **serves as the foundation for domain-specific blockchain dialects**:
-- **blockchain-dialect.md**: OT-specific blockchain terminology
+- **blockchain-dialect.md**: Cross-domain blockchain terminology and patterns
 - **ot-security-dialect.md**: OT security concepts
 - **iec-62443-dialect.md**: Industrial cybersecurity standards
 
