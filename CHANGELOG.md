@@ -14,12 +14,35 @@ feature = minor, fix = patch.
   provides Dixell-specific security patterns, terminology, and defense strategies
   based on the October 2026 cyberattack lessons — covering XWEB PRO, XWEB-500,
   XR Series controllers, AirModbus wireless systems; includes attack timeline,
-  vulnerabilities (CVE-2022 arbitrary file write, authentication bypass),
+  vulnerabilities (CVE-2021-45420 arbitrary file write, authentication bypass),
   network architecture patterns, monitoring rules (DIX-001 to DIX-012),
   incident response procedures, and security checklists tailored for Dixell
   refrigeration systems. Enables organizations using Dixell equipment to
   prevent, detect, and respond to attacks, protecting food supplies and
   maintaining operations.
+
+### Fixed
+
+- Fix factual inaccuracies across OT-security content, verified against
+  vendor advisories (Danfoss DSA-2023-08-01, DSA-2025-03-01, DSA-2025-08-01;
+  Copeland February 2026 XWEB PRO bulletin) and CISA ICSA-25-140-03 /
+  ICSA-26-057-10: correct CVE-2025-41450/41451/41452 CVSS scores and
+  descriptions, CVE-2023-25913/25915 swapped descriptions, 2023 fix version
+  (3.3, not 3.2.1), DSA-2023-05-01 product scope (AK-EM 100, not AK-SM800A),
+  the DIX-001..DIX-012 monitoring-rule mapping in DIXELL_SECURITY_GUIDANCE.md,
+  the XWEB PRO product description (DIN-rail/rack supervision units, not a
+  21.5" touchscreen), the broken XWEB PRO bulletin URL, invented attack
+  timelines and loss breakdowns in the Danfoss dialect (replaced with
+  reported facts), fabricated vendor stats (50,000 installations; 80% market
+  share), and unattributable "date-based password bypass" claims on XWEB
+  (now correctly tied to CVE-2026-21718 deterministic password generation,
+  fixed in firmware 1.13).
+- Fix ot-ics-emergency-response.md and zero-trust-dialect.md historical case
+  studies: replace fabricated Schneider (2023), Siemens (2022), Emerson (2021),
+  and Honeywell (2020) incidents - whose CVE IDs belonged to unrelated
+  products - with documented incidents (TRITON/TRISIS 2017, Stuxnet 2010,
+  Oldsmar 2021, SolarWinds 2020) and correct the October 2026 French
+  supermarket attack figures (350+ stores per Reuters, not 342).
 
 ## [0.38.0] — 2026-10-11
 

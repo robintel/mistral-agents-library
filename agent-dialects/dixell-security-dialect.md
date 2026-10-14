@@ -8,7 +8,7 @@ description: Dialect for Dixell OT systems security patterns, vulnerabilities, a
 
 **Purpose**: Provide **Dixell-specific security patterns, terminology, and defense strategies** derived from the **October 2026 cyberattack** on French supermarkets. This dialect enables organizations using Dixell systems to **prevent, detect, and respond** to attacks, helping to **protect food supplies and maintain operations**.
 
-**Motivation**: The October 11-13, 2026 cyberattack on French supermarkets demonstrated that **Dixell XWEB controllers were compromised** alongside Danfoss and Copeland systems. French cybersecurity agency ANSSI issued advisory **CERTFR-2026-ALE-012** specifically identifying Dixell xweb controllers as affected. This dialect **translates those lessons into actionable security patterns** to help organizations better defend their systems.
+**Motivation**: The October 11-13, 2026 cyberattack on French supermarkets demonstrated that **Dixell XWEB controllers were compromised** alongside Danfoss and Copeland systems. French cybersecurity agency ANSSI issued advisory **CERTFR-2026-ALE-012** (12 October, updated 13 October 2026 to add Copeland and Dixell xweb) identifying compromised refrigeration controllers. This dialect **translates those lessons into actionable security patterns** to help organizations better defend their systems.
 
 ## Dialect Overview
 
@@ -30,7 +30,7 @@ description: Dialect for Dixell OT systems security patterns, vulnerabilities, a
 
 **Why Dixell-Specific Dialect?**:
 1. **Unique Architecture**: Dixell controllers have specific network topologies using Modbus RTU/TCP and proprietary protocols
-2. **Widespread Deployment**: Over **50,000 active installations worldwide**, heavily used in European retail
+2. **Widespread Deployment**: Widely deployed in commercial refrigeration, heavily used in European retail
 3. **Critical Infrastructure**: Failure affects food safety, public health, and business continuity
 4. **Known Vulnerabilities**: XWEB-500 arbitrary file write (CVE-2021-45420), XWEB PRO authentication issues
 5. **Supply Chain Impact**: Dixell is a key vendor in the commercial refrigeration supply chain
@@ -42,22 +42,22 @@ description: Dialect for Dixell OT systems security patterns, vulnerabilities, a
 | Date/Time | Event | Impact |
 |-----------|-------|--------|
 | Oct 11, overnight | Attack begins on French supermarket refrigeration systems | Temperature manipulation starts |
-| Oct 11, ~04:00 CET | Store staff discover uncontrollable refrigeration computers | Multiple locations affected |
-| Oct 12, morning | ANSSI confirms numerous compromises of Danfoss AK-SM, AK-SC, Copeland xweb, and **Dixell xweb** | CERTFR-2026-ALE-012 advisory issued |
+| Oct 11, early morning | Store staff discover uncontrollable refrigeration computers | Multiple locations affected |
+| Oct 12 | CERT-FR (ANSSI) publishes alert CERTFR-2026-ALE-012 confirming "numerous compromises" of Danfoss AK-SM and AK-SC controllers | Initial alert covers Danfoss families |
 | Oct 12-13 | Attackers extend defrost cycles to 8+ hours, delay alarms | Massive food spoilage, equipment stress |
-| Oct 13 | Dixell France begins distributing security advisories for XWEB supervisors | Incident response initiates |
-| Oct 13, ongoing | Approximately 700 supermarkets across France affected | €10+ million in losses |
+| Oct 13 | CERT-FR updates CERTFR-2026-ALE-012 to add **Copeland xweb and Dixell xweb** controllers; Dixell France begins distributing security advisories for XWEB supervisors | Incident response initiates |
+| Oct 13, ongoing | 350-700 supermarkets across France affected (at least 350 per Reuters; some reports of up to ~700) | Losses in the tens of millions of euros |
 
 ### Financial and Operational Impact
 
-**Direct Costs** (estimated across affected chains):
-- **Food Losses**: €5-10 million (destroyed perishable goods)
-- **Equipment Damage**: €1-2 million (compressors, refrigeration units from overheating)
-- **Downtime Costs**: €3-5 million (lost sales, cleanup, reputational damage)
-- **Incident Response**: €0.5-1 million (forensics, remediation)
+**Reported Costs** (estimates, across affected chains):
+- **Food losses** are the dominant cost (destroyed perishable goods, temperatures pushed to ~50°C)
+- **Equipment stress** from extended high-temperature operation (compressors, refrigeration units)
+- **Downtime costs** (lost sales, cleanup, reputational damage)
+- Les Mousquetaires CEO Thierry Cotillard reported "tens of millions of euros nationwide in a single day"
 
 **Safety Incidents**:
-- Multiple fires from overheating equipment
+- Fires reported at some affected stores (media reports; causation under investigation)
 - Food safety violations (temperature abuse >50°C)
 - Environmental concerns (refrigerant leaks)
 - Worker safety concerns
@@ -79,11 +79,11 @@ description: Dialect for Dixell OT systems security patterns, vulnerabilities, a
 - **Web Interface**: HTTP/HTTPS for configuration and monitoring
 - **Typical Deployment**: Central control room, connected to multiple field controllers
 
-**XWEB Product Variants**:
-- **XWEB**: Basic monitoring and supervision
-- **XWEB PRO**: Advanced system with 21.5" touchscreen, enhanced visualization
-- **XWEB-500**: Compact monitoring unit, HACCP compliant
-- **iPro XWEB**: Modem-enabled for remote access
+**XWEB Product Variants** (per Copeland documentation and CISA advisory ICSA-26-057-10):
+- **XWEB**: Linux-based web-server monitoring unit family (e.g. XWEB300D/500D) with built-in web pages for monitoring, alarm management, and data recording
+- **XWEB PRO**: Next-generation supervision platform - DIN-rail models (XWEB300D PRO, XWEB500D PRO, XWEB1000D PRO) and rack/desktop model (XWEB5000 PRO); optionally fitted with a Dixell-approved modem or the NANO-Wi-Fi adapter for remote access
+- **XWEB EVO**: Successor family with functional and security firmware updates
+- **XWEB-500**: Legacy compact monitoring unit (unsupported since 2018; known arbitrary file write vulnerability CVE-2021-45420)
 
 **Security Features (Pre-2025)**:
 - Basic authentication (username/password)
@@ -174,6 +174,15 @@ curl -X POST http://<XWEB-500-IP>/logo_extra_upload.cgi \
 # Writes malicious file to controller
 ```
 
+**CVE-2026-25085 / CVE-2026-21718 / CVE-2026-24663 (and 20 more): XWEB Pro Family**
+
+Per CISA advisory ICSA-26-057-10, Claroty Team82 disclosed **23 vulnerabilities** (21 high-severity) in Copeland XWEB Pro (XWEB 300D/500D/500B PRO, version 1.12.1 and prior), including:
+- **CVE-2026-25085**: Authentication bypass (unexpected authentication-mode return value processed as legitimate)
+- **CVE-2026-21718**: Authentication bypass via **deterministic (predictable) password generation** for administrator SSH and web interface credentials, enabling pre-authenticated code execution
+- **CVE-2026-24663**: Unauthenticated OS command injection via the libraries installation route (remote code execution)
+
+**Mitigation**: Copeland fixed these in **firmware version 1.13** - update XWEB Pro to 1.13 or later.
+
 ### 2026 Attack Vulnerabilities (CERTFR-2026-ALE-012)
 
 **Authentication Bypass**:
@@ -200,8 +209,8 @@ curl -X POST http://<XWEB-500-IP>/logo_extra_upload.cgi \
 
 **Default Credentials**:
 - Many installations use default or weak passwords
-- Some systems allow password bypass using date-based mechanisms
-- **Mitigation**: Enforce password changes, implement password complexity
+- XWEB Pro 1.12.1 and prior used a **deterministic (predictable) password generation** mechanism for administrator SSH and web credentials (CVE-2026-21718, fixed in 1.13)
+- **Mitigation**: Enforce password changes, implement password complexity, update XWEB Pro to firmware 1.13+
 
 **Internet Exposure**:
 - XWEB controllers found internet-accessible
@@ -564,7 +573,7 @@ Anomaly Indicators:
 - [ ] **Session Timeout**: 15 minutes of inactivity
 - [ ] **Failed Login Lockout**: After 5 failed attempts
 - [ ] **Account Audit**: Regular review of all accounts
-- [ ] **Date-Based Auth Disabled**: Ensure no date-based password bypass
+- [ ] **Predictable Credentials Addressed**: Update XWEB Pro to firmware 1.13+ (deterministic password generation, CVE-2026-21718); change all default/predictable passwords
 
 ### Configuration Management
 
@@ -638,7 +647,7 @@ Anomaly Indicators:
 - [ ] Test command injection if applicable
 - [ ] Test configuration modification protection
 - [ ] Test session management (timeout, invalidation)
-- [ ] Test date-based authentication bypass (known issue)
+- [ ] Test deterministic password generation / authentication bypass (CVE-2026-21718, CVE-2026-25085 on XWEB Pro <=1.12.1)
 
 **Modbus-Level Tests**:
 - [ ] Test Modbus write restrictions
@@ -690,7 +699,8 @@ Anomaly Indicators:
 - [Dixell France](https://dixell.fr/?lang=en)
 - [Copeland Dixell Solutions](https://www.copeland.com/en-us/brands/dixell)
 - [Copeland Security Bulletins](https://webapps.copeland.com/dixell/Content/Pages/SystemSoftwareUpdate/)
-- [XWEB PRO Security Update (February 2026)](https://webapps.copeland.com/dixell/Content/Pages/SystemSoftwareUpdate/XWEB-PRO/Security%20update%20%20XWEB-PRO%20-%20Product_Bulletin_February%2026.pdf)
+- [XWEB PRO Security Update (February 2026)](https://webapps.copeland.com/dixell/Content/Pages/SystemSoftwareUpdate/XWEB-PRO/Security%20update%20%20XWEB-PRO%20-%20Product_Bulletin_February_2026.pdf)
+- [CISA ICSA-26-057-10: Copeland XWEB and XWEB Pro (23 vulnerabilities, fixed in 1.13)](https://www.cisa.gov/news-events/ics-advisories/icsa-26-057-10)
 - [Copeland Security](https://www.copeland.com/en-us/about/cybersecurity)
 - [XWEB PRO Operating Manual](https://webapps.copeland.com/Dixell/Content/Pages/Manuals/XWEBPRO/XWEBPROV1.0OPERATION/XWEB-PRO-OPR-EN.pdf)
 
@@ -733,7 +743,7 @@ Anomaly Indicators:
 | Wireless | Exploit AirModbus wireless connectivity | Medium | High |
 | Modbus Exploits | Exploit Modbus protocol vulnerabilities | Medium | High |
 | Default Credentials | Exploit unchanged default passwords | Low | Critical |
-| Date-Based Auth | Exploit date-based password bypass | Low | Critical |
+| Predictable Credentials | Exploit deterministic password generation (CVE-2026-21718) | Low | Critical |
 
 ### Attack Scenarios
 
@@ -817,7 +827,7 @@ Anomaly Indicators:
 2. **Outdated Firmware**: Many systems running firmware with known vulnerabilities (including XWEB-500)
 3. **Poor Segmentation**: Refrigeration Control Zone was not properly isolated from IT networks
 4. **Lack of Monitoring**: No anomaly detection for temperature spikes or extended defrost cycles
-5. **Weak Access Controls**: Default or weak passwords, potential date-based authentication bypass
+5. **Weak Access Controls**: Default or weak passwords, deterministic (predictable) password generation on XWEB Pro <=1.12.1 (CVE-2026-21718)
 6. **Slow Response**: Initial detection and containment took hours, allowing widespread damage
 7. **Wireless Vulnerabilities**: AirModbus wireless networks may have provided additional attack vectors
 
@@ -836,7 +846,7 @@ Anomaly Indicators:
 6. **Test incident response plans** regularly, including wireless scenarios
 7. **Conduct security assessments** at least annually, including wireless network audits
 8. **Train personnel** on OT security awareness, including Dixell-specific threats
-9. **Monitor for date-based authentication bypass** - Known issue in some deployments
+9. **Monitor for authentication bypass** - Known issue (CVE-2026-21718, CVE-2026-25085 on XWEB Pro <=1.12.1, fixed in 1.13)
 10. **Secure wireless networks** - If using AirModbus, implement wireless-specific security
 
 ### For Other Refrigeration Vendors
@@ -897,15 +907,15 @@ Anomaly Indicators:
 - **ANSSI**: French national cybersecurity agency that issued CERTFR-2026-ALE-012
 
 ### C
-- **CERTFR-2026-ALE-012**: French cybersecurity advisory identifying compromised Dixell xweb controllers
-- **Copeland**: Parent company of Dixell (formerly Emerson Electric Co.)
+- **CERTFR-2026-ALE-012**: CERT-FR (ANSSI) alert of 12 October 2026 confirming numerous compromises of refrigeration controllers (Danfoss AK-SM/AK-SC; updated 13 October to add Copeland xweb and Dixell xweb)
+- **Copeland**: Owner of the Dixell brand (Copeland Controls S.r.l., majority-owned by Blackstone)
 
 ### D
 - **Defrost Cycle**: Scheduled period where refrigeration unit stops cooling to remove ice buildup (normal: 30-60 min, attack: 8+ hours)
 - **Dixell**: Italian manufacturer of electronic regulation and control systems for refrigeration
 
 ### E
-- **Emerson**: Former parent company of Dixell, now Copeland
+- **Emerson**: Former parent of Dixell/Copeland; Emerson sold its remaining Copeland joint-venture interest to Blackstone in 2024 - escalation paths go to Copeland, not Emerson
 
 ### F
 - **Firmware**: Software programmed into controller hardware
@@ -930,8 +940,8 @@ Anomaly Indicators:
 ### X
 - **XR Series**: Dixell parametric controller family
 - **XWEB**: Dixell central monitoring and supervision system family
-- **XWEB-500**: Compact Dixell monitoring unit with known arbitrary file write vulnerability
-- **XWEB PRO**: Advanced Dixell supervision system with 21.5" touchscreen
+- **XWEB-500**: Compact Dixell monitoring unit (unsupported since 2018) with known arbitrary file write vulnerability (CVE-2021-45420)
+- **XWEB PRO**: Dixell/Copeland supervision platform (XWEB300D/500D/1000D/5000 PRO); versions <=1.12.1 had 23 disclosed vulnerabilities (CISA ICSA-26-057-10), fixed in firmware 1.13
 
 ## Verbosity
 

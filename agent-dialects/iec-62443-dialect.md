@@ -508,15 +508,15 @@ risk_assessment:
   vulnerabilities:
     - vulnerability_1:
         name: CVE-2025-41450
-        description: Improper Authentication
-        severity: critical
-        cvss: 9.8
+        description: Improper Authentication (datetime-based password generation)
+        severity: high
+        cvss: 8.2
         
     - vulnerability_2:
         name: CVE-2025-41451
-        description: OS Command Injection
-        severity: critical
-        cvss: 9.8
+        description: OS Command Injection (post-authenticated)
+        severity: high
+        cvss: 7.6
         
     - vulnerability_3:
         name: Outdated_Firmware

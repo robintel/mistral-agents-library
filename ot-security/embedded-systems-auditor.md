@@ -340,26 +340,26 @@ firmware_analysis:
       - vulnerabilities:
           - vulnerability_1:
               cve: CVE-2025-41450
-              description: Improper Authentication in web report generation
+              description: Improper Authentication (datetime-based password generation) in web report generation
               location: /web/cgi-bin/report.cgi
-              severity: critical
-              cvss: 9.8
+              severity: high
+              cvss: 8.2
               recommendation: Implement proper authentication checks
               
           - vulnerability_2:
               cve: CVE-2025-41451
-              description: OS Command Injection in alarm-to-mail configuration
+              description: OS Command Injection in alarm-to-mail configuration (post-authenticated)
               location: /web/cgi-bin/alarm.cgi
-              severity: critical
-              cvss: 9.8
+              severity: high
+              cvss: 7.6
               recommendation: Sanitize user input, use parameterized commands
               
           - vulnerability_3:
               cve: CVE-2025-41452
-              description: External Control of System Configuration Setting
+              description: External Control of System Configuration Setting (post-authenticated)
               location: /web/cgi-bin/config.cgi
-              severity: high
-              cvss: 7.5
+              severity: medium
+              cvss: 5.4
               recommendation: Implement proper access controls and validation
           
           - vulnerability_4:
@@ -666,8 +666,8 @@ vendor_security_review:
       - customer_support: excellent
       
     security_advisories:
-      - DSA-2023-05-01: Multiple vulnerabilities in AK-SM800A (CVE-2023-25913, 25914, 25915)
-      - DSA-2023-08-01: Additional vulnerabilities in AK-SM800A
+      - DSA-2023-05-01: Multiple vulnerabilities in AK-EM 100 (CVE-2023-22583-22586, 25911, 25912; EOL product, phase out)
+      - DSA-2023-08-01: Multiple vulnerabilities in AK-SM800A (CVE-2023-25913, 25914, 25915)
       - DSA-2025-03-01: Improper Authentication (CVE-2025-41450)
       - DSA-2025-08-01: OS Command Injection, Configuration Vulnerability (CVE-2025-41451, 41452)
       
@@ -907,9 +907,9 @@ audit_report:
   firmware_analysis:
     versions_analyzed: [4.0.1, 4.3.1, 3.2.5]
     vulnerabilities:
-      - CVE-2025-41450: Improper Authentication (Critical, CVSS 9.8)
-      - CVE-2025-41451: OS Command Injection (Critical, CVSS 9.8)
-      - CVE-2025-41452: Configuration Setting Vulnerability (High, CVSS 7.5)
+      - CVE-2025-41450: Improper Authentication (High, CVSS 8.2)
+      - CVE-2025-41451: OS Command Injection (High, CVSS 7.6)
+      - CVE-2025-41452: External Control of Configuration Setting (Medium, CVSS 5.4)
       - Weak password hashing (High)
       - Hardcoded credentials (Critical)
       - SSL private key in firmware (Critical)

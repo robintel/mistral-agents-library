@@ -897,9 +897,9 @@ incident_report:
   attack_details:
     attack_vector: Remote exploitation of vulnerabilities
     vulnerabilities_exploited:
-      - CVE-2025-41450: Improper Authentication (CVSS 9.8)
-      - CVE-2025-41451: OS Command Injection (CVSS 9.8)
-      - CVE-2025-41452: Configuration Setting Vulnerability (CVSS 7.5)
+      - CVE-2025-41450: Improper Authentication (CVSS 8.2)
+      - CVE-2025-41451: OS Command Injection (CVSS 7.6)
+      - CVE-2025-41452: External Control of Configuration Setting (CVSS 5.4)
     
     attack_timeline:
       - 2026-10-11 22:00: Attackers scan for internet-exposed Danfoss controllers

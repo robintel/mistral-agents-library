@@ -23,7 +23,7 @@ description: Dialect for Danfoss OT systems security patterns, vulnerabilities, 
 **Why Danfoss-Specific Dialect?**:
 1. **Unique Architecture**: Danfoss controllers have specific network topologies and protocols
 2. **Known Vulnerabilities**: CVE-2025-41450, 41451, 41452 and earlier CVEs (2023 series)
-3. **Widespread Deployment**: Used by 80%+ of European supermarket chains
+3. **Widespread Deployment**: Widely used across European supermarket chains and food retail
 4. **Critical Infrastructure**: Failure affects food safety, public health, and business continuity
 5. **Supply Chain Impact**: Danfoss is a critical vendor in the refrigeration supply chain
 
@@ -31,25 +31,25 @@ description: Dialect for Danfoss OT systems security patterns, vulnerabilities, 
 
 ### Timeline of Events
 
-| Date/Time | Event | Impact |
-|-----------|-------|--------|
-| Oct 11, 03:42 CET | First anomalies detected in supermarket monitoring | Temperature readings spike to 50°C |
-| Oct 11, 05:17 CET | Multiple stores report refrigeration system alerts | Food temperature rising |
-| Oct 11, 06:30 CET | Danfoss confirms unauthorized access to AK-SM 800A | Remote access exploited |
-| Oct 11, 08:00 CET | Incident declared by supermarket chains | Emergency response activated |
-| Oct 11, 12:00 CET | Containment achieved by isolating Refrigeration Control Zones | Attack stopped, but damage done |
-| Oct 11, 18:00 CET | Emergency patches begin deployment | Manual updates to firmware 4.3.1 |
-| Oct 12, 02:30 CET | Recovery operations complete at most sites | Systems restored, food losses continue |
-| Oct 12, 10:00 CET | Full service restored | Incident declared resolved |
+Publicly reported milestones (exact times not published by ANSSI/Danfoss):
+
+| Date | Event | Impact |
+|------|-------|--------|
+| Overnight Oct 11-12 | Attack on internet-exposed supermarket refrigeration controllers begins | Temperatures raised to ~50°C, defrost cycles extended, alarms delayed |
+| Oct 11, early morning | Store staff discover uncontrollable refrigeration systems | Multiple chains affected; perishable stock lost |
+| Oct 12 | CERT-FR (ANSSI) publishes alert CERTFR-2026-ALE-012 confirming "numerous compromises" of Danfoss AK-SM and AK-SC controllers | Attacks assessed as probably still ongoing |
+| Oct 12-13 | Affected chains isolate controllers, remove public IP exposure, begin verification and factory resets where needed | Paris prosecutor opens investigation |
+| Oct 13 | CERT-FR updates the alert to add Copeland xweb and Dixell xweb controllers | Scope widens beyond Danfoss |
+| Ongoing | Emergency firmware updates (R4.2/R4.3.1) and credential resets deployed where not yet applied | Containment and recovery continue |
+
+**Note**: Affected systems were running outdated firmware - the fixes for CVE-2025-41450/41451/41452 (releases R4.2 and R4.3.1) had been available since mid-2025.
 
 ### Financial and Operational Impact
 
-**Direct Costs**:
-- **Food Losses**: €4.9 million (destroyed perishable goods)
-- **Equipment Damage**: €1.2 million (compressors, refrigeration units)
-- **Downtime Costs**: €3.1 million (lost sales, cleanup)
-- **Incident Response**: €0.8 million (forensics, remediation)
-- **Total**: **€10+ million** across affected chains
+**Reported Costs**:
+- Les Mousquetaires CEO Thierry Cotillard: "tens of millions of euros nationwide in a single day"
+- Food losses (destroyed perishable goods) are the dominant cost, followed by equipment stress and store downtime
+- Total across affected chains estimated at **€10+ million**
 
 **Indirect Costs**:
 - Reputation damage to supermarket chains
@@ -125,10 +125,10 @@ description: Dialect for Danfoss OT systems security patterns, vulnerabilities, 
 
 ### CVE-2025-41450: Improper Authentication
 
-**Severity**: CVSS 9.8 (Critical)
+**Severity**: CVSS 8.2 (High) - CVSS v3.1; 7.3 (v4)
 
 **Description**: 
-The Danfoss AK-SM 800A **fails to properly authenticate** users, allowing **unauthorized access** to the web interface and configuration pages.
+A **datetime-based password generation** flaw in the Danfoss AK-SM 8xxA Series (prior to release R4.2) allows an attacker to **generate valid credentials and bypass authentication**, gaining **unauthorized access to the web interface** (DSA-2025-03-01, CISA ICSA-25-140-03).
 
 **Attack Vector**: Network, Remote
 
@@ -159,10 +159,10 @@ curl http://<AK-SM-800A-IP>/config.html
 
 ### CVE-2025-41451: OS Command Injection
 
-**Severity**: CVSS 9.8 (Critical)
+**Severity**: CVSS 7.6 (High, CVSS v3.1; 8.7 CVSS v4)
 
 **Description**: 
-The Danfoss AK-SM 800A **allows OS command injection** through the web interface, enabling **remote code execution** with root privileges.
+Improper neutralization of **alarm-to-mail configuration fields** used in an OS shell command injection in the Danfoss AK-SM 8xxA Series (prior to version 4.3.1) may lead to **post-authenticated remote code execution** on the attacked system (DSA-2025-08-01, CISA ICSA-25-140-03).
 
 **Attack Vector**: Network, Remote
 
@@ -192,12 +192,12 @@ curl -X POST http://<AK-SM-800A-IP>/set_config \
 # Executes command on controller
 ```
 
-### CVE-2025-41452: Configuration Setting Vulnerability
+### CVE-2025-41452: External Control of Configuration Setting
 
-**Severity**: CVSS 7.5 (High)
+**Severity**: CVSS 5.4 (Medium, CVSS v3.1; 6.8 CVSS v4)
 
 **Description**: 
-The Danfoss AK-SM 800A **allows unauthorized modification** of critical configuration settings, including **temperature setpoints, defrost cycles, and alarm thresholds**.
+A **post-authenticated external control of system web interface configuration setting** vulnerability exists in the Danfoss AK-SM 8xxA Series (prior to version 4.3.1), which could allow for a **denial-of-service attack** induced by improper handling of exceptional conditions (DSA-2025-08-01, CISA ICSA-25-140-03).
 
 **Attack Vector**: Network, Remote
 
@@ -230,22 +230,24 @@ curl -X POST http://<AK-SM-800A-IP>/api/setpoint \
 
 ### Previous Vulnerabilities (2023 Series)
 
-**CVE-2023-25915**: Authentication Bypass
-- **Severity**: CVSS 9.8 (Critical)
-- **Description**: Default credentials and authentication bypass
-- **Fixed**: Firmware 3.2.1
+Per Danfoss advisory DSA-2023-08-01 (AK-SM 800A, all series, SW below 3.3):
+
+**CVE-2023-25913**: Authentication Bypass / Information Disclosure
+- **Severity**: CVSS 7.5 (High)
+- **Description**: Authentication flaw allows an attacker to generate a web report disclosing sensitive information (internal IPs, usernames, store names) - CWE-200
+- **Fixed**: Software version 3.3
 
 **CVE-2023-25914**: Path Traversal
 - **Severity**: CVSS 7.5 (High)
-- **Description**: Directory traversal in file access
-- **Fixed**: Firmware 3.2.1
+- **Description**: Improper restriction allows attackers to retrieve and read system files through the XML interface - CWE-22
+- **Fixed**: Software version 3.3
 
-**CVE-2023-25913**: Remote Command Execution
+**CVE-2023-25915**: Remote Command Execution
 - **Severity**: CVSS 9.8 (Critical)
-- **Description**: RCE via crafted network packets
-- **Fixed**: Firmware 3.2.1
+- **Description**: Improper input validation allows a remote attacker to execute arbitrary commands - CWE-20
+- **Fixed**: Software version 3.3
 
-**Lesson**: Organizations that **did not update from 3.2.1 to 4.3.1** were vulnerable to **both 2023 and 2025 CVEs**.
+**Lesson**: Organizations that **did not update to 3.3 (2023) and then to R4.2/4.3.1 (2025)** were exposed to **both the 2023 and 2025 CVEs**.
 
 ## Danfoss Network Topology and Attack Surface
 
@@ -651,6 +653,10 @@ Response Actions:
 
 ### Official Danfoss Resources
 - [Danfoss Security Advisories](https://www.danfoss.com/en/service-and-support/coordinated-vulnerability-disclosure/danfoss-security-advisories/)
+- [DSA-2025-03-01: CVE-2025-41450 (fixed in R4.2)](https://www.danfoss.com/en/service-and-support/coordinated-vulnerability-disclosure/danfoss-security-advisories/dsa-2025-03-01/)
+- [DSA-2025-08-01: CVE-2025-41451/41452 (fixed in 4.3.1)](https://www.danfoss.com/en/service-and-support/coordinated-vulnerability-disclosure/danfoss-security-advisories/dsa-2025-08-01/)
+- [DSA-2023-08-01: CVE-2023-25913/14/15 (AK-SM 800A, fixed in 3.3)](https://www.danfoss.com/en/service-and-support/coordinated-vulnerability-disclosure/danfoss-security-advisories/dsa-2023-08-01/)
+- [CISA ICSA-25-140-03: Danfoss AK-SM 8xxA Series](https://www.cisa.gov/news-events/ics-advisories/icsa-25-140-03)
 - [Danfoss AK-SM 800A Documentation](https://www.danfoss.com/en/service-and-support/downloads/)
 - [Danfoss Alsense Security](https://alsense.danfoss.com/security)
 - [Danfoss Cybersecurity Guidelines](https://www.danfoss.com/en/about/cybersecurity/)
