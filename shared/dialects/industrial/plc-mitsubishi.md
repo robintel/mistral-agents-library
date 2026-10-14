@@ -16,7 +16,7 @@ power CNC machines, robotics, and automation cells worldwide.
 The era is declared by the **series** and **CPU type**. The naming convention
 generally follows: Series + CPU model (e.g., FX3G-48M).
 
-**MELSEC FX (1982)**: Compact micro PLC. Most popular series worldwide.
+**MELSEC FX (1990)**: Compact micro PLC. Most popular series worldwide.
 - **FX1S**: Ultra-compact (10-30 IO). Basic functionality.
 - **FX1N**: Compact (14-128 IO). Enhanced instructions.
 - **FX2N**: High-performance compact (14-256 IO). High-speed processing.
@@ -52,11 +52,13 @@ generally follows: Series + CPU model (e.g., FX3G-48M).
 - **F1**: Mid-size (max 1024 IO).
 - **Features**: Built-in Ethernet, high-speed processing, simple setup.
 
-**MELSEC L (Legacy, 1980s)**: Large-scale PLC (discontinued, but still in use).
-- **A series**: L02, L06, L26, L66.
-- **QnA series**: QnA.
+**MELSEC L (current mid-range)**: L02/L06/L26 CPUs; an active
+Mitsubishi line, not legacy.
+**MELSEC A (legacy, discontinued)**: The large-scale line replaced by
+the Q series (Mitsubishi's own upgrade path); still in use in estates.
 
-**MELSEC AnS/AnU (Analog)**: Specialized analog controllers.
+**MELSEC AnS (legacy)**: Compact A-series CPU family (AnS base units);
+programmable controllers, not analog modules.
 
 ## Programming Model
 

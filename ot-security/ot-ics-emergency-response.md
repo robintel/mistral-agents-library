@@ -6,7 +6,7 @@ description: Vendor-neutral emergency response procedures for OT/ICS cybersecuri
 
 # OT/ICS Cybersecurity Emergency Response Guide
 
-**Purpose**: Provide **immediate, actionable emergency response procedures** for cybersecurity incidents affecting **Operational Technology (OT) and Industrial Control Systems (ICS)** across all vendors. Distills lessons from real-world incidents: Danfoss (2026), Schneider Electric (2023), Siemens (2022), Emerson (2021), Honeywell (2020).
+**Purpose**: Provide **immediate, actionable emergency response procedures** for cybersecurity incidents affecting **Operational Technology (OT) and Industrial Control Systems (ICS)** across all vendors. Distills lessons from real-world incidents: French supermarket refrigeration attacks (Danfoss/Copeland/Dixell, 2026), TRITON/TRISIS (2017), Stuxnet (2010), Oldsmar water treatment (2021).
 
 **Audience**: OT engineers, IT security teams, plant operators, incident responders, management.
 
@@ -14,30 +14,25 @@ description: Vendor-neutral emergency response procedures for OT/ICS cybersecuri
 
 ## 🚨 QUICK REFERENCE: CASE STUDIES
 
-### Danfoss (Refrigeration) - October 2026
-- **Impact**: 342 supermarkets, €10M losses, temperatures >50°C
-- **CVEs**: CVE-2025-41450 (Auth Bypass), 41451 (RCE), 41452 (Config)
+### Danfoss / Copeland / Dixell (Refrigeration) - October 2026
+- **Impact**: 350+ supermarkets (Reuters; some reports up to ~700), losses in the tens of millions of euros, temperatures pushed to ~50°C; CERT-FR alert CERTFR-2026-ALE-012 (12 Oct, updated 13 Oct)
+- **CVEs**: CVE-2025-41450 (Auth Bypass), CVE-2025-41451 (RCE), CVE-2025-41452 (Config); XWEB Pro: CVE-2026-25085, CVE-2026-21718, CVE-2026-24663 (fixed in firmware 1.13)
 - **Lessons**: Never expose controllers to internet, patch within 30 days, deploy anomaly detection
 
-### Schneider Electric (SIS) - 2023  
-- **Impact**: Oil & gas SIS compromised, production shutdowns
-- **CVEs**: CVE-2023-2285-2287 (DoS, Memory Corruption, Auth Bypass)
-- **Lessons**: Safety systems need SL4 security, separate safety/control networks
+### Schneider Triconex SIS (TRITON/TRISIS) - 2017
+- **Impact**: Malware targeting a petrochemical plant's safety instrumented system; protective functions put at risk
+- **Vector**: Compromised engineering workstation and supply-chain access to the SIS controller
+- **Lessons**: Safety systems need SL4 security, separate safety/control networks, control access to engineering workstations
 
-### Siemens (PLCs) - 2022
-- **Impact**: Manufacturing lines disrupted, quality control compromised
-- **CVEs**: CVE-2022-24114-24116 (DoS, Memory Exhaustion, Command Execution)
-- **Lessons**: Network segmentation mandatory, deep packet inspection for industrial protocols
+### Siemens S7 PLCs (Stuxnet) - 2010
+- **Impact**: Centrifuge destruction at an uranium enrichment facility via manipulated PLC logic; espionage-grade supply chain operation
+- **Vector**: Removable media propagation, stolen digital certificates, zero-day exploits, PLC logic modification
+- **Lessons**: Network segmentation mandatory, removable media control, validate PLC logic integrity, deep protocol inspection
 
-### Emerson (Compressors) - 2021
-- **Impact**: HVAC systems compromised, energy efficiency loss
-- **Vector**: Supply chain attack, backdoor access
-- **Lessons**: Verify firmware integrity, secure maintenance ports, monitor energy anomalies
-
-### Honeywell (BMS) - 2020
-- **Impact**: Building automation compromised, fire safety at risk
-- **CVEs**: CVE-2020-10662-10664 (Directory Traversal, Auth Bypass, Command Injection)
-- **Lessons**: BACnet security, harden web interfaces, isolate building networks
+### Water Treatment (Oldsmar, FL) - 2021
+- **Impact**: Attempted remote manipulation of chemical dosing (lye) via plant operator's remote-access software (TeamViewer)
+- **Vector**: Exposed remote access with shared/weak credentials
+- **Lessons**: MFA and per-user remote access accounts, monitor remote sessions, alert on setpoint/parameter changes
 
 ---
 

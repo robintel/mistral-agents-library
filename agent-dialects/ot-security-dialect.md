@@ -207,7 +207,7 @@ OT security has **unique terminology, concepts, and priorities** that differ fro
 | Vulnerability Type | Description | Example | Mitigation |
 |-------------------|-------------|---------|------------|
 | **Authentication Bypass** | Attacker gains access without proper authentication | CVE-2025-41450 | Implement proper authentication, remove default credentials |
-| **Buffer Overflow** | Attacker overflows buffer to execute arbitrary code | CVE-2023-25915 | Input validation, bounds checking, memory-safe languages |
+| **Remote Code Execution** | Improper input validation lets a remote attacker execute arbitrary commands | CVE-2023-25915 | Input validation, parameterized commands |
 | **Command Injection** | Attacker injects OS commands through application | CVE-2025-41451 | Input sanitization, parameterized commands |
 | **Path Traversal** | Attacker accesses files outside intended directory | CVE-2023-25914 | Input validation, canonical path resolution |
 | **Hardcoded Credentials** | Default or backdoor credentials in firmware | Refrigeration controller | Remove hardcoded credentials, use secure configuration |
@@ -223,10 +223,10 @@ OT security has **unique terminology, concepts, and priorities** that differ fro
 - **CVSS (Common Vulnerability Scoring System)**: Standard for assessing and conveying the characteristics and impacts of system vulnerabilities
 - **OT-Specific Scoring**: Some organizations use modified CVSS for OT that weights **availability impact** more heavily
 
-**Example: Refrigeration System Vulnerabilities**:
-- **CVE-2025-41450**: Improper Authentication (CVSS 9.8 - Critical)
-- **CVE-2025-41451**: OS Command Injection (CVSS 9.8 - Critical)
-- **CVE-2025-41452**: Configuration Setting Vulnerability (CVSS 7.5 - High)
+**Example: Refrigeration System Vulnerabilities** (Danfoss AK-SM 8xxA, per CISA ICSA-25-140-03 and Danfoss DSAs):
+- **CVE-2025-41450**: Improper Authentication / datetime-based password generation (CVSS 8.2 - High)
+- **CVE-2025-41451**: OS Command Injection, post-authenticated (CVSS 7.6 v3.1 / 8.7 v4 - High)
+- **CVE-2025-41452**: External Control of Configuration Setting, post-authenticated (CVSS 5.4 v3.1 / 6.8 v4 - Medium)
 
 ### 7. OT Incident Response
 

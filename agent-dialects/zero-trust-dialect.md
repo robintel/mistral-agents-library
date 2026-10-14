@@ -407,9 +407,9 @@ Zero Trust in OT must **balance security with safety and availability**. Unlike 
 
 **Key Takeaway**: Even basic Zero Trust controls can **prevent catastrophic incidents** in OT environments.
 
-### Lessons from Schneider Electric (2023)
+### Lessons from TRITON/TRISIS (Schneider Triconex SIS, 2017)
 
-**Problem**: Safety Instrumented Systems (SIS) compromised
+**Problem**: Safety Instrumented Systems (SIS) targeted by malware via a compromised engineering workstation
 
 **Zero Trust Solution**:
 - **Separate safety and control networks** (micro-segmentation)
@@ -417,9 +417,9 @@ Zero Trust in OT must **balance security with safety and availability**. Unlike 
 - **Continuous verification without disruption** (passive monitoring)
 - **Break-glass procedures** for emergencies
 
-### Lessons from Siemens (2022)
+### Lessons from Stuxnet (Siemens S7 PLCs, 2010)
 
-**Problem**: PLCs with insecure protocols (S7comm without security)
+**Problem**: PLC logic manipulated after attackers reached industrial control networks via removable media
 
 **Zero Trust Solution**:
 - **Protocol gateways** (add authentication to S7comm)
@@ -427,9 +427,9 @@ Zero Trust in OT must **balance security with safety and availability**. Unlike 
 - **Device authentication** for SIMATIC controllers
 - **Continuous protocol monitoring**
 
-### Lessons from Emerson (2021)
+### Lessons from Supply Chain Compromises (SolarWinds, 2020)
 
-**Problem**: Supply chain attack via compromised firmware
+**Problem**: Trojanized vendor software updates delivered backdoor access to thousands of customers
 
 **Zero Trust Solution**:
 - **Secure boot** for compressors
@@ -437,9 +437,9 @@ Zero Trust in OT must **balance security with safety and availability**. Unlike 
 - **Vendor certificate validation**
 - **Supply chain security requirements**
 
-### Lessons from Honeywell (2020)
+### Lessons from Internet-Exposed BMS/OT Web Interfaces
 
-**Problem**: Building Management Systems with web interface vulnerabilities
+**Problem**: Building Management Systems and OT controllers with internet-exposed web interfaces and weak remote access (a pattern repeatedly exploited, including in the October 2026 refrigeration attacks)
 
 **Zero Trust Solution**:
 - **Web interface hardening** (disable HTTP, enforce HTTPS)

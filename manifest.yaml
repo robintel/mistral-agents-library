@@ -127,6 +127,7 @@ agents:
   - { name: feasibility-validator, path: evaluation/feasibility-validator.md, domain: evaluation, tier: t3, escalate: t4, accepts: [feasibility-validation] }
   - { name: alternative-evaluator, path: evaluation/alternative-evaluator.md, domain: evaluation, tier: t3, escalate: t4, accepts: [alternative-evaluation] }
   - { name: risk-analyst, path: evaluation/risk-analyst.md, domain: evaluation, tier: t3, escalate: t4, accepts: [risk-assessment] }
+  - { name: fact-checker, path: evaluation/fact-checker.md, domain: evaluation, tier: t4, escalate: t4, accepts: [fact-check] }
   # AI domain - artificial intelligence and RAG
   - { name: rag-engineer, path: ai/rag-engineer.md, domain: ai, tier: t3, escalate: t4, accepts: [rag-pipeline] }
   - { name: ai-security-auditor, path: ai/ai-security-auditor.md, domain: ai, tier: t3, escalate: t4, accepts: [ai-security-audit] }
@@ -223,6 +224,7 @@ routing:  # task_class -> agent
   feasibility-validation: feasibility-validator
   alternative-evaluation: alternative-evaluator
   risk-assessment: risk-analyst
+  fact-check: fact-checker
   # AI domain - artificial intelligence and RAG task classes
   rag-pipeline: rag-engineer
   ai-security-audit: ai-security-auditor

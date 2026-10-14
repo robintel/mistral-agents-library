@@ -9,7 +9,7 @@
 
 ## Executive Summary
 
-On October 11-13, 2026, **Dixell XWEB refrigeration controllers were compromised** in a coordinated cyberattack affecting approximately **700 French supermarkets**. French cybersecurity agency **ANSSI** issued advisory **CERTFR-2026-ALE-012** specifically identifying **Dixell xweb controllers** alongside Danfoss and Copeland systems as affected.
+On October 11-13, 2026, **Dixell XWEB refrigeration controllers were compromised** in a coordinated cyberattack affecting hundreds of French supermarkets (at least 350 per Reuters, with some reports of up to ~700). French cybersecurity agency **ANSSI** issued advisory **CERTFR-2026-ALE-012** (12 October, updated 13 October to add Copeland and Dixell xweb controllers) alongside Danfoss AK-SM/AK-SC systems.
 
 **Impact**: 
 - Massive food spoilage (temperatures raised to 50°C)
@@ -32,7 +32,7 @@ On October 11-13, 2026, **Dixell XWEB refrigeration controllers were compromised
 
 2. **CHANGE ALL DEFAULT PASSWORDS**
    - XWEB PRO, XWEB-500, all field controllers
-   - Check for date-based authentication bypass (known vulnerability)
+   - XWEB Pro 1.12.1 and prior used a deterministic (predictable) password generation mechanism for admin credentials (CVE-2026-21718) - update to firmware 1.13 and change all passwords
    - Enforce 12+ character complex passwords
    - Disable default credentials entirely
 
@@ -58,9 +58,9 @@ On October 11-13, 2026, **Dixell XWEB refrigeration controllers were compromised
 
 ### Attack Timeline
 - **Oct 11, overnight**: Attack begins, temperatures manipulated
-- **Oct 11, ~04:00**: Staff discover uncontrollable refrigeration computers
-- **Oct 12**: ANSSI confirms compromises, issues CERTFR-2026-ALE-012
-- **Oct 13**: Dixell France begins distributing security advisories
+- **Oct 11, early morning**: Staff discover uncontrollable refrigeration computers
+- **Oct 12**: ANSSI (CERT-FR) publishes CERTFR-2026-ALE-012 confirming numerous compromises of Danfoss AK-SM and AK-SC controllers
+- **Oct 13**: CERT-FR updates the alert to add Copeland xweb and Dixell xweb controllers; Dixell France begins distributing security advisories
 
 ### Attack Methods Used
 1. **Authentication Bypass**: Attackers bypassed XWEB authentication
@@ -69,11 +69,11 @@ On October 11-13, 2026, **Dixell XWEB refrigeration controllers were compromised
    - Defrost cycle durations (extended to 8+ hours)
    - Alarm thresholds (delayed to hide attack)
 3. **Default Credential Exploitation**: Some systems had default or weak passwords
-4. **Date-Based Auth**: Some deployments vulnerable to date-based password bypass
+4. **Predictable Credentials**: XWEB Pro 1.12.1 and prior used deterministic (predictable) admin password generation (CVE-2026-21718)
 
 ### Affected Products
-- **XWEB PRO**: Central supervision system with 21.5" touchscreen
-- **XWEB-500**: Compact monitoring unit (known arbitrary file write vulnerability)
+- **XWEB PRO**: Supervision platform (XWEB300D/500D/1000D/5000 PRO); versions 1.12.1 and prior affected by 23 disclosed vulnerabilities (fixed in firmware 1.13)
+- **XWEB-500**: Compact monitoring unit, unsupported since 2018 (known arbitrary file write vulnerability CVE-2021-45420, no firmware fix)
 - **XR Series**: Field controllers (Universal-XR, IC100CX, etc.)
 - **Prime CH**: Commercial refrigeration controllers
 - **AirModbus**: Wireless communication modules
@@ -114,6 +114,8 @@ On October 11-13, 2026, **Dixell XWEB refrigeration controllers were compromised
 
 ### Critical Monitoring Rules (Implement Immediately)
 
+This table is the **canonical DIX-### rule mapping** and matches `agent-dialects/dixell-security-dialect.md` exactly.
+
 | Rule ID | Condition | Severity | Response |
 |---------|-----------|----------|----------|
 | **DIX-001** | Temperature > 10°C above setpoint | **CRITICAL** | Isolate zone, page on-call |
@@ -122,8 +124,12 @@ On October 11-13, 2026, **Dixell XWEB refrigeration controllers were compromised
 | **DIX-004** | Rapid temp change (>5°C/5min) | **CRITICAL** | Isolate, page on-call |
 | **DIX-005** | Defrost cycle > 2 hours | HIGH | Investigate within 30 min |
 | **DIX-006** | Defrost cycle > 4 hours | **CRITICAL** | Isolate zone, page on-call |
-| **DIX-007** | Communication loss to XWEB | HIGH | Check connections, restart |
-| **DIX-008** | Authentication failures (3+) | MEDIUM | Investigate within 4 hours |
+| **DIX-007** | Multiple units affected simultaneously | **CRITICAL** | Isolate zone, page on-call |
+| **DIX-008** | Communication loss to XWEB | HIGH | Check connections, restart |
+| **DIX-009** | Configuration change detected | HIGH | Verify change, revert if unauthorized |
+| **DIX-010** | Authentication failure (3+ times) | MEDIUM | Investigate within 4 hours |
+| **DIX-011** | Unusual Modbus write operations | HIGH | Investigate, block if malicious |
+| **DIX-012** | Wireless signal interference (AirModbus) | MEDIUM | Check AirModbus network |
 
 ### What to Monitor
 1. **Temperature**: All refrigeration units, real-time
@@ -237,10 +243,10 @@ Phase 3: Production (2-4 weeks)
 
 ### 2026 Attack: Authentication Bypass
 - **Risk**: Unauthorized access to XWEB controllers
-- **Exploit**: Default credentials, date-based bypass
+- **Exploit**: Default credentials, predictable credential generation (CVE-2026-21718 on XWEB Pro <=1.12.1)
 - **Mitigation**:
   - Change ALL default passwords
-  - Disable date-based authentication
+  - Update XWEB Pro to firmware 1.13+ (CVE-2026-21718) and change all admin credentials
   - Enable strong authentication (12+ chars)
   - Implement RBAC
 
@@ -279,7 +285,7 @@ Phase 3: Production (2-4 weeks)
 - [ ] Modbus traffic monitoring
 - [ ] Configuration change detection
 - [ ] Authentication monitoring
-- [ ] Alerts configured for DIX-001 to DIX-008
+- [ ] Alerts configured for DIX-001 to DIX-012
 
 ### Patch Management
 - [ ] Firmware inventory complete
@@ -302,7 +308,8 @@ Phase 3: Production (2-4 weeks)
 ### Official Resources
 - **Dixell France**: https://dixell.fr/?lang=en
 - **Copeland Dixell Solutions**: https://www.copeland.com/en-us/brands/dixell
-- **XWEB PRO Security Bulletin**: https://webapps.copeland.com/dixell/Content/Pages/SystemSoftwareUpdate/XWEB-PRO/Security%20update%20%20XWEB-PRO%20-%20Product_Bulletin_February%2026.pdf
+- **XWEB PRO Security Bulletin**: https://webapps.copeland.com/dixell/Content/Pages/SystemSoftwareUpdate/XWEB-PRO/Security%20update%20%20XWEB-PRO%20-%20Product_Bulletin_February_2026.pdf
+- **CISA Advisory ICSA-26-057-10**: https://www.cisa.gov/news-events/ics-advisories/icsa-26-057-10 (Copeland XWEB/XWEB Pro, 23 vulnerabilities, fixed in firmware 1.13)
 - **ANSSI Advisory**: CERTFR-2026-ALE-012 (check ANSSI website)
 
 ### Security Tools
@@ -317,7 +324,7 @@ Phase 3: Production (2-4 weeks)
 
 ### Within 1 Month
 1. Complete security assessment of all Dixell systems
-2. Implement all critical monitoring rules (DIX-001 to DIX-008)
+2. Implement all critical monitoring rules (DIX-001 to DIX-012)
 3. Change all passwords, implement RBAC
 4. Network segmentation completed
 5. Incident response plan tested
@@ -345,7 +352,7 @@ Phase 3: Production (2-4 weeks)
 2. **Outdated Firmware**: Known vulnerabilities were not patched
 3. **Poor Segmentation**: OT and IT networks were not properly isolated
 4. **Lack of Monitoring**: No detection of temperature or defrost anomalies
-5. **Weak Access Controls**: Default passwords, date-based bypass
+5. **Weak Access Controls**: Default passwords, predictable credential generation (CVE-2026-21718)
 6. **Slow Response**: Detection and containment took hours
 
 ### What Worked
@@ -362,7 +369,7 @@ Phase 3: Production (2-4 weeks)
 6. **Test incident response plans** regularly
 7. **Conduct security assessments** annually
 8. **Train personnel** on OT security awareness
-9. **Monitor for date-based authentication bypass**
+9. **Monitor for authentication bypass** (CVE-2026-21718, CVE-2026-25085 on XWEB Pro <=1.12.1, fixed in 1.13)
 10. **Secure wireless networks** (AirModbus)
 
 ---
@@ -393,7 +400,7 @@ The Mistral Agents Library contains **dialects** that define domain-specific ter
 
 ---
 
-**This document can be freely shared with Dixell, Copeland, Emerson, and any organization using Dixell equipment.**
+**This document can be freely shared with Dixell, Copeland, and any organization using Dixell equipment.**
 
 **For the full Dixell security dialect and other resources, see**: https://github.com/robintel/mistral-agents-library/tree/main/agent-dialects
 
