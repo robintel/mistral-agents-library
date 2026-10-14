@@ -307,7 +307,7 @@ dialects:
   - { name: dixell-security-dialect, path: agent-dialects/dixell-security-dialect.md, domain: dialects, description: "Dixell-specific security patterns and defense strategies" }
   - { name: zero-trust-dialect, path: agent-dialects/zero-trust-dialect.md, domain: dialects, description: "Zero Trust Architecture terminology and implementation patterns for OT/ICS" }
   - { name: general-zero-trust-dialect, path: agent-dialects/general-zero-trust-dialect.md, domain: dialects, description: "Zero Trust Architecture terminology, principles, and implementation patterns across all domains (IT, government, business, finance, healthcare, critical infrastructure)" }
-  - { name: blockchain-dialect, path: agent-dialects/blockchain-dialect.md, domain: dialects, description: "Blockchain terminology and implementation patterns for OT/ICS distributed trust systems" }
+  - { name: blockchain-dialect, path: agent-dialects/blockchain-dialect.md, domain: dialects, description: "Blockchain terminology and implementation patterns across all domains, integrating with OT/ICS security dialects" }
   - { name: general-blockchain-dialect, path: agent-dialects/general-blockchain-dialect.md, domain: dialects, description: "Blockchain and Distributed Ledger Technology terminology, principles, and implementation patterns across all domains" }
 
 profiles:

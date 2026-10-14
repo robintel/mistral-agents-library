@@ -83,7 +83,7 @@ Zero Trust is based on the principle: **"Never Trust, Always Verify"**
 | **Multi-Factor Authentication (MFA)** | Authentication using multiple factors | Password + SMS code, password + biometric |
 | **Single Sign-On (SSO)** | One authentication for multiple applications | SAML, OAuth, OpenID Connect |
 | **Privileged Access Management (PAM)** | Special controls for administrative access | Just-in-time access, session monitoring |
-| **Identity Provider (IdP)** | System that manages identities | Active Directory, Okta, Azure AD |
+| **Identity Provider (IdP)** | System that manages identities | Active Directory, Okta, Microsoft Entra ID |
 | **Service Provider (SP)** | System that relies on IdP for authentication | Applications, APIs |
 
 ### Network Security
@@ -493,7 +493,7 @@ Remote User
 
 **Technologies**:
 - Okta
-- Azure AD
+- Microsoft Entra ID
 - Duo Security
 - Zscaler Private Access
 
@@ -509,7 +509,7 @@ Remote User
 │                                                                  │
 │  ┌─────────────────────────────────────────────────────────┐ │
 │  │                    IDENTITY LAYER                            │ │
-│  │  • Cloud Identity (Azure AD, AWS IAM, GCP IAM)              │ │
+│  │  • Cloud Identity (Entra ID, AWS IAM, GCP IAM)              │ │
 │  │  • Federation with on-premises identity                     │ │
 │  │  • Multi-factor authentication                              │ │
 │  └─────────────────────────────────────────────────────────┘ │
@@ -547,7 +547,7 @@ Remote User
 - Visibility across all cloud services
 
 **Technologies**:
-- Azure AD + Azure Sentinel
+- Microsoft Entra ID + Microsoft Sentinel
 - AWS IAM + GuardDuty
 - GCP IAM + Security Command Center
 - Prisma Cloud
@@ -684,9 +684,8 @@ Remote User
 - All services should be accessed securely
 
 **Components**:
-- BeyondCorp Enterprise
+- BeyondCorp Enterprise (now Chrome Enterprise Premium)
 - BeyondCorp Remote Access
-- BeyondCorp Endpoint Security
 
 ## Zero Trust Implementation Guidelines
 
@@ -1012,8 +1011,8 @@ Remote User
 ### Standards and Guidance
 
 - **NIST SP 800-207**: Zero Trust Architecture
-- **NIST SP 800-207A**: Zero Trust Architecture Case Study
-- **CIS Zero Trust Maturity Model**: Implementation guidance
+- **NIST SP 800-207A**: Zero Trust Model for Access Control in Cloud-Native Multi-Cloud Environments
+- **CISA Zero Trust Maturity Model**: Implementation guidance and maturity assessment
 - **Microsoft Zero Trust**: Microsoft's Zero Trust framework
 - **Google BeyondCorp**: Google's Zero Trust implementation
 - **Forrester Zero Trust**: Research and guidance
@@ -1021,15 +1020,14 @@ Remote User
 
 ### Training and Certification
 
-- **CISA Zero Trust Maturity Model**: Government-focused training
-- **SANS SEC545**: Cloud Security Architecture and Zero Trust
+- **SANS SEC549**: Cloud Security Architecture and Operations (covers zero trust)
 - **ISC2 CCSP**: Cloud security with Zero Trust
 - **CompTIA Security+**: Includes Zero Trust concepts
 - **CISSP**: Includes Zero Trust in security architecture
 
 ### Tools and Technologies
 
-- **Identity**: Okta, Azure AD, Ping Identity, Keycloak
+- **Identity**: Okta, Microsoft Entra ID, Ping Identity, Keycloak
 - **Network**: Zscaler, Cloudflare, Tailscale, VMware NSX, Cisco ACI
 - **Endpoint**: CrowdStrike, SentinelOne, Microsoft Defender
 - **Application**: Apigee, Kong, Istio, Linkerd

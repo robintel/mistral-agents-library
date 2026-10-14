@@ -36,6 +36,19 @@ feature = minor, fix = patch.
 
 ### Fixed
 
+- Fix factual inaccuracies in the three previously unaudited agent dialects,
+  verified against first-party sources: correct the NIST SP 800-207A title
+  (a Zero Trust Model for Access Control in Cloud-Native Multi-Cloud
+  Environments, not "Case Study"), attribute the Zero Trust Maturity Model
+  to CISA (not "CIS"), replace the nonexistent SANS SEC545 "Cloud Security
+  Architecture and Zero Trust" with SEC549 (SEC545 is GenAI and LLM
+  Application Security), drop the fabricated "BeyondCorp Endpoint Security"
+  product (BeyondCorp Enterprise is now Chrome Enterprise Premium), correct
+  Hyperledger Fabric's consensus (Raft; BFT since Fabric 3.0 — not PBFT),
+  rename stale Azure AD / Azure Sentinel product names (Microsoft Entra ID /
+  Microsoft Sentinel), and align the blockchain-dialect registration and
+  cross-references with its actual cross-domain scope (manifest described it
+  as OT/ICS-only while the file covers all domains).
 - Fix factual inaccuracies across OT-security content, verified against
   vendor advisories (Danfoss DSA-2023-08-01, DSA-2025-03-01, DSA-2025-08-01;
   Copeland February 2026 XWEB PRO bulletin) and CISA ICSA-25-140-03 /
