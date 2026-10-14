@@ -43,7 +43,9 @@ The era is declared by the **InTouch version** and **architecture**.
 - **Architecture**: 64-bit support, improved performance
 - **Status**: Supported
 
-**InTouch 2014 R2+ (2014)**: Latest version.
+**InTouch HMI (AVEVA era)**: Schneider Electric acquired Wonderware with
+Invensys (2014) and retired the brand into AVEVA InTouch HMI; releases are
+versioned by year (2023 R2 and later).
 - **Platform**: Windows 8.1/10/11, Windows Server 2012/2016/2019/2022
 - **Features**: HTML5 support, mobile access, cloud connectivity
 - **Integration**: Enhanced OPC UA, MQTT, REST

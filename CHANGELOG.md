@@ -20,6 +20,19 @@ feature = minor, fix = patch.
   refrigeration systems. Enables organizations using Dixell equipment to
   prevent, detect, and respond to attacks, protecting food supplies and
   maintaining operations.
+- Add the `/ma-autocorrect` skill: a factual audit that harvests every
+  checkable claim in the repository (identifiers, versions, years, product
+  names, URLs), verifies each against primary sources, and fixes or flags
+  every unsupported one — `shared/` first, because hallucinations there
+  propagate into every downstream task.
+- Add the fact-checker agent (`evaluation/fact-checker.md`, tier t4): one
+  verdict per claim — supported, contradicted (with correction), or
+  unverified — routed via the new `fact-check` task class.
+- Add the autocorrect CI gate (`.github/workflows/autocorrect.yml`): every
+  PR touching markdown or `manifest.yaml` is fact-checked by
+  `mistral-medium-latest` before merge; files under `shared/` are audited
+  in full, not just their diff lines. Enable by setting the
+  `MISTRAL_API_KEY` repository secret.
 
 ### Fixed
 
@@ -37,6 +50,14 @@ feature = minor, fix = patch.
   share), and unattributable "date-based password bypass" claims on XWEB
   (now correctly tied to CVE-2026-21718 deterministic password generation,
   fixed in firmware 1.13).
+- Fix shared-dialect facts verified against first-party sources: the MELSEC
+  FX launch year (1990, not 1982 — Mitsubishi's own legacy-products page),
+  MELSEC L relabeled a current mid-range line (not "legacy 1980s,
+  discontinued" — Mitsubishi actively markets it), MELSEC AnS relabeled a
+  compact A-series CPU family (not "specialized analog controllers"), and
+  the stale InTouch "2014 R2 latest version" claim replaced with the
+  AVEVA-era lineage (Wonderware retired into AVEVA InTouch HMI, year-
+  versioned releases such as 2023 R2).
 - Fix ot-ics-emergency-response.md and zero-trust-dialect.md historical case
   studies: replace fabricated Schneider (2023), Siemens (2022), Emerson (2021),
   and Honeywell (2020) incidents - whose CVE IDs belonged to unrelated

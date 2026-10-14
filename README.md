@@ -98,7 +98,7 @@ The full mapping — profiles, subagents, skills — and its caveats:
 ├── tool-steward.md          audits and curates the user-local tool cache
 ├── smoke/                   the clean-room smoke test: Dockerfile + smoke.sh
 ├── skills/                 the workflow skills: /orient, /tour, /coverage,
-│                          /gdpr-audit, /upgrade, /ma-update
+│                          /gdpr-audit, /upgrade, /ma-update, /autocorrect
 ├── shared/
 │   ├── standards.md         communication contracts + the elegance bar
 │   └── dialects/            98 contracts in role folders — data, not agents

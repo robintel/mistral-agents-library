@@ -51,7 +51,7 @@ Shift+Tab for profiles and the slash picker for skills.
 | task classes | the routing table from manifest.yaml, carried into the orchestrator's prompt |
 | dialects | files on disk, read at dispatch: reference the library by path in the brief |
 | tier routing | `active_model` per profile, from the manifest's tier table |
-| workflows | skills: `/orient`, `/tour`, `/coverage`, `/gdpr-audit`, `/upgrade`, `/ma-update` |
+| workflows | skills: `/orient`, `/tour`, `/coverage`, `/gdpr-audit`, `/upgrade`, `/ma-update`, `/autocorrect` |
 | the target repo | a thin AGENTS.md pointing at the orchestrator |
 
 ## The one-command install
