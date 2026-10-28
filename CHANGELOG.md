@@ -48,6 +48,11 @@ feature = minor, fix = patch.
   using pairwise (2-way) or n-way coverage. Extracts parameters,
   classifies values into equivalence classes, generates the minimal
   covering suite, and verifies pair/triple coverage.
+- Add a Use cases section to the README: 12 concrete scenarios
+  covering orientation, feature development, bug fixing, health
+  checks, upgrades, GDPR and governance audits, output guardrails,
+  test data generation, combinatorial test design, library updates,
+  and fact-checking.
 - Add Dixell security dialect: `agent-dialects/dixell-security-dialect.md`
   provides Dixell-specific security patterns, terminology, and defense strategies
   based on the October 2026 cyberattack lessons — covering XWEB PRO, XWEB-500,
