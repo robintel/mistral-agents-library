@@ -219,6 +219,22 @@ Audit content for factual accuracy: verify CVEs, versions, product
 names, and claims against primary sources. Fix or flag every
 unsupported claim. Output: findings table + corrections.
 
+### Testing resilience with chaos engineering
+
+```
+/ma-chaos-testing
+```
+
+Design and run chaos engineering experiments — inject controlled
+failures (latency, crashes, network partitions, resource exhaustion)
+to verify your system survives turbulent conditions. Covers the
+five principles of chaos engineering, a fault taxonomy across
+network/process/resource/dependency/state/infrastructure, tool
+selection (Chaos Mesh, Litmus, AWS FIS, Azure Chaos Studio, Gremlin,
+Toxiproxy), a six-phase workflow from steady-state definition through
+continuous automation, Game Day planning, and seven non-negotiable
+guardrails. Output: experiment plan + hypothesis + abort conditions.
+
 ## Design principles
 
 1. **One source of truth.** The orchestrator is the only agent that talks to the user.
@@ -247,12 +263,13 @@ unsupported claim. Output: findings table + corrections.
 ├── model-registrar.md       refreshes the catalog; the user approves every change
 ├── tool-steward.md          audits and curates the user-local tool cache
 ├── smoke/                   the clean-room smoke test: Dockerfile + smoke.sh
-├── skills/                 15 workflow skills: /ma-orient, /ma-tour,
+├── skills/                 16 workflow skills: /ma-orient, /ma-tour,
 │                          /ma-coverage, /ma-gdpr-audit, /ma-upgrade,
 │                          /ma-update, /ma-autocorrect, /ma-framework-context,
 │                          /ma-ai-guardrails, /ma-governance-policy,
 │                          /ma-dev-workflow, /ma-test-data,
-│                          /ma-combinatorial, /ma-modernize, /ma-anti-agentic
+│                          /ma-combinatorial, /ma-modernize, /ma-anti-agentic,
+│                          /ma-chaos-testing
 ├── shared/
 │   ├── standards.md         communication contracts + the elegance bar
 │   └── dialects/            98 contracts in role folders — data, not agents
