@@ -51,9 +51,12 @@ never by silent accumulation.
       both installers to copy them to ~/.vibe/skills/, smoke test
       confirmed they load as slash commands. Native Windows test
       of the skills remains for the CI windows-latest job.
-- [ ] Add modernization skill (/modernize): create the workflow skill
-      that triggers the modernization-agent to produce MODERNIZATION
-      PLANs. Unblock: modernization-agent validation on real estates.
+- [x] Add modernization skill (/ma-modernize): workflow skill that
+      triggers the modernization-agent to produce MODERNIZATION
+      PLANs. Covers replatforming, migration, and modernization
+      scenarios; coordinates six phases from request to cutover.
+      Also added routing for legacy-migration, re-platform,
+      re-architect, and re-factor task classes.
 - [ ] Add data-orchestration skill (/orchestrate-data): create the
       workflow skill that triggers the data-orchestrator for data
       synchronization and movement tasks. Unblock: data-orchestrator

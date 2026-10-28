@@ -97,7 +97,7 @@ agents:
   - { name: migration-engineer, path: sdlc/app-upgrades/migration-engineer.md, domain: sdlc, tier: t3, escalate: t4, accepts: [migration] }
   - { name: data-migration-engineer, path: sdlc/app-upgrades/data-migration-engineer.md, domain: sdlc, tier: t3, escalate: t4, accepts: [data-migration] }
   - { name: rollback-operator, path: sdlc/app-upgrades/rollback-operator.md, domain: sdlc, tier: t2, escalate: t3, accepts: [rollback] }
-  - { name: modernization-agent, path: sdlc/app-upgrades/modernization-agent.md, domain: sdlc, tier: t3, escalate: t4, accepts: [modernization] }
+  - { name: modernization-agent, path: sdlc/app-upgrades/modernization-agent.md, domain: sdlc, tier: t3, escalate: t4, accepts: [modernization, legacy-migration, re-platform, re-architect, re-factor] }
   - { name: data-engineer,    path: data/data-engineer.md,  domain: data, tier: t2, escalate: t3, accepts: [data-pipeline] }
   - { name: data-orchestrator, path: data/data-orchestrator.md, domain: data, tier: t3, escalate: t4, accepts: [data-orchestration] }
   - { name: data-steward,     path: data/data-steward.md,   domain: data, tier: t2, escalate: t3, accepts: [data-governance] }
@@ -202,6 +202,10 @@ routing:  # task_class -> agent
   data-migration: data-migration-engineer
   rollback: rollback-operator
   modernization: modernization-agent
+  legacy-migration: modernization-agent
+  re-platform: modernization-agent
+  re-architect: modernization-agent
+  re-factor: modernization-agent
   threat-modeling: threat-modeler
   supply-chain-audit: supply-chain-auditor
   data-security: data-security-auditor

@@ -37,11 +37,11 @@ echo "$OUTPUT" | grep -q "Update available" || fail "Expected 'Update available'
 pass "Test 5: --dry-run completes without errors"
 $HERE/install.py --dry-run --dest "$TMP_DIR/dryrun" >/dev/null 2>&1 || fail "dry-run failed"
 
-# Test 6: Verify all profiles are generated (85 due to duplicate names in manifest)
+# Test 6: Verify all profiles are generated (86 unique: 88 entries, 2 duplicate names)
 pass "Test 6: All profiles generated"
 $HERE/install.py --dest "$TMP_DIR/full" >/dev/null 2>&1
 COUNT=$(ls "$TMP_DIR/full"/*.toml 2>/dev/null | wc -l)
-[ "$COUNT" -eq 85 ] || fail "Expected 85 profiles, got $COUNT"
+[ "$COUNT" -eq 86 ] || fail "Expected 86 profiles, got $COUNT"
 
 echo ""
 pass "All tests passed!"
