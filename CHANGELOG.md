@@ -10,6 +10,27 @@ feature = minor, fix = patch.
 
 ### Added
 
+- Add the `/ma-test-methodologies` skill: a decision guide and
+  playbook for modern testing methodologies — TDD (red-green-
+  refactor), BDD (Given/When/Then with Cucumber/SpecFlow/Behave),
+  ATDD (acceptance criteria as definition of done), property-based
+  testing (Hypothesis, fast-check, jqwik, proptest), mutation
+  testing (Stryker, PIT, mutmut), contract testing (Pact, Spring
+  Cloud Contract), and snapshot testing (Jest, insta, ApprovalTests).
+  Includes tool tables per ecosystem, common failure modes, a
+  methodology selection map, success metrics, and integration with
+  the library's testing agents.
+- Add the `/ma-legacy-testing` skill: test legacy systems before
+  and during migration. Covers characterization (golden master)
+  testing to capture current behavior as executable specs, seam-
+  based dependency injection and scratch refactoring to make
+  untestable code testable, parallel runs (dark launch) and
+  differential testing to prove migration equivalence, and
+  legacy-specific patterns for batch jobs, stored procedures,
+  COBOL/mainframe programs, and code with no seams. Includes a
+  migration testing checklist. Based on Michael Feathers' "Working
+  Effectively with Legacy Code" and Jez Humble's "Continuous
+  Delivery".
 - Add five language dialects to `shared/dialects/languages/`:
   `lisp.md` (modern idiom floor covering Common Lisp, Scheme,
   Clojure, and Emacs Lisp with eras, macros, and REPL-driven
