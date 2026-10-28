@@ -198,6 +198,32 @@ the contracts your briefs reference by path.
 '@).Replace("{surface}", $Surface).Replace("{library}", $Library)
 }
 
+function Get-Skills {
+    # Read every SKILL.md frontmatter: (name, description) per skill.
+    # Used to compose the orchestrator's skills addendum so it can
+    # suggest the right slash command when a user's request matches.
+    $skills = @()
+    $skillsSrc = [System.IO.Path]::Combine($Repo, "skills")
+    if (-not [System.IO.Directory]::Exists($skillsSrc)) { return $skills }
+    foreach ($skillDir in [System.IO.Directory]::GetDirectories($skillsSrc) | Sort-Object) {
+        $skillMd = [System.IO.Path]::Combine($skillDir, "SKILL.md")
+        if (-not [System.IO.File]::Exists($skillMd)) { continue }
+        $text = Read-Text $skillMd
+        if ($text -match "---`r?`n(.*?)`r?`n---") {
+            $fm = $Matches[1]
+            if ($fm -match "name:\s*(.+)") {
+                $skillName = $Matches[1].Trim()
+                $skillDesc = ""
+                if ($fm -match 'description:\s*["'']?(.+?)["'']?\s*$') {
+                    $skillDesc = $Matches[1].Trim()
+                }
+                $skills += ,@($skillName, $skillDesc)
+            }
+        }
+    }
+    return $skills
+}
+
 $parsed = Parse-Manifest (Read-Text $ManifestPath)
 $agents = $parsed.Agents
 $resolved = $parsed.Resolved
@@ -223,6 +249,7 @@ foreach ($agent in $agents) {
 }
 
 $standards = (Read-Text $StandardsPath).TrimEnd()
+$skills = Get-Skills
 $profiles = New-Object System.Collections.Generic.List[object]
 foreach ($agent in $agents) {
     $name = $agent["name"]
@@ -240,6 +267,20 @@ foreach ($agent in $agents) {
     if ($name -eq "orchestrator") {
         $rows = foreach ($cls in $routing.Keys) { "- $cls -> $($routing[$cls])" }
         $instructions = $instructions + ($rows -join "`n") + "`n"
+        if ($skills.Count -gt 0) {
+            $skillRows = foreach ($s in $skills) { "- /$($s[0]): $($s[1])" }
+            $instructions = $instructions + @"
+
+## Available skills (slash commands)
+
+These are user-invocable workflow skills installed
+alongside the agents. When the user's request matches
+a skill's purpose, suggest invoking it as a slash
+command - do not attempt the skill's work yourself.
+The user invokes the skill; it runs as its own agent.
+
+"@ + ($skillRows -join "`n") + "`n"
+        }
         $text = $Header + "`n" +
             "display_name = " + (ConvertTo-TomlString (Get-DisplayName $name + " (Mistral Agents Library)")) + "`n" +
             "description = " + (ConvertTo-TomlString $tagline) + "`n" +

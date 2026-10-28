@@ -19,6 +19,13 @@ feature = minor, fix = patch.
   Coraza + CrowdSec), and the three guardrails (never deceive humans,
   stay passive, rotate everything). Based on the QAstell article
   "Anti-Agentic Architecture" (October 2026).
+- Compose the skills list into the orchestrator profile: both
+  installers now read every SKILL.md frontmatter and append an
+  "Available skills" section to the orchestrator's instructions.
+  The orchestrator can now suggest the right slash command when a
+  user's request matches a skill's purpose, instead of routing to
+  an unrelated agent or returning needs-input. Previously, skills
+  were installed but invisible to the orchestrator.
 - Add the `/ma-modernize` skill: a workflow skill for application
   modernization, migration, and replatforming — invoke when moving
   a legacy system to a modern stack. Covers three scenarios

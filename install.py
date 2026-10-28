@@ -61,6 +61,31 @@ def read_text(path):
     return path.read_text(encoding="utf-8").replace("\r\n", "\n")
 
 
+def read_skills():
+    """Read every SKILL.md frontmatter: (name, description) per skill.
+    Used to compose the orchestrator's skills addendum so it can
+    suggest the right slash command when a user's request matches."""
+    skills = []
+    if not SKILLS_DIR.is_dir():
+        return skills
+    for skill_dir in sorted(SKILLS_DIR.iterdir()):
+        if not skill_dir.is_dir():
+            continue
+        skill_md = skill_dir / "SKILL.md"
+        if not skill_md.is_file():
+            continue
+        text = read_text(skill_md)
+        fm = re.search(r"^---\n(.*?)\n---", text, re.S)
+        if not fm:
+            continue
+        name_m = re.search(r"^name:\s*(.+)$", fm.group(1), re.M)
+        desc_m = re.search(r'^description:\s*["\']?(.+?)["\']?\s*$', fm.group(1), re.M)
+        if name_m:
+            skills.append((name_m.group(1).strip(),
+                           desc_m.group(1).strip() if desc_m else ""))
+    return skills
+
+
 def parse_manifest(text):
     """Parse the blocks the installer needs: models.resolved, agents,
     routing. Targeted on purpose: the manifest is hand-maintained and
@@ -184,7 +209,7 @@ manifest.yaml is the routing registry; shared/dialects/ carries
 the contracts your briefs reference by path."""
 
 
-def compose(agents, routing, library):
+def compose(agents, routing, library, skills=None):
     """One (name, TOML text, instructions) per agent, in manifest order."""
     profiles = []
     standards = read_text(STANDARDS).rstrip()
@@ -203,6 +228,18 @@ def compose(agents, routing, library):
             instructions += "\n".join(
                 f"- {cls} -> {target}" for cls, target in routing.items()
             ) + "\n"
+            if skills:
+                instructions += (
+                    "\n## Available skills (slash commands)\n\n"
+                    "These are user-invocable workflow skills installed\n"
+                    "alongside the agents. When the user's request matches\n"
+                    "a skill's purpose, suggest invoking it as a slash\n"
+                    "command — do not attempt the skill's work yourself.\n"
+                    "The user invokes the skill; it runs as its own agent.\n\n"
+                    + "\n".join(
+                        f"- /{s[0]}: {s[1]}" for s in skills
+                    ) + "\n"
+                )
             text = (
                 f"{HEADER}\n"
                 f"display_name = {toml_string(display_name(name) + ' (Mistral Agents Library)')}\n"
@@ -400,7 +437,7 @@ def main():
         # cheapest-first, so the last entry is the tier's ceiling.
         agent["model"] = resolved[tier][-1]
 
-    profiles = compose(agents, routing, REPO)
+    profiles = compose(agents, routing, REPO, skills=read_skills())
     for name, text, instructions in profiles:
         validate(name, text, instructions)
 
