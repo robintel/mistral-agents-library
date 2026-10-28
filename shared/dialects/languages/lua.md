@@ -8,11 +8,13 @@ section supplies the defaults.
 
 Lua 5.1 (the game-modding and embedded era: WoW addons, Garry's Mod,
 OpenResty), Lua 5.2/5.3/5.4 (the modern era: integer subtype in 5.3,
-to-be-closed variables and generics in 5.4), and LuaJIT (the
-performance era: game engines, high-throughput networking, still
-on 5.1 semantics). The repo declares which; LuaJIT is 5.1 with
-extensions — do not use 5.2+ features in LuaJIT code. Neovim's
-embedded Lua is 5.1/LuaJIT. Nginx OpenResty is LuaJIT.
+to-be-closed variables, integer division, and goto in 5.4), and
+LuaJIT (the performance era: game engines, high-throughput
+networking, still on 5.1 semantics). The repo declares which;
+LuaJIT is 5.1 with extensions — do not use 5.2+ features in
+LuaJIT code. Neovim's embedded Lua is 5.1/LuaJIT. Nginx OpenResty
+is LuaJIT. Roblox uses Luau, a gradually-typed derivative of
+Lua 5.1 — not standard Lua.
 
 ## Idiom
 

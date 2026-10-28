@@ -38,12 +38,14 @@ line numbers means QBasic/QuickBASIC. Match the file.
   single, `X#` is double, `X$` is string. A variable's suffix is
   its type — adding a suffix where none existed changes the
   variable, silently.
-- `DEFINT A-Z` (default integer) in old code: variables without
-  suffixes are integers, not floats. The default type is a
-  program-wide setting.
-- String length: old BASIC strings are fixed-length or
-  variable up to 255 chars (`DIM X$ AS STRING * 80` is VB, not
-  QBasic). QBasic `STRING` is variable-length up to 32K.
+- `DEFINT A-Z` changes the default type: without it, un-suffixed
+  variables are single-precision floats (`SINGLE`). With it,
+  they are integers. The default type is a program-wide setting.
+- String length: GW-BASIC/BASICA strings are limited to 255
+  characters (both constants and variable-length strings).
+  QBasic/QuickBASIC variable-length strings are much longer
+  (fixed-length up to 32,767). `DIM X$ AS STRING * 80` is VB,
+  not QBasic.
 
 ## Structure
 
@@ -77,11 +79,12 @@ reports. Capture before changing, diff after.
 
 - `GOTO` spaghetti: the control flow is the program. Understand
   the graph before touching any node.
-- Implicit type declarations: `FOR I = 1 TO 10` makes `I` an
-  integer (via `DEFINT`), but `FOR X = 1.5 TO 10` makes `X`
-  a float. The loop variable's type comes from the literal.
-- Integer overflow: `X%` wraps at 32767 (signed 16-bit). No
-  error, silent wraparound.
+- Implicit type declarations: without a suffix or `DEF` statement,
+  a variable's type is the default (`SINGLE` float in GW-BASIC).
+  `FOR I% = 1 TO 10` is integer; `FOR I = 1 TO 10` is float
+  unless `DEFINT I` or `DEFINT A-Z` is in effect.
+- Integer range: `X%` is 16-bit signed (-32768 to 32767).
+  Exceeding the range raises an `Overflow` error in GW-BASIC.
 - `PRINT USING` formats: the format string decides output
   precision. Changing the format changes the output contract.
 - `DATA`/`READ`/`RESTORE`: the inline data mechanism. `RESTORE
