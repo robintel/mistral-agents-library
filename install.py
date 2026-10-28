@@ -232,10 +232,14 @@ def compose(agents, routing, library, skills=None):
                 instructions += (
                     "\n## Available skills (slash commands)\n\n"
                     "These are user-invocable workflow skills installed\n"
-                    "alongside the agents. When the user's request matches\n"
-                    "a skill's purpose, suggest invoking it as a slash\n"
-                    "command — do not attempt the skill's work yourself.\n"
-                    "The user invokes the skill; it runs as its own agent.\n\n"
+                    "alongside the agents. Two ways to handle them:\n\n"
+                    "1. **Explain**: when the user asks what a skill does,\n"
+                    "   read its SKILL.md at "
+                    f"{library}/skills/<name>/SKILL.md and summarize.\n"
+                    "2. **Execute**: when the user wants the skill's work done,\n"
+                    "   suggest invoking it as a slash command. Do not\n"
+                    "   attempt the skill's work yourself — the user invokes\n"
+                    "   the skill; it runs as its own agent.\n\n"
                     + "\n".join(
                         f"- /{s[0]}: {s[1]}" for s in skills
                     ) + "\n"

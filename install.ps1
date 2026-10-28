@@ -274,12 +274,17 @@ foreach ($agent in $agents) {
 ## Available skills (slash commands)
 
 These are user-invocable workflow skills installed
-alongside the agents. When the user's request matches
-a skill's purpose, suggest invoking it as a slash
-command - do not attempt the skill's work yourself.
-The user invokes the skill; it runs as its own agent.
+alongside the agents. Two ways to handle them:
 
-"@ + ($skillRows -join "`n") + "`n"
+1. **Explain**: when the user asks what a skill does,
+   read its SKILL.md at {library}/skills/<name>/SKILL.md
+   and summarize.
+2. **Execute**: when the user wants the skill's work done,
+   suggest invoking it as a slash command. Do not
+   attempt the skill's work yourself - the user invokes
+   the skill; it runs as its own agent.
+
+"@.Replace("{library}", $Repo) + ($skillRows -join "`n") + "`n"
         }
         $text = $Header + "`n" +
             "display_name = " + (ConvertTo-TomlString (Get-DisplayName $name + " (Mistral Agents Library)")) + "`n" +

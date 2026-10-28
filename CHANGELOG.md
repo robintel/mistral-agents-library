@@ -26,6 +26,10 @@ feature = minor, fix = patch.
   user's request matches a skill's purpose, instead of routing to
   an unrelated agent or returning needs-input. Previously, skills
   were installed but invisible to the orchestrator.
+- Skills section now has two paths: **Explain** (read the skill's
+  SKILL.md at `{library}/skills/<name>/SKILL.md` and summarize when
+  the user asks what a command does) and **Execute** (suggest the
+  slash command when the user wants the work done).
 - Add the `/ma-modernize` skill: a workflow skill for application
   modernization, migration, and replatforming — invoke when moving
   a legacy system to a modern stack. Covers three scenarios
