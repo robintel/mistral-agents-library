@@ -283,6 +283,23 @@ produces identical output. Based on Michael Feathers' *Working
 Effectively with Legacy Code*. Output: characterization test suite
 + migration verification plan.
 
+### Writing principled, defensive code
+
+```
+/ma-design-principles
+```
+
+Apply code-level design principles and defensive programming:
+SOLID (Single Responsibility, Open/Closed, Liskov Substitution,
+Interface Segregation, Dependency Inversion) with code examples,
+plus fail-fast validation, input validation, assertions,
+defensive copying, null safety (null object pattern), error
+handling, DRY with the Rule of Three, KISS, YAGNI, Law of
+Demeter (Tell Don't Ask), and composition over inheritance.
+Includes a 10-point code review checklist. Complements the
+`architecture-validator` agent's system-level checks.
+Output: principle application guide + review checklist.
+
 ## Design principles
 
 1. **One source of truth.** The orchestrator is the only agent that talks to the user.
@@ -311,14 +328,15 @@ Effectively with Legacy Code*. Output: characterization test suite
 ├── model-registrar.md       refreshes the catalog; the user approves every change
 ├── tool-steward.md          audits and curates the user-local tool cache
 ├── smoke/                   the clean-room smoke test: Dockerfile + smoke.sh
-├── skills/                 19 workflow skills: /ma-orient, /ma-tour,
+├── skills/                 20 workflow skills: /ma-orient, /ma-tour,
 │                          /ma-coverage, /ma-gdpr-audit, /ma-upgrade,
 │                          /ma-update, /ma-autocorrect, /ma-framework-context,
 │                          /ma-ai-guardrails, /ma-governance-policy,
 │                          /ma-dev-workflow, /ma-test-data,
 │                          /ma-combinatorial, /ma-modernize, /ma-anti-agentic,
 │                          /ma-chaos-testing, /ma-infra-security,
-│                          /ma-test-methodologies, /ma-legacy-testing
+│                          /ma-test-methodologies, /ma-legacy-testing,
+│                          /ma-design-principles
 ├── shared/
 │   ├── standards.md         communication contracts + the elegance bar
 │   └── dialects/            139 contracts in role folders — data, not agents
