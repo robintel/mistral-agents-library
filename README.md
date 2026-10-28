@@ -300,6 +300,67 @@ Includes a 10-point code review checklist. Complements the
 `architecture-validator` agent's system-level checks.
 Output: principle application guide + review checklist.
 
+### Reviewing code before merge
+
+```
+/ma-code-review
+```
+
+Run a structured code review — correctness, security, design, and
+test coverage checks in priority order, with severity-classified
+findings (BLOCKER / MAJOR / MINOR / NIT) and a clear verdict. Accepts
+a PR number, branch, commit range, or file set as scope. Output:
+review report with actionable, file:line-referenced findings.
+
+### Auditing application security
+
+```
+/ma-security-audit
+```
+
+Comprehensive application-layer security audit: OWASP Top 10 review,
+authentication and authorization deep-dive, cryptography assessment,
+input validation, secrets scanning, dependency and supply-chain audit,
+and AI-specific security checks. Complements `/ma-infra-security`
+which covers OS/kernel/container vulnerabilities. Output: findings
+table with severity ratings + remediation plan.
+
+### Deploying safely to production
+
+```
+/ma-deploy
+```
+
+Safe deployment workflow: pre-deployment checks (tests, review,
+config, migrations), strategy selection (rolling, blue-green,
+canary, feature flag), smoke tests, rollout monitoring with
+automated thresholds, and rehearsed rollback procedures. Output:
+deployment plan + execution log + rollback readiness confirmation.
+
+### Running a blameless post-incident review
+
+```
+/ma-postmortem
+```
+
+Post-incident review: build a timeline from alerts and logs,
+identify root causes with the Five Whys, classify contributing
+factors, define action items with owners and deadlines, and produce
+a blameless postmortem report. Output: timeline + root cause +
+action item table + lessons learned.
+
+### Generating and maintaining documentation
+
+```
+/ma-docs
+```
+
+Generate, update, and review technical documentation: API references
+(OpenAPI, GraphQL, gRPC), README files, Architecture Decision
+Records (ADRs), runbooks, and inline code docs. Audits existing docs
+for accuracy, completeness, and staleness. Output: updated docs +
+doc audit report.
+
 ## Design principles
 
 1. **One source of truth.** The orchestrator is the only agent that talks to the user.
@@ -328,7 +389,7 @@ Output: principle application guide + review checklist.
 ├── model-registrar.md       refreshes the catalog; the user approves every change
 ├── tool-steward.md          audits and curates the user-local tool cache
 ├── smoke/                   the clean-room smoke test: Dockerfile + smoke.sh
-├── skills/                 20 workflow skills: /ma-orient, /ma-tour,
+├── skills/                 25 workflow skills: /ma-orient, /ma-tour,
 │                          /ma-coverage, /ma-gdpr-audit, /ma-upgrade,
 │                          /ma-update, /ma-autocorrect, /ma-framework-context,
 │                          /ma-ai-guardrails, /ma-governance-policy,
@@ -336,7 +397,9 @@ Output: principle application guide + review checklist.
 │                          /ma-combinatorial, /ma-modernize, /ma-anti-agentic,
 │                          /ma-chaos-testing, /ma-infra-security,
 │                          /ma-test-methodologies, /ma-legacy-testing,
-│                          /ma-design-principles
+│                          /ma-design-principles, /ma-code-review,
+│                          /ma-security-audit, /ma-deploy, /ma-postmortem,
+│                          /ma-docs
 ├── shared/
 │   ├── standards.md         communication contracts + the elegance bar
 │   └── dialects/            139 contracts in role folders — data, not agents

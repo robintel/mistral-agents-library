@@ -10,6 +10,39 @@ feature = minor, fix = patch.
 
 ### Added
 
+- Add the `/ma-code-review` skill: structured code review
+  workflow covering correctness, security, design, and test
+  coverage in priority order, with severity-classified findings
+  (BLOCKER / MAJOR / MINOR / NIT) and a clear verdict. Accepts
+  a PR number, branch, commit range, or file set as scope.
+  Coordinates the `code-reviewer`, `threat-modeler`,
+  `architecture-validator`, and `test-engineer` agents.
+- Add the `/ma-security-audit` skill: comprehensive application
+  security audit covering the OWASP Top 10 (2021), authentication
+  and authorization deep-dive, cryptography assessment, input
+  validation, secrets scanning, dependency and supply-chain audit,
+  and AI-specific security checks. Complements `/ma-infra-security`
+  which covers OS/kernel/container vulnerabilities. Coordinates the
+  `threat-modeler`, `secret-cleaner`, `supply-chain-auditor`, and
+  `ai-security-auditor` agents.
+- Add the `/ma-deploy` skill: safe deployment workflow with
+  pre-deployment checks, deployment strategy selection (rolling,
+  blue-green, canary, feature flag), smoke tests, rollout
+  monitoring with automated thresholds, and rehearsed rollback
+  procedures. Coordinates the `devops`, `release-manager`,
+  `rollback-operator`, and `test-engineer` agents.
+- Add the `/ma-postmortem` skill: blameless post-incident review
+  covering timeline construction, Five Whys root cause analysis,
+  contributing factor classification, action item definition with
+  owners and deadlines, and report generation. Coordinates the
+  `ics-incident-respondent`, `risk-analyst`, and `release-manager`
+  agents.
+- Add the `/ma-docs` skill: generate, update, and review technical
+  documentation — API references (OpenAPI, GraphQL, gRPC), README
+  files, Architecture Decision Records (ADRs), runbooks, and inline
+  code documentation. Audits existing docs for accuracy,
+  completeness, and staleness. Coordinates the `architect`,
+  `code-developer`, and `code-reviewer` agents.
 - Add the `/ma-design-principles` skill: code-level design
   principles and defensive programming. Covers SOLID (Single
   Responsibility, Open/Closed, Liskov Substitution, Interface
