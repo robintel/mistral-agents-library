@@ -125,6 +125,18 @@ Assess the upgrade landscape: current vs latest versions, complexity,
 risk, and a staged plan. Output: ordered upgrade plan with risks and
 effort per stage.
 
+### Modernizing a legacy system
+
+```
+/ma-modernize
+```
+
+Move a legacy system to a modern stack — replatform, migrate, or
+full modernization. Provide the source system, target stack, and
+constraints; the skill maps the current estate, designs the target,
+and produces a MODERNIZATION PLAN with migration waves, green gates,
+and rollback plans. Output: modernization plan + phased execution.
+
 ### Auditing for GDPR compliance
 
 ```
@@ -222,8 +234,12 @@ unsupported claim. Output: findings table + corrections.
 ├── model-registrar.md       refreshes the catalog; the user approves every change
 ├── tool-steward.md          audits and curates the user-local tool cache
 ├── smoke/                   the clean-room smoke test: Dockerfile + smoke.sh
-├── skills/                 the workflow skills: /orient, /tour, /coverage,
-│                          /gdpr-audit, /upgrade, /ma-update, /autocorrect
+├── skills/                 14 workflow skills: /ma-orient, /ma-tour,
+│                          /ma-coverage, /ma-gdpr-audit, /ma-upgrade,
+│                          /ma-update, /ma-autocorrect, /ma-framework-context,
+│                          /ma-ai-guardrails, /ma-governance-policy,
+│                          /ma-dev-workflow, /ma-test-data,
+│                          /ma-combinatorial, /ma-modernize
 ├── shared/
 │   ├── standards.md         communication contracts + the elegance bar
 │   └── dialects/            98 contracts in role folders — data, not agents

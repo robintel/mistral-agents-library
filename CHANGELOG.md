@@ -22,6 +22,12 @@ feature = minor, fix = patch.
   `re-architect`, and `re-factor` task classes, all routing to
   `modernization-agent`. The agent's `accepts` field in
   `manifest.yaml` now matches its declared task classes.
+- Add a Modernizing a legacy system use case to the README.
+- Update the skills listing in README Layout and DEPLOYING.md to
+  include all 14 skills (was stale at 7).
+- Fix `test_update.sh` Test 6: expected profile count updated from
+  85 to 86 (pre-existing failure — an agent was added without
+  updating the test; 88 manifest entries, 2 duplicate names).
 - Add the `/ma-framework-context` skill: shared vocabulary for AI
   guardrails and governance — escalation levels (L0–L3), risk
   classifications, data sensitivity tiers (T0–T3), confirmation
