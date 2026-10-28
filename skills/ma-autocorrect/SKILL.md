@@ -1,6 +1,6 @@
 ---
 name: ma-autocorrect
-description: Fact-check library content against primary sources; fix or flag every unsupported claim
+description: "Fact-check library content against primary sources — invoke after adding factual claims (CVEs, versions, product names), before merging docs, or when auditing for hallucinations"
 user-invocable: true
 allowed-tools:
   - read_file

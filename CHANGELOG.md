@@ -10,6 +10,44 @@ feature = minor, fix = patch.
 
 ### Added
 
+- Add the `/ma-framework-context` skill: shared vocabulary for AI
+  guardrails and governance — escalation levels (L0–L3), risk
+  classifications, data sensitivity tiers (T0–T3), confirmation
+  checkpoint types, and governance domains. Referenced by
+  `/ma-ai-guardrails` and `/ma-governance-policy`.
+- Add the `/ma-ai-guardrails` skill: scans agent output against five
+  policy categories (content safety, secret leakage, PII exposure,
+  factual accuracy, scope adherence), applies escalation levels,
+  and gates irreversible or external actions behind confirmation
+  checkpoints.
+- Add the `/ma-governance-policy` skill: audits data governance
+  across five domains — privacy, data handling, compliance
+  (GDPR, CCPA, HIPAA, SOC 2, PCI DSS), PII controls, and retention
+  policies.
+- Make all skill descriptions trigger-oriented: each description
+  now states when to invoke the skill, not just what it does.
+  Document the hooks-and-scheduling principle in
+  `/ma-framework-context`: scheduled automations are for concrete
+  recurring tasks only.
+- Add User configuration sections to `/ma-ai-guardrails` and
+  `/ma-governance-policy`: each skill lists the decisions the
+  end user should make (blocked content, checkpoint actions,
+  compliance frameworks, retention periods, PII definition).
+  Library defaults: GDPR + SOC 2.
+- Add the `/ma-dev-workflow` skill: guides development through
+  three structured modes — spec-based (write spec then implement),
+  test-driven (TDD), and behavior-driven (BDD with Given/When/Then
+  scenarios). Integrates with the existing architect, implementer,
+  test-engineer, and code-reviewer agents.
+- Add the `/ma-test-data` skill: generates synthetic, deterministic
+  test fixtures from a schema, model, or function signature. Covers
+  person names, emails, dates, UUIDs, enums, ranges, patterns,
+  foreign keys, and edge cases. Outputs JSON, JSON Lines, CSV, SQL,
+  Python, or TypeScript.
+- Add the `/ma-combinatorial` skill: designs reduced test suites
+  using pairwise (2-way) or n-way coverage. Extracts parameters,
+  classifies values into equivalence classes, generates the minimal
+  covering suite, and verifies pair/triple coverage.
 - Add Dixell security dialect: `agent-dialects/dixell-security-dialect.md`
   provides Dixell-specific security patterns, terminology, and defense strategies
   based on the October 2026 cyberattack lessons — covering XWEB PRO, XWEB-500,

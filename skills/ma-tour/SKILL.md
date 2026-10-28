@@ -1,6 +1,6 @@
 ---
 name: ma-tour
-description: Run coordinated testing tours across the codebase
+description: "Run coordinated testing tours across the codebase — invoke when you need a broad health check, before a release, or when investigating unfamiliar code paths"
 user-invocable: true
 allowed-tools:
   - read_file

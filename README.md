@@ -69,6 +69,131 @@ versions when checking for or applying updates.
 The full mapping — profiles, subagents, skills — and its caveats:
 [DEPLOYING.md](DEPLOYING.md).
 
+## Use cases
+
+Concrete scenarios the library handles. Each names the agents or skills
+involved and the shape of the result.
+
+### Starting work in a new codebase
+
+```
+/ma-orient → app-cartographer → tour-coordinator
+```
+
+Get oriented in under a minute, then run a broad health check. The
+cartographer maps the project; the tour coordinator dispatches testing
+tours and synthesizes findings. Output: orientation summary, app map,
+tour report with risk findings.
+
+### Building a new feature
+
+```
+intake-analyst → architect → implementer → test-engineer → code-reviewer
+```
+
+Or via skill: `/ma-dev-workflow spec` — write the spec first, get
+approval, then implement against it. Output: spec document, working
+code, passing tests, review report.
+
+### Fixing a bug
+
+```
+orchestrator → debugger
+```
+
+Or via skill: `/ma-dev-workflow tdd` — write a failing test that
+reproduces the bug, fix the code, confirm the test passes. Output:
+regression test + fix.
+
+### Running a health check before release
+
+```
+/ma-tour → /ma-coverage
+```
+
+Coordinated testing tours plus a coverage report. If coverage is below
+the 80% floor, the coverage-manager lists the gaps. Output: tour
+findings + coverage percentage and gaps.
+
+### Planning dependency upgrades
+
+```
+/ma-upgrade
+```
+
+Assess the upgrade landscape: current vs latest versions, complexity,
+risk, and a staged plan. Output: ordered upgrade plan with risks and
+effort per stage.
+
+### Auditing for GDPR compliance
+
+```
+/ma-gdpr-audit
+```
+
+Walk the system for PII in logs, retention policies, consent mechanisms,
+right-to-be-forgotten, and breach notification. Output: findings table
+with risk levels and remediation priority.
+
+### Auditing data governance
+
+```
+/ma-governance-policy
+```
+
+Broader than GDPR: privacy, data handling, compliance frameworks
+(GDPR, SOC 2, HIPAA, PCI DSS), PII controls, and retention. Output:
+findings across five governance domains.
+
+### Scanning output before it ships
+
+```
+/ma-ai-guardrails
+```
+
+Scan a report, diff, or agent output for secrets, PII, harmful content,
+and factual errors. Gates irreversible actions behind confirmation
+checkpoints. Output: findings table with escalation levels.
+
+### Generating test fixtures
+
+```
+/ma-test-data
+```
+
+Point at a schema, model, or function signature; get synthetic,
+deterministic test data with edge cases included. Output: JSON, CSV,
+SQL, Python, or TypeScript fixtures.
+
+### Designing combinatorial test suites
+
+```
+/ma-combinatorial
+```
+
+For functions with many interacting parameters, generate a minimal
+pairwise (2-way) or n-way test suite instead of the exhaustive matrix.
+Output: parameter table, coverage verification, and test cases.
+
+### Keeping the library current
+
+```
+/ma-update
+```
+
+Check for and apply library updates. Output: version change summary
+and changelog excerpt.
+
+### Fact-checking documentation
+
+```
+/ma-autocorrect
+```
+
+Audit content for factual accuracy: verify CVEs, versions, product
+names, and claims against primary sources. Fix or flag every
+unsupported claim. Output: findings table + corrections.
+
 ## Design principles
 
 1. **One source of truth.** The orchestrator is the only agent that talks to the user.
