@@ -51,7 +51,7 @@ Shift+Tab for profiles and the slash picker for skills.
 | task classes | the routing table from manifest.yaml, carried into the orchestrator's prompt |
 | dialects | files on disk, read at dispatch: reference the library by path in the brief |
 | tier routing | `active_model` per profile, from the manifest's tier table |
-| workflows | skills: `/ma-orient`, `/ma-tour`, `/ma-coverage`, `/ma-gdpr-audit`, `/ma-upgrade`, `/ma-update`, `/ma-autocorrect`, `/ma-framework-context`, `/ma-ai-guardrails`, `/ma-governance-policy`, `/ma-dev-workflow`, `/ma-test-data`, `/ma-combinatorial`, `/ma-modernize`, `/ma-anti-agentic`, `/ma-chaos-testing`, `/ma-infra-security`, `/ma-test-methodologies`, `/ma-legacy-testing`, `/ma-design-principles` |
+| workflows | skills: `/ma-orient`, `/ma-tour`, `/ma-coverage`, `/ma-gdpr-audit`, `/ma-upgrade`, `/ma-update`, `/ma-autocorrect`, `/ma-framework-context`, `/ma-ai-guardrails`, `/ma-governance-policy`, `/ma-dev-workflow`, `/ma-test-data`, `/ma-combinatorial`, `/ma-modernize`, `/ma-anti-agentic`, `/ma-chaos-testing`, `/ma-infra-security`, `/ma-test-methodologies`, `/ma-legacy-testing`, `/ma-design-principles`, `/ma-code-review`, `/ma-security-audit`, `/ma-deploy`, `/ma-postmortem`, `/ma-docs` |
 | the target repo | a thin AGENTS.md pointing at the orchestrator |
 
 ## The one-command install
