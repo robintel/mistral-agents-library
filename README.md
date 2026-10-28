@@ -253,6 +253,36 @@ container hardening checklists, CVE monitoring (NVD, CISA KEV,
 vendor advisories), and building a vulnerability management
 program. Output: posture report + remediation plan + automation setup.
 
+### Choosing and applying testing methodologies
+
+```
+/ma-test-methodologies
+```
+
+A decision guide and playbook for modern testing methodologies:
+TDD (red-green-refactor), BDD (Given/When/Then), ATDD (acceptance
+criteria as definition of done), property-based testing (invariants
+across random inputs), mutation testing (test suite quality),
+contract testing (service boundaries), and snapshot testing
+(UI/output stability). Includes tool tables per ecosystem, common
+failure modes, a methodology selection map, and success metrics.
+Output: methodology recommendation + implementation playbook.
+
+### Testing legacy systems before migration
+
+```
+/ma-legacy-testing
+```
+
+Build a safety net for legacy code before you change it.
+Characterization (golden master) tests capture current behavior —
+including bugs — as executable specs. Seam-based dependency
+injection and scratch refactoring make untestable code testable.
+Parallel runs and differential testing prove the migrated system
+produces identical output. Based on Michael Feathers' *Working
+Effectively with Legacy Code*. Output: characterization test suite
++ migration verification plan.
+
 ## Design principles
 
 1. **One source of truth.** The orchestrator is the only agent that talks to the user.
@@ -281,13 +311,14 @@ program. Output: posture report + remediation plan + automation setup.
 ├── model-registrar.md       refreshes the catalog; the user approves every change
 ├── tool-steward.md          audits and curates the user-local tool cache
 ├── smoke/                   the clean-room smoke test: Dockerfile + smoke.sh
-├── skills/                 17 workflow skills: /ma-orient, /ma-tour,
+├── skills/                 19 workflow skills: /ma-orient, /ma-tour,
 │                          /ma-coverage, /ma-gdpr-audit, /ma-upgrade,
 │                          /ma-update, /ma-autocorrect, /ma-framework-context,
 │                          /ma-ai-guardrails, /ma-governance-policy,
 │                          /ma-dev-workflow, /ma-test-data,
 │                          /ma-combinatorial, /ma-modernize, /ma-anti-agentic,
-│                          /ma-chaos-testing, /ma-infra-security
+│                          /ma-chaos-testing, /ma-infra-security,
+│                          /ma-test-methodologies, /ma-legacy-testing
 ├── shared/
 │   ├── standards.md         communication contracts + the elegance bar
 │   └── dialects/            139 contracts in role folders — data, not agents
