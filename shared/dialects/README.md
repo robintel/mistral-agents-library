@@ -28,9 +28,10 @@ the way they attach any other context.
   csproj). Write the era you find; modernizing is its own brief,
   never a ride-along.
 - Two kinds of dialect: modern languages get idiom floors; legacy
-  languages (fortran, cobol, classic VB) get conservation contracts —
-  preservation over modernization, the running system is the spec, the
-  regression baseline captured before any change.
+  languages (fortran, cobol, basic, pascal, visual-basic) get
+  conservation contracts — preservation over modernization, the
+  running system is the spec, the regression baseline captured
+  before any change.
 - Status: a dialect never validated against a real codebase is marked
   experimental in its header. Agents treat its rules as provisional
   and flag findings that depend on them for human review.

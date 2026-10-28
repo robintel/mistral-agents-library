@@ -10,6 +10,19 @@ feature = minor, fix = patch.
 
 ### Added
 
+- Add five language dialects to `shared/dialects/languages/`:
+  `lisp.md` (modern idiom floor covering Common Lisp, Scheme,
+  Clojure, and Emacs Lisp with eras, macros, and REPL-driven
+  development), `lua.md` (modern idiom floor covering Lua 5.1
+  through 5.4 and LuaJIT with tables, metatables, coroutines, and
+  the game/embedded/hosting ecosystems), `pascal.md` (legacy
+  conservation contract covering Turbo Pascal, Delphi, and Free
+  Pascal with eras, strong typing, and units), `basic.md` (legacy
+  conservation contract covering line-numbered BASIC through
+  QBasic/QuickBASIC with GOTO discipline, global state, and type
+  suffixes), and `visual-basic.md` (legacy conservation contract
+  for classic VB6/VBA, distinct from the existing VB.NET dialect).
+  Language dialect count: 23 to 28.
 - Add the `/ma-infra-security` skill: harden infrastructure and
   manage OS-level vulnerabilities. Covers the vulnerability management
   lifecycle (detect, triage, remediate, verify, report, monitor),

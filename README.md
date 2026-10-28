@@ -290,10 +290,12 @@ program. Output: posture report + remediation plan + automation setup.
 │                          /ma-chaos-testing, /ma-infra-security
 ├── shared/
 │   ├── standards.md         communication contracts + the elegance bar
-│   └── dialects/            98 contracts in role folders — data, not agents
-│       ├── languages/         22: python, javascript, typescript, go, rust,
-│       │                      c, cpp, java, csharp, vbnet, php, ruby, perl,
-│       │                      fortran, cobol, graphql, pli, natural,
+│   └── dialects/            139 contracts in role folders — data, not agents
+│       ├── languages/         28: python, javascript, typescript, go, rust,
+│       │                      c, cpp, java, csharp, vbnet, visual-basic,
+│       │                      php, ruby, perl, lisp, lua,
+│       │                      fortran, cobol, basic, pascal, graphql,
+│       │                      pli, natural, ibm-i,
 │       │                      objectscript, xbase, asm-x86-64, asm-arm
 │       ├── engines/           sql core + postgres, mysql, oracle, bigquery,
 │       │                      sqlite, sqlserver, snowflake
