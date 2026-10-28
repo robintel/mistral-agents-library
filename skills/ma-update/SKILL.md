@@ -1,6 +1,6 @@
 ---
 name: ma-update
-description: Check for and apply updates to the Mistral Agents Library
+description: "Check for and apply Mistral Agents Library updates — invoke periodically, after pulling library changes, or when a new skill or agent is announced"
 user-invocable: true
 allowed-tools:
   - bash

@@ -1,6 +1,6 @@
 ---
 name: ma-upgrade
-description: Plan upgrade paths for dependencies, frameworks, and runtimes
+description: "Plan upgrade paths for dependencies and runtimes — invoke when dependencies are outdated, a framework nears end-of-life, or you are planning a migration"
 user-invocable: true
 allowed-tools:
   - read_file

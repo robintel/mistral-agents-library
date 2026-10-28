@@ -1,6 +1,6 @@
 ---
 name: ma-coverage
-description: Ensure and report test coverage against the floor
+description: "Check test coverage against the floor — invoke after writing or changing tests, before merging, or when assessing whether a module is adequately tested"
 user-invocable: true
 allowed-tools:
   - read_file

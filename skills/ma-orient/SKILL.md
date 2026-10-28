@@ -1,6 +1,6 @@
 ---
 name: ma-orient
-description: What does this repository do?
+description: "Orient yourself in an unfamiliar repository — invoke when starting work in a new codebase or when you need a quick summary of what a project does"
 user-invocable: true
 allowed-tools:
   - read_file

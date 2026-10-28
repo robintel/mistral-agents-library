@@ -1,6 +1,6 @@
 ---
 name: ma-gdpr-audit
-description: Audit GDPR compliance of the system under test
+description: "Audit GDPR compliance of the system under test — invoke when handling EU personal data, before a compliance review, or when PII handling changes"
 user-invocable: true
 allowed-tools:
   - read_file
