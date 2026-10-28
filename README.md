@@ -235,6 +235,24 @@ Toxiproxy), a six-phase workflow from steady-state definition through
 continuous automation, Game Day planning, and seven non-negotiable
 guardrails. Output: experiment plan + hypothesis + abort conditions.
 
+### Hardening infrastructure and managing OS vulnerabilities
+
+```
+/ma-infra-security
+```
+
+Protect servers, containers, and network devices against CVEs
+in the operating system, kernel, and underlying platform. Covers
+the vulnerability management lifecycle (detect, triage, remediate,
+verify, report, monitor), severity prioritization using CISA KEV
+and exposure analysis, vulnerability scanning tools (OpenVAS,
+Nessus, Trivy, Grype, AWS Inspector), OS patch management with
+ring-based deployment and zero-reboot live patching (Livepatch,
+KernelCare, kpatch), CIS benchmarks and DISA STIGs, host and
+container hardening checklists, CVE monitoring (NVD, CISA KEV,
+vendor advisories), and building a vulnerability management
+program. Output: posture report + remediation plan + automation setup.
+
 ## Design principles
 
 1. **One source of truth.** The orchestrator is the only agent that talks to the user.
@@ -263,13 +281,13 @@ guardrails. Output: experiment plan + hypothesis + abort conditions.
 ├── model-registrar.md       refreshes the catalog; the user approves every change
 ├── tool-steward.md          audits and curates the user-local tool cache
 ├── smoke/                   the clean-room smoke test: Dockerfile + smoke.sh
-├── skills/                 16 workflow skills: /ma-orient, /ma-tour,
+├── skills/                 17 workflow skills: /ma-orient, /ma-tour,
 │                          /ma-coverage, /ma-gdpr-audit, /ma-upgrade,
 │                          /ma-update, /ma-autocorrect, /ma-framework-context,
 │                          /ma-ai-guardrails, /ma-governance-policy,
 │                          /ma-dev-workflow, /ma-test-data,
 │                          /ma-combinatorial, /ma-modernize, /ma-anti-agentic,
-│                          /ma-chaos-testing
+│                          /ma-chaos-testing, /ma-infra-security
 ├── shared/
 │   ├── standards.md         communication contracts + the elegance bar
 │   └── dialects/            98 contracts in role folders — data, not agents

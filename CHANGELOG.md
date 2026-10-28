@@ -10,6 +10,18 @@ feature = minor, fix = patch.
 
 ### Added
 
+- Add the `/ma-infra-security` skill: harden infrastructure and
+  manage OS-level vulnerabilities. Covers the vulnerability management
+  lifecycle (detect, triage, remediate, verify, report, monitor),
+  severity prioritization using CISA KEV and exposure analysis,
+  vulnerability scanning tools (OpenVAS, Nessus, Trivy, Grype, AWS
+  Inspector), OS patch management with ring-based deployment and
+  zero-reboot live patching (Canonical Livepatch, KernelCare, kpatch),
+  CIS benchmarks and DISA STIGs, host and container hardening
+  checklists, CVE monitoring (NVD, CISA KEV, vendor advisories),
+  network hardening, and building a vulnerability management program.
+  Fills the gap between application security (`threat-modeler`,
+  `ai-security-auditor`) and pipeline security (`supply-chain-auditor`).
 - Add the `/ma-chaos-testing` skill: design and run chaos
   engineering experiments to verify system resilience. Covers the
   five principles of chaos engineering, a fault taxonomy across
