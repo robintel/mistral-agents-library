@@ -167,6 +167,19 @@ Scan a report, diff, or agent output for secrets, PII, harmful content,
 and factual errors. Gates irreversible actions behind confirmation
 checkpoints. Output: findings table with escalation levels.
 
+### Defending against hostile AI agents
+
+```
+/ma-anti-agentic
+```
+
+Harden a web-facing system against automated abuse — scrapers,
+credential stuffers, recon bots, AI-driven attacks. Designs a
+gauntlet of tarpits, honeytokens, canaries, decoys, and detection
+gates that makes attacking expensive while real users get zero
+friction. Two EU-native deployment models: managed edge or
+self-hosted. Output: defense plan + implementation steps.
+
 ### Generating test fixtures
 
 ```
@@ -234,12 +247,12 @@ unsupported claim. Output: findings table + corrections.
 ├── model-registrar.md       refreshes the catalog; the user approves every change
 ├── tool-steward.md          audits and curates the user-local tool cache
 ├── smoke/                   the clean-room smoke test: Dockerfile + smoke.sh
-├── skills/                 14 workflow skills: /ma-orient, /ma-tour,
+├── skills/                 15 workflow skills: /ma-orient, /ma-tour,
 │                          /ma-coverage, /ma-gdpr-audit, /ma-upgrade,
 │                          /ma-update, /ma-autocorrect, /ma-framework-context,
 │                          /ma-ai-guardrails, /ma-governance-policy,
 │                          /ma-dev-workflow, /ma-test-data,
-│                          /ma-combinatorial, /ma-modernize
+│                          /ma-combinatorial, /ma-modernize, /ma-anti-agentic
 ├── shared/
 │   ├── standards.md         communication contracts + the elegance bar
 │   └── dialects/            98 contracts in role folders — data, not agents

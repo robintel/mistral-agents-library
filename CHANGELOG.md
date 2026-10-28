@@ -10,6 +10,15 @@ feature = minor, fix = patch.
 
 ### Added
 
+- Add the `/ma-anti-agentic` skill: design and deploy anti-agentic
+  architecture to defend against hostile AI agents (scrapers,
+  credential stuffers, recon bots). Covers the five gauntlet
+  techniques (tarpits, honeytokens/canaries, contradictory content,
+  decoys, detection gates), two EU-native deployment models (managed
+  edge via bunny.net/Gcore/OVHcloud, or self-hosted VPS with Nginx +
+  Coraza + CrowdSec), and the three guardrails (never deceive humans,
+  stay passive, rotate everything). Based on the QAstell article
+  "Anti-Agentic Architecture" (October 2026).
 - Add the `/ma-modernize` skill: a workflow skill for application
   modernization, migration, and replatforming — invoke when moving
   a legacy system to a modern stack. Covers three scenarios
