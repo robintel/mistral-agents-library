@@ -10,6 +10,17 @@ feature = minor, fix = patch.
 
 ### Added
 
+- Add the `/ma-chaos-testing` skill: design and run chaos
+  engineering experiments to verify system resilience. Covers the
+  five principles of chaos engineering, a fault taxonomy across
+  six categories (network, process, resource, dependency, state,
+  infrastructure), tool selection by platform (Chaos Mesh, Litmus,
+  AWS FIS, Azure Chaos Studio, Gremlin, Toxiproxy, Chaos Toolkit,
+  Pumba), a six-phase workflow from steady-state definition through
+  continuous automation, Game Day planning, and seven non-negotiable
+  guardrails (always have an abort condition, start small, staging
+  first, communicate, one fault at a time, respect blast radius,
+  business hours only).
 - Add the `/ma-anti-agentic` skill: design and deploy anti-agentic
   architecture to defend against hostile AI agents (scrapers,
   credential stuffers, recon bots). Covers the five gauntlet
