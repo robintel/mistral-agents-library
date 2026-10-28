@@ -10,6 +10,18 @@ feature = minor, fix = patch.
 
 ### Added
 
+- Add the `/ma-modernize` skill: a workflow skill for application
+  modernization, migration, and replatforming — invoke when moving
+  a legacy system to a modern stack. Covers three scenarios
+  (replatform, migrate, modernize), guides through six phases from
+  request gathering to cutover, and coordinates the
+  `modernization-agent`, `app-cartographer`, `architect`,
+  `migration-engineer`, `data-migration-engineer`, `devops`,
+  `test-engineer`, `rollback-operator`, and `release-manager`.
+- Add routing entries for `legacy-migration`, `re-platform`,
+  `re-architect`, and `re-factor` task classes, all routing to
+  `modernization-agent`. The agent's `accepts` field in
+  `manifest.yaml` now matches its declared task classes.
 - Add the `/ma-framework-context` skill: shared vocabulary for AI
   guardrails and governance — escalation levels (L0–L3), risk
   classifications, data sensitivity tiers (T0–T3), confirmation
