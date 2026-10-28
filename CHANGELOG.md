@@ -10,6 +10,26 @@ feature = minor, fix = patch.
 
 ### Added
 
+- Add the `/ma-anti-agentic` skill: design and deploy anti-agentic
+  architecture to defend against hostile AI agents (scrapers,
+  credential stuffers, recon bots). Covers the five gauntlet
+  techniques (tarpits, honeytokens/canaries, contradictory content,
+  decoys, detection gates), two EU-native deployment models (managed
+  edge via bunny.net/Gcore/OVHcloud, or self-hosted VPS with Nginx +
+  Coraza + CrowdSec), and the three guardrails (never deceive humans,
+  stay passive, rotate everything). Based on the QAstell article
+  "Anti-Agentic Architecture" (October 2026).
+- Compose the skills list into the orchestrator profile: both
+  installers now read every SKILL.md frontmatter and append an
+  "Available skills" section to the orchestrator's instructions.
+  The orchestrator can now suggest the right slash command when a
+  user's request matches a skill's purpose, instead of routing to
+  an unrelated agent or returning needs-input. Previously, skills
+  were installed but invisible to the orchestrator.
+- Skills section now has two paths: **Explain** (read the skill's
+  SKILL.md at `{library}/skills/<name>/SKILL.md` and summarize when
+  the user asks what a command does) and **Execute** (suggest the
+  slash command when the user wants the work done).
 - Add the `/ma-modernize` skill: a workflow skill for application
   modernization, migration, and replatforming — invoke when moving
   a legacy system to a modern stack. Covers three scenarios
