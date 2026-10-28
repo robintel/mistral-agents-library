@@ -10,6 +10,16 @@ feature = minor, fix = patch.
 
 ### Added
 
+- Add the `/ma-design-principles` skill: code-level design
+  principles and defensive programming. Covers SOLID (Single
+  Responsibility, Open/Closed, Liskov Substitution, Interface
+  Segregation, Dependency Inversion) with code examples, plus
+  fail-fast validation, input validation, assertions vs exceptions,
+  defensive copying, null safety (null object pattern), error
+  handling, DRY with the Rule of Three, KISS, YAGNI, Law of
+  Demeter (Tell Don't Ask), and composition over inheritance.
+  Includes a 10-point code review checklist. Complements the
+  `architecture-validator` agent's system-level checks.
 - Add the `/ma-test-methodologies` skill: a decision guide and
   playbook for modern testing methodologies — TDD (red-green-
   refactor), BDD (Given/When/Then with Cucumber/SpecFlow/Behave),
