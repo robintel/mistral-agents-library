@@ -92,6 +92,29 @@ never by silent accumulation.
       but a checklist skill would have caught the [CUI]/[email]
       placeholder blockers in the LaMatusa run. Unblock: a second
       jurisdiction needed before writing anything generic.
+- [ ] Model-catalog refresh skill (/ma-update-models, working name):
+      workflow skill that triggers the model-registrar
+      (routing for catalog already exists) — gather sources
+      (GET /v1/models with MISTRAL_API_KEY; docs/pricing via web
+      search otherwise), drop deprecated, re-tier survivors, propose
+      the minimal patch, apply only on the user's explicit yes.
+      Mirrors the /ma-modernize pattern: the skill is the user's
+      entry point to a specialist's fixed procedure. Unblock:
+      MISTRAL_API_KEY in the environment and an HTTP tool in the
+      runtime — the same unblock as the catalog-verify item above,
+      whose flow this skill would wrap.
+- [ ] Tool-cache export skill (/ma-export-cached-tools): package
+      ~/.mistral-agents/tools/ (INDEX.md first; run-proofs and
+      data-clean headers travel with the tools — they are the birth
+      gate, an export without them is worthless on re-import) for
+      backup, machine-to-machine moves, or contributing vetted tools
+      back into the library's tools/ so install.py ships them by
+      default. Design question to settle before writing it: does an
+      imported tool re-enter through the same birth gate, or is the
+      source machine's run-proof sufficient? Unblockable only after
+      the installer wiring item above ships — the round-trip
+      (cache -> export -> library -> install -> cache) must be
+      provable end to end first.
 
 ## Parked — unblock conditions attached
 
