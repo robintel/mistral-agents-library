@@ -25,7 +25,10 @@ three:
    inline in the TOML as a multiline string, no separate file needed.
    Everything else lands in the config `overrides`: `active_model`,
    `enabled_tools`, `disabled_tools`, and per-tool rules such as
-   `tools.write_file.permission` with allowlists.
+   `tools.write_file.permission` with allowlists. Caveat (Vibe >= 1.23,
+   verified 2026-11-10): `active_model` must name an alias from the
+   session's `[[models]]` registry — a raw chat-API model ID makes the
+   runtime reject the profile for subagent spawns.
 2. **Subagents** — profiles with `agent_type = "subagent"`:
    delegation-only, spawned by the model through the task tool, not
    user-selectable. Per the docs, subagents cannot ask the user
@@ -50,7 +53,7 @@ Shift+Tab for profiles and the slash picker for skills.
 | agent bodies | prompt files: standards.md + body, composed |
 | task classes | the routing table from manifest.yaml, carried into the orchestrator's prompt |
 | dialects | files on disk, read at dispatch: reference the library by path in the brief |
-| tier routing | `active_model` per profile, from the manifest's tier table |
+| tier routing | the tier ceiling recorded as a profile comment; profiles run on the session's model (`active_model` pinning fails the `[[models]]` alias check) |
 | workflows | skills: `/ma-orient`, `/ma-tour`, `/ma-coverage`, `/ma-gdpr-audit`, `/ma-upgrade`, `/ma-update`, `/ma-autocorrect`, `/ma-framework-context`, `/ma-ai-guardrails`, `/ma-governance-policy`, `/ma-dev-workflow`, `/ma-test-data`, `/ma-combinatorial`, `/ma-modernize`, `/ma-anti-agentic`, `/ma-chaos-testing`, `/ma-infra-security`, `/ma-test-methodologies`, `/ma-legacy-testing`, `/ma-design-principles`, `/ma-code-review`, `/ma-security-audit`, `/ma-deploy`, `/ma-postmortem`, `/ma-docs` |
 | the target repo | a thin AGENTS.md pointing at the orchestrator |
 
@@ -136,7 +139,8 @@ disk.
    ```toml
    description = "The agent library single source of truth"
    safety = "neutral"
-   active_model = "mistral-small-latest"    # t1 per the manifest
+   # active_model omitted — tier t1 ceiling mistral-small-latest; the
+   # runtime validates the key against [[models]] aliases, not chat-API IDs
 
    instructions = """
    <shared/standards.md>
@@ -153,7 +157,7 @@ disk.
    ```
 
 2. **Specialist subagents**, one per role the orchestrator
-   dispatches, model and tools pinned by the manifest:
+   dispatches, tools pinned by the manifest:
 
    ```toml
    # ~/.vibe/agents/app-cartographer.toml

@@ -3,8 +3,13 @@
 
 Reads manifest.yaml — the single source of truth — and composes every
 agent into a self-contained TOML profile: shared/standards.md plus the
-agent body, the tier's model from models.resolved, and the role's tool
-surface (the sets live below; DEPLOYING.md documents the mapping).
+agent body, the tier's model ceiling from models.resolved (recorded as
+a comment), and the role's tool surface (the sets live below;
+DEPLOYING.md documents the mapping). Profiles do not set active_model:
+the Vibe runtime (>= 1.23) validates it against the session's
+[[models]] model aliases and rejects the manifest's chat-API model
+IDs, which made every named profile unspawnable; named profiles run on
+the session's model instead.
 
 The orchestrator lands as a selectable profile; every other agent
 lands as a subagent the orchestrator spawns by name. Files from
@@ -249,7 +254,8 @@ def compose(agents, routing, library, skills=None):
                 f"display_name = {toml_string(display_name(name) + ' (Mistral Agents Library)')}\n"
                 f"description = {toml_string(extract_tagline(body, name))}\n"
                 f'safety = "neutral"\n'
-                f"active_model = {toml_string(agent['model'])}\n\n"
+                f"# active_model omitted — tier {agent['tier']} ceiling {agent['model']}; the\n"
+                f"# runtime validates the key against [[models]] aliases, not chat-API IDs\n\n"
                 + toml_multiline(instructions)
             )
         else:
@@ -261,7 +267,8 @@ def compose(agents, routing, library, skills=None):
                 f"safety = {toml_string(safety)}\n"
                 f'agent_type = "subagent"\n'
                 f"enabled_tools = {toml_array(tools)}\n"
-                f"active_model = {toml_string(agent['model'])}\n\n"
+                f"# active_model omitted — tier {agent['tier']} ceiling {agent['model']}; the\n"
+                f"# runtime validates the key against [[models]] aliases, not chat-API IDs\n\n"
                 + toml_multiline(instructions)
             )
         profiles.append((name, text, instructions))
