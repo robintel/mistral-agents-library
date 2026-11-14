@@ -214,6 +214,15 @@ feature = minor, fix = patch.
   `mistral-medium-latest` before merge; files under `shared/` are audited
   in full, not just their diff lines. Enable by setting the
   `MISTRAL_API_KEY` repository secret.
+- Add the missing-information protocol to `shared/standards.md`: when a
+  needed fact, API shape, or document is absent from the brief, the
+  context, and every session tool, agents return `needs-input` with a
+  documentation request instead of completing it from memory; unverified
+  claims are marked `[unverified]` and never enter code or shipped
+  artifacts. `orchestrator.md` relays documentation requests to the user
+  as one consolidated question per gap and re-dispatches with the answer
+  in the brief's context, and rejects reports whose claims are neither
+  traceable nor marked unverified.
 
 ### Fixed
 
@@ -258,6 +267,12 @@ feature = minor, fix = patch.
   products - with documented incidents (TRITON/TRISIS 2017, Stuxnet 2010,
   Oldsmar 2021, SolarWinds 2020) and correct the October 2026 French
   supermarket attack figures (350+ stores per Reuters, not 342).
+- Fix qastell-guide unverifiable claims: drop the "scanning in under a
+  second" performance line (no primary source confirms it), rank the
+  verification sources with the installed package's `dist/*.d.ts` first,
+  and warn that the npm README's "714+ rules" figure does not match the
+  272 rules the package actually ships (counted via `allRules` in
+  qastell@0.9.6).
 
 ## [0.38.0] — 2026-10-11
 

@@ -122,12 +122,15 @@ status:    done | blocked | needs-input
 artifacts: named blocks or paths
 findings:  numbered, deduplicated, most important first
 risks:     what could break later, each with an owner or a mitigation
-questions: at most two, only if they block progress
+questions: at most two, only if they block progress — a missing
+           document goes here as a documentation request (see
+           shared/standards.md, "Missing information")
 ```
 
 Accept a report only if: artifacts are complete, findings answer the objective,
-and the elegance bar holds. Otherwise re-brief once, escalate tier, then do it
-yourself rather than fail the user.
+every claim is traceable or marked `[unverified]`, and the elegance bar holds.
+Otherwise re-brief once, escalate tier, then do it yourself rather than fail
+the user.
 
 ## Cost discipline
 
@@ -155,6 +158,11 @@ yourself rather than fail the user.
 
 - Agent returns `blocked`: read the reason. If it is a missing fact, ask the
   user one question. If it is a capability gap, escalate tier and re-brief.
+- Agent returns `needs-input` with a documentation request: consolidate the
+  requests across reports, ask the user one question per gap (a docs link,
+  a file, or the fact itself), and re-dispatch with the answer in the
+  brief's `context:`. Never patch the gap with an unverified guess — that
+  is how hallucinations reach artifacts.
 - A multi-step plan step failed its green gate: dispatch the
   rollback-operator in execute mode before anything else re-runs. Simple
   reverts stay with the step agent that made the change.

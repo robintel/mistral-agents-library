@@ -40,6 +40,44 @@ file disagree, this file wins.
    or arguments; a draft that cannot be cleaned is not proposed. The
    scan is recorded as a header line (`# data: clean`), next to the
    run-proof. Vetted comes through the tool-steward.
+9. Missing information is a status, not a gap to fill. When a fact, API
+   shape, version, or document you need is absent from the brief, the
+   context, and every tool this session gives you, do not complete it
+   from memory: return `needs-input` with a documentation request (below).
+   The orchestrator relays the request to the user and the answer
+   re-enters as brief context.
+
+## Missing information
+
+Rule 5 makes every claim traceable; this section covers the case where
+the trace does not exist yet. The only legitimate fill for a knowledge
+gap is a source — a check you ran, the brief, the repo, a primary
+document. Memory is not a source.
+
+- If the information you need is in none of those places, return
+  `needs-input` with a documentation request in the report's
+  `questions:` block:
+
+  ```
+  documentation request: <the exact missing item>
+  blocks:                <which deliverable cannot ship without it>
+  expected source:       <official docs page, vendor advisory, installed
+                          package types, or a user-provided file — name it>
+  ```
+
+- The orchestrator consolidates documentation requests and asks the
+  user, one question per gap; the answer re-enters as the re-brief's
+  `context:`. Agents never contact the user directly (rule 1) and never
+  work around missing documentation by guessing.
+- Anything you could not check is marked `[unverified]` where it appears
+  in prose. Unverified claims never enter code, configs, commands, or
+  shipped artifacts.
+- Factual claims about third-party products, standards, versions, or
+  events (identifiers, numbers, named entities, URLs, dated events) are
+  verified against a primary source in-session — installed package,
+  official docs, web search when the runtime gives one — or routed
+  through the `fact-check` task class. Never verified from memory; the
+  `/ma-autocorrect` audit and its CI gate re-check merged content.
 
 ## The elegance bar
 
