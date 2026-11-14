@@ -10,17 +10,183 @@ Features:
 - Auto-update: Automatically refresh stale knowledge
 - Reconciliation: Handle different types of changes appropriately
 - Freshness tracking: Monitor and report knowledge freshness
+- Atomic writes: Prevents data corruption on crashes
+- File locking: Prevents concurrent access corruption (POSIX)
+- Automatic backups: Protection against data loss
+- Comprehensive logging: For debugging and auditing
+- Input validation: Prevents invalid data
 """
 
 import os
 import json
 import hashlib
 import time
+import logging
+import shutil
+import copy
 from datetime import datetime, timezone, timedelta
 from pathlib import Path
 from dataclasses import dataclass, field
 from typing import Dict, List, Optional, Set, Tuple, Any
 from enum import Enum
+from functools import wraps
+
+
+# ============================================================================
+# Configuration
+# ============================================================================
+
+class KnowledgeGraphConfig:
+    """Configuration for the knowledge graph."""
+    
+    # File locking
+    USE_FILE_LOCKING = True
+    LOCK_TIMEOUT_SECONDS = 30
+    
+    # Backups
+    ENABLE_BACKUPS = True
+    BACKUP_INTERVAL = 10  # Number of writes between backups
+    MAX_BACKUPS = 10
+    
+    # Logging
+    LOG_LEVEL = logging.INFO
+    LOG_FORMAT = '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+    LOG_FILE = None  # Set to path for file logging
+    
+    # Retries
+    MAX_RETRIES = 3
+    RETRY_DELAY_SECONDS = 0.1
+
+
+# Setup logger
+logger = logging.getLogger('knowledge_graph')
+logger.setLevel(KnowledgeGraphConfig.LOG_LEVEL)
+
+# Console handler
+console_handler = logging.StreamHandler()
+console_handler.setLevel(KnowledgeGraphConfig.LOG_LEVEL)
+console_handler.setFormatter(logging.Formatter(KnowledgeGraphConfig.LOG_FORMAT))
+logger.addHandler(console_handler)
+
+# File handler (if configured)
+if KnowledgeGraphConfig.LOG_FILE:
+    file_handler = logging.FileHandler(KnowledgeGraphConfig.LOG_FILE)
+    file_handler.setLevel(KnowledgeGraphConfig.LOG_LEVEL)
+    file_handler.setFormatter(logging.Formatter(KnowledgeGraphConfig.LOG_FORMAT))
+    logger.addHandler(file_handler)
+
+
+# ============================================================================
+# Exceptions
+# ============================================================================
+
+class KnowledgeGraphError(Exception):
+    """Base exception for knowledge graph errors."""
+    pass
+
+
+class StorageError(KnowledgeGraphError):
+    """Error during storage operations."""
+    pass
+
+
+class LockError(KnowledgeGraphError):
+    """Error acquiring/releasing locks."""
+    pass
+
+
+class ValidationError(KnowledgeGraphError):
+    """Error validating data."""
+    pass
+
+
+class BackupError(KnowledgeGraphError):
+    """Error during backup operations."""
+    pass
+
+
+# ============================================================================
+# Entity Schema Validation
+# ============================================================================
+
+ENTITY_SCHEMA = {
+    'id': str,
+    'type': str,
+}
+
+RELATIONSHIP_SCHEMA = {
+    'id': str,
+    'type': str,
+    'source_id': str,
+    'target_id': str,
+}
+
+
+def validate_entity(entity: Dict[str, Any]) -> None:
+    """Validate entity schema and data."""
+    # Check required fields
+    for field, expected_type in ENTITY_SCHEMA.items():
+        if field not in entity:
+            raise ValidationError(f"Entity missing required field: {field}")
+        if not isinstance(entity[field], expected_type):
+            raise ValidationError(f"Field '{field}' must be {expected_type.__name__}, got {type(entity[field]).__name__}")
+    
+    # Check id format
+    if not entity['id'] or len(entity['id']) > 256:
+        raise ValidationError(f"Entity ID must be 1-256 characters")
+    
+    # Check type is a non-empty string
+    if not entity['type'] or not isinstance(entity['type'], str) or len(entity['type']) > 100:
+        raise ValidationError(f"Entity type must be a non-empty string (max 100 chars)")
+
+
+def validate_relationship(relationship: Dict[str, Any]) -> None:
+    """Validate relationship schema and data."""
+    # Check required fields
+    for field, expected_type in RELATIONSHIP_SCHEMA.items():
+        if field not in relationship:
+            raise ValidationError(f"Relationship missing required field: {field}")
+        if not isinstance(relationship[field], expected_type):
+            raise ValidationError(f"Field '{field}' must be {expected_type.__name__}, got {type(relationship[field]).__name__}")
+    
+    # Check type is a non-empty string
+    if not relationship['type'] or not isinstance(relationship['type'], str) or len(relationship['type']) > 100:
+        raise ValidationError(f"Relationship type must be a non-empty string (max 100 chars)")
+    
+    # Check ids format
+    if not relationship['source_id'] or len(relationship['source_id']) > 256:
+        raise ValidationError(f"Relationship source_id must be 1-256 characters")
+    if not relationship['target_id'] or len(relationship['target_id']) > 256:
+        raise ValidationError(f"Relationship target_id must be 1-256 characters")
+    
+    # Check id format
+    if not relationship['id'] or len(relationship['id']) > 256:
+        raise ValidationError(f"Relationship ID must be 1-256 characters")
+
+
+# ============================================================================
+# Retry Decorator
+# ============================================================================
+
+def retry_on_failure(max_retries: int = KnowledgeGraphConfig.MAX_RETRIES, 
+                     delay: float = KnowledgeGraphConfig.RETRY_DELAY_SECONDS):
+    """Decorator to retry a function on failure."""
+    def decorator(func):
+        @wraps(func)
+        def wrapper(*args, **kwargs):
+            last_exception = None
+            for attempt in range(max_retries):
+                try:
+                    return func(*args, **kwargs)
+                except Exception as e:
+                    last_exception = e
+                    logger.warning(f"Attempt {attempt + 1}/{max_retries} failed: {e}")
+                    if attempt < max_retries - 1:
+                        time.sleep(delay)
+            logger.error(f"All {max_retries} attempts failed for {func.__name__}")
+            raise last_exception
+        return wrapper
+    return decorator
 
 
 # ============================================================================
@@ -284,7 +450,9 @@ except ImportError:
 class FileSystemKnowledgeGraph(KnowledgeGraphInterface):
     """Knowledge graph implementation using the file system."""
     
-    def __init__(self, knowledge_dir: Optional[str] = None):
+    def __init__(self, knowledge_dir: Optional[str] = None, 
+                 enable_backups: bool = KnowledgeGraphConfig.ENABLE_BACKUPS,
+                 max_backups: int = KnowledgeGraphConfig.MAX_BACKUPS):
         """Initialize the knowledge graph."""
         if knowledge_dir is None:
             knowledge_dir = os.path.expanduser("~/.mistral-agents/knowledge")
@@ -292,35 +460,71 @@ class FileSystemKnowledgeGraph(KnowledgeGraphInterface):
         self.graph_dir = self.knowledge_dir / "graph"
         self.sessions_dir = self.knowledge_dir / "sessions"
         self.cache_dir = self.knowledge_dir / "cache"
+        self.backup_dir = self.knowledge_dir / "backups"
+        
+        # Configuration
+        self.enable_backups = enable_backups
+        self.max_backups = max_backups
+        self._write_count = 0  # Track writes for backup interval
         
         # File lock for concurrent access protection
         self._lock_file = self.knowledge_dir / ".knowledge_lock"
         self._lock_fd = None
+        self._lock_held = False
         
         # Ensure directories exist
         self.graph_dir.mkdir(parents=True, exist_ok=True)
         self.sessions_dir.mkdir(parents=True, exist_ok=True)
         self.cache_dir.mkdir(parents=True, exist_ok=True)
+        if self.enable_backups:
+            self.backup_dir.mkdir(parents=True, exist_ok=True)
+        
+        logger.info(f"Initialized knowledge graph at {self.knowledge_dir}")
+        logger.info(f"Backups: {'enabled' if self.enable_backups else 'disabled'}")
+        logger.info(f"File locking: {'enabled' if HAS_FLOCK else 'disabled (Windows)'}")
     
-    def _acquire_lock(self):
+    def _acquire_lock(self, timeout: Optional[float] = None):
         """Acquire file lock for atomic operations."""
         if not HAS_FLOCK:
             return  # No locking on Windows
         
-        if self._lock_fd is None:
-            self._lock_fd = open(self._lock_file, 'w')
+        if timeout is None:
+            timeout = KnowledgeGraphConfig.LOCK_TIMEOUT_SECONDS
         
-        fcntl.flock(self._lock_fd, fcntl.LOCK_EX)
+        start_time = time.time()
+        while True:
+            try:
+                if self._lock_fd is None:
+                    self._lock_fd = open(self._lock_file, 'w')
+                
+                # Try non-blocking first
+                try:
+                    fcntl.flock(self._lock_fd, fcntl.LOCK_EX | fcntl.LOCK_NB)
+                    self._lock_held = True
+                    break
+                except (IOError, OSError):
+                    # Lock is held by another process
+                    if time.time() - start_time >= timeout:
+                        raise LockError(f"Could not acquire lock after {timeout} seconds")
+                    time.sleep(0.1)
+            except Exception as e:
+                logger.error(f"Error acquiring lock: {e}")
+                raise LockError(f"Failed to acquire lock: {e}")
+        
+        logger.debug("Lock acquired")
     
     def _release_lock(self):
         """Release file lock."""
-        if not HAS_FLOCK or self._lock_fd is None:
+        if not HAS_FLOCK or self._lock_fd is None or not self._lock_held:
             return
         
         try:
             fcntl.flock(self._lock_fd, fcntl.LOCK_UN)
-        except Exception:
-            pass
+            self._lock_held = False
+            logger.debug("Lock released")
+        except Exception as e:
+            logger.error(f"Error releasing lock: {e}")
+            self._lock_held = False
     
     def __enter__(self):
         """Context manager entry - acquire lock."""
@@ -334,6 +538,7 @@ class FileSystemKnowledgeGraph(KnowledgeGraphInterface):
     
     def __del__(self):
         """Clean up lock file descriptor."""
+        self._release_lock()
         if self._lock_fd is not None:
             try:
                 self._lock_fd.close()
@@ -341,14 +546,220 @@ class FileSystemKnowledgeGraph(KnowledgeGraphInterface):
                 pass
             self._lock_fd = None
     
+    def _create_backup(self):
+        """Create a backup of the knowledge graph files."""
+        if not self.enable_backups:
+            return
+        
+        try:
+            timestamp = datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')
+            backup_dir = self.backup_dir / f"backup_{timestamp}"
+            backup_dir.mkdir(parents=True, exist_ok=True)
+            
+            # Backup entities and relationships
+            for file_name in ['entities.jsonl', 'relationships.jsonl']:
+                src = self.graph_dir / file_name
+                if src.exists():
+                    dst = backup_dir / file_name
+                    shutil.copy2(src, dst)
+            
+            logger.info(f"Backup created: {backup_dir}")
+            
+            # Clean up old backups
+            self._cleanup_old_backups()
+        except Exception as e:
+            logger.error(f"Failed to create backup: {e}")
+            raise BackupError(f"Backup failed: {e}")
+    
+    def _cleanup_old_backups(self):
+        """Remove old backups, keeping only max_backups."""
+        if not self.enable_backups:
+            return
+        
+        try:
+            backup_dirs = sorted(self.backup_dir.iterdir(), key=lambda x: x.name, reverse=True)
+            for backup_dir in backup_dirs[self.max_backups:]:
+                if backup_dir.is_dir():
+                    shutil.rmtree(backup_dir)
+                    logger.info(f"Removed old backup: {backup_dir}")
+        except Exception as e:
+            logger.error(f"Failed to cleanup old backups: {e}")
+    
+    def _restore_from_backup(self, backup_path: Optional[str] = None) -> bool:
+        """Restore knowledge graph from a backup."""
+        if backup_path:
+            backup_dir = Path(backup_path)
+        else:
+            # Get most recent backup
+            backup_dirs = sorted(self.backup_dir.iterdir(), key=lambda x: x.name, reverse=True)
+            if not backup_dirs:
+                logger.warning("No backups available to restore")
+                return False
+            backup_dir = backup_dirs[0]
+        
+        try:
+            # Validate backup
+            if not (backup_dir / 'entities.jsonl').exists():
+                logger.error(f"Invalid backup: {backup_dir}")
+                return False
+            
+            logger.info(f"Restoring from backup: {backup_dir}")
+            
+            # Restore files
+            for file_name in ['entities.jsonl', 'relationships.jsonl']:
+                src = backup_dir / file_name
+                if src.exists():
+                    dst = self.graph_dir / file_name
+                    shutil.copy2(src, dst)
+            
+            logger.info("Restore complete")
+            return True
+        except Exception as e:
+            logger.error(f"Failed to restore from backup: {e}")
+            raise BackupError(f"Restore failed: {e}")
+    
+    def get_backups(self) -> List[Dict[str, Any]]:
+        """List available backups."""
+        if not self.enable_backups or not self.backup_dir.exists():
+            return []
+        
+        backups = []
+        for backup_dir in sorted(self.backup_dir.iterdir(), key=lambda x: x.name, reverse=True):
+            if backup_dir.is_dir():
+                try:
+                    mtime = datetime.fromtimestamp(backup_dir.stat().st_mtime)
+                    size = sum(f.stat().st_size for f in backup_dir.iterdir() if f.is_file())
+                    backups.append({
+                        'path': str(backup_dir),
+                        'timestamp': mtime.isoformat(),
+                        'size_bytes': size
+                    })
+                except Exception:
+                    pass
+        return backups
+    
+    def check_integrity(self) -> Dict[str, Any]:
+        """Check the integrity of the knowledge graph files."""
+        result = {
+            'entities_valid': 0,
+            'entities_invalid': 0,
+            'relationships_valid': 0,
+            'relationships_invalid': 0,
+            'issues': []
+        }
+        
+        logger.info("Checking knowledge graph integrity...")
+        
+        # Check entities file
+        entities_file = self.graph_dir / "entities.jsonl"
+        if entities_file.exists():
+            with open(entities_file, 'r') as f:
+                for line_num, line in enumerate(f, 1):
+                    if line.strip():
+                        try:
+                            json.loads(line)
+                            result['entities_valid'] += 1
+                        except json.JSONDecodeError as e:
+                            result['entities_invalid'] += 1
+                            result['issues'].append(f"entities.jsonl line {line_num}: {e}")
+        
+        # Check relationships file
+        relationships_file = self.graph_dir / "relationships.jsonl"
+        if relationships_file.exists():
+            with open(relationships_file, 'r') as f:
+                for line_num, line in enumerate(f, 1):
+                    if line.strip():
+                        try:
+                            json.loads(line)
+                            result['relationships_valid'] += 1
+                        except json.JSONDecodeError as e:
+                            result['relationships_invalid'] += 1
+                            result['issues'].append(f"relationships.jsonl line {line_num}: {e}")
+        
+        if result['entities_invalid'] > 0 or result['relationships_invalid'] > 0:
+            logger.warning(f"Integrity check found {result['entities_invalid'] + result['relationships_invalid']} invalid lines")
+        else:
+            logger.info("Knowledge graph integrity check passed")
+        
+        return result
+    
+    def repair(self) -> Dict[str, Any]:
+        """Attempt to repair corrupted knowledge graph files."""
+        logger.info("Attempting to repair knowledge graph...")
+        
+        result = {
+            'entities_repaired': 0,
+            'relationships_repaired': 0,
+            'issues': []
+        }
+        
+        # Repair entities file
+        entities_file = self.graph_dir / "entities.jsonl"
+        if entities_file.exists():
+            with open(entities_file, 'r') as f:
+                lines = f.readlines()
+            
+            valid_lines = []
+            repaired = 0
+            for line_num, line in enumerate(lines, 1):
+                if line.strip():
+                    try:
+                        json.loads(line)
+                        valid_lines.append(line)
+                    except json.JSONDecodeError:
+                        repaired += 1
+                        result['issues'].append(f"entities.jsonl line {line_num}: removed corrupt line")
+                else:
+                    valid_lines.append(line)
+            
+            if repaired > 0:
+                with open(entities_file, 'w') as f:
+                    f.writelines(valid_lines)
+                result['entities_repaired'] = repaired
+                logger.warning(f"Repaired {repaired} corrupt lines in entities.jsonl")
+        
+        # Repair relationships file
+        relationships_file = self.graph_dir / "relationships.jsonl"
+        if relationships_file.exists():
+            with open(relationships_file, 'r') as f:
+                lines = f.readlines()
+            
+            valid_lines = []
+            repaired = 0
+            for line_num, line in enumerate(lines, 1):
+                if line.strip():
+                    try:
+                        json.loads(line)
+                        valid_lines.append(line)
+                    except json.JSONDecodeError:
+                        repaired += 1
+                        result['issues'].append(f"relationships.jsonl line {line_num}: removed corrupt line")
+                else:
+                    valid_lines.append(line)
+            
+            if repaired > 0:
+                with open(relationships_file, 'w') as f:
+                    f.writelines(valid_lines)
+                result['relationships_repaired'] = repaired
+                logger.warning(f"Repaired {repaired} corrupt lines in relationships.jsonl")
+        
+        if result['entities_repaired'] > 0 or result['relationships_repaired'] > 0:
+            logger.info(f"Repair complete: {result['entities_repaired'] + result['relationships_repaired']} lines repaired")
+        else:
+            logger.info("No repairs needed")
+        
+        return result
+    
     def query_entities(self, query: Dict[str, Any] = None) -> List[Dict[str, Any]]:
         """Query entities from the knowledge graph."""
         self._acquire_lock()
         try:
+            logger.debug(f"Querying entities with filter: {query}")
             entities_file = self.graph_dir / "entities.jsonl"
             entities = []
             
             if not entities_file.exists():
+                logger.debug("Entities file does not exist")
                 return []
             
             with open(entities_file, 'r') as f:
@@ -401,6 +812,7 @@ class FileSystemKnowledgeGraph(KnowledgeGraphInterface):
                         filtered.append(entity)
                 return filtered
             
+            logger.debug(f"Query returned {len(entities)} entities")
             return entities
         finally:
             self._release_lock()
@@ -434,18 +846,28 @@ class FileSystemKnowledgeGraph(KnowledgeGraphInterface):
                             break
                     if match:
                         filtered.append(rel)
+                logger.debug(f"Query returned {len(filtered)} relationships")
                 return filtered
             
+            logger.debug(f"Query returned {len(relationships)} relationships")
             return relationships
         finally:
             self._release_lock()
     
+    @retry_on_failure()
     def store_entity(self, entity: Dict[str, Any], session_id: Optional[str] = None) -> Dict[str, Any]:
         """Store an entity in the knowledge graph."""
-        if "id" not in entity:
-            raise ValueError("Entity must have an 'id' field")
-        if "type" not in entity:
-            raise ValueError("Entity must have a 'type' field")
+        logger.debug(f"Storing entity: {entity.get('id')}")
+        
+        # Validate entity
+        try:
+            validate_entity(entity)
+        except ValidationError as e:
+            logger.error(f"Entity validation failed: {e}")
+            raise
+        
+        # Create a copy to avoid modifying the original
+        entity = copy.deepcopy(entity)
         
         # Add timestamps if not present
         entity.setdefault("created_at", get_timestamp())
@@ -464,6 +886,7 @@ class FileSystemKnowledgeGraph(KnowledgeGraphInterface):
         
         self._acquire_lock()
         try:
+            logger.debug(f"Acquired lock, storing entity {entity.get('id')}")
             entities_file = self.graph_dir / "entities.jsonl"
             
             # Atomic write: write to temp file, then rename
@@ -483,25 +906,38 @@ class FileSystemKnowledgeGraph(KnowledgeGraphInterface):
                 
                 # Atomic rename (POSIX guarantees this is atomic)
                 temp_file.rename(entities_file)
+                
+                # Increment write count and create backup if needed
+                self._write_count += 1
+                if self.enable_backups and self._write_count >= KnowledgeGraphConfig.BACKUP_INTERVAL:
+                    self._create_backup()
+                    self._write_count = 0
+                
+                logger.debug(f"Entity stored: {entity.get('id')}")
             finally:
                 # Clean up temp file if rename failed
                 if temp_file.exists():
                     temp_file.unlink(missing_ok=True)
         finally:
             self._release_lock()
+            logger.debug(f"Lock released, entity {entity.get('id')} stored")
         
         return entity
     
+    @retry_on_failure()
     def store_relationship(self, relationship: Dict[str, Any], session_id: Optional[str] = None) -> Dict[str, Any]:
         """Store a relationship in the knowledge graph."""
-        if "id" not in relationship:
-            raise ValueError("Relationship must have an 'id' field")
-        if "type" not in relationship:
-            raise ValueError("Relationship must have a 'type' field")
-        if "source_id" not in relationship:
-            raise ValueError("Relationship must have a 'source_id' field")
-        if "target_id" not in relationship:
-            raise ValueError("Relationship must have a 'target_id' field")
+        logger.debug(f"Storing relationship: {relationship.get('id')}")
+        
+        # Validate relationship
+        try:
+            validate_relationship(relationship)
+        except ValidationError as e:
+            logger.error(f"Relationship validation failed: {e}")
+            raise
+        
+        # Create a copy to avoid modifying the original
+        relationship = copy.deepcopy(relationship)
         
         relationship.setdefault("created_at", get_timestamp())
         
@@ -513,6 +949,7 @@ class FileSystemKnowledgeGraph(KnowledgeGraphInterface):
         
         self._acquire_lock()
         try:
+            logger.debug(f"Acquired lock, storing relationship {relationship.get('id')}")
             relationships_file = self.graph_dir / "relationships.jsonl"
             
             # Atomic write: write to temp file, then rename
@@ -532,22 +969,39 @@ class FileSystemKnowledgeGraph(KnowledgeGraphInterface):
                 
                 # Atomic rename (POSIX guarantees this is atomic)
                 temp_file.rename(relationships_file)
+                
+                # Increment write count and create backup if needed
+                self._write_count += 1
+                if self.enable_backups and self._write_count >= KnowledgeGraphConfig.BACKUP_INTERVAL:
+                    self._create_backup()
+                    self._write_count = 0
+                
+                logger.debug(f"Relationship stored: {relationship.get('id')}")
             finally:
                 # Clean up temp file if rename failed
                 if temp_file.exists():
                     temp_file.unlink(missing_ok=True)
         finally:
             self._release_lock()
+            logger.debug(f"Lock released, relationship {relationship.get('id')} stored")
         
         return relationship
     
+    @retry_on_failure()
     def delete_entity(self, entity_id: str) -> bool:
         """Delete an entity from the knowledge graph."""
+        if not entity_id or len(entity_id) > 256:
+            raise ValidationError("Entity ID must be 1-256 characters")
+        
+        logger.debug(f"Deleting entity: {entity_id}")
+        
         self._acquire_lock()
         try:
+            logger.debug(f"Acquired lock, deleting entity {entity_id}")
             entities_file = self.graph_dir / "entities.jsonl"
             
             if not entities_file.exists():
+                logger.debug(f"Entity {entity_id} not found (file doesn't exist)")
                 return False
             
             # Read all entities
@@ -578,22 +1032,34 @@ class FileSystemKnowledgeGraph(KnowledgeGraphInterface):
                 
                 # Atomic rename (POSIX guarantees this is atomic)
                 temp_file.rename(entities_file)
+                
+                if deleted:
+                    logger.debug(f"Entity deleted: {entity_id}")
             finally:
                 # Clean up temp file if rename failed
                 if temp_file.exists():
                     temp_file.unlink(missing_ok=True)
         finally:
             self._release_lock()
+            logger.debug(f"Lock released, entity {entity_id} deletion {'succeeded' if deleted else 'not found'}")
         
         return deleted
     
+    @retry_on_failure()
     def delete_relationship(self, relationship_id: str) -> bool:
         """Delete a relationship from the knowledge graph."""
+        if not relationship_id or len(relationship_id) > 256:
+            raise ValidationError("Relationship ID must be 1-256 characters")
+        
+        logger.debug(f"Deleting relationship: {relationship_id}")
+        
         self._acquire_lock()
         try:
+            logger.debug(f"Acquired lock, deleting relationship {relationship_id}")
             relationships_file = self.graph_dir / "relationships.jsonl"
             
             if not relationships_file.exists():
+                logger.debug(f"Relationship {relationship_id} not found (file doesn't exist)")
                 return False
             
             with open(relationships_file, 'r') as f:
@@ -622,12 +1088,16 @@ class FileSystemKnowledgeGraph(KnowledgeGraphInterface):
                 
                 # Atomic rename (POSIX guarantees this is atomic)
                 temp_file.rename(relationships_file)
+                
+                if deleted:
+                    logger.debug(f"Relationship deleted: {relationship_id}")
             finally:
                 # Clean up temp file if rename failed
                 if temp_file.exists():
                     temp_file.unlink(missing_ok=True)
         finally:
             self._release_lock()
+            logger.debug(f"Lock released, relationship {relationship_id} deletion {'succeeded' if deleted else 'not found'}")
         
         return deleted
 
