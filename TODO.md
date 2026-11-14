@@ -64,7 +64,7 @@ never by silent accumulation.
 - [ ] accessibility-auditor agent (task class: accessibility-audit):
       WCAG 2.1/2.2 AA review of web frontends — landmarks, labels,
       roles/states, contrast (computed ratios), focus, reduced-motion.
-      Evidence: the first real-world run (LaMatusa) had to be handled
+      Evidence: the first real-world run (real application code) had to be handled
       directly by the orchestrator because no routing entry existed;
       the audit carried computed data (contrast math), a severity
       ladder, and a fixed report convention. /ma-a11y-audit workflow
@@ -73,14 +73,14 @@ never by silent accumulation.
       local-seo): technical + local SEO review — structured data
       (schema.org), robots/sitemap, canonical history, meta surface,
       NAP consistency, GBP readiness, image/signoff crawlability.
-      Evidence: handled ad hoc in the LaMatusa run; the audit shape
+      Evidence: handled ad hoc in the first real application code run; the audit shape
       is stable enough to templatize (findings ranked by local-pack
       impact).
 - [ ] performance-auditor agent (task class: performance-audit /
       web-vitals): Core Web Vitals review — bundle measurement
       (real builds, chunk-split experiments), font/image render
       path, LCP/CLS/INP attribution, caching headers. Evidence:
-      handled ad hoc in the LaMatusa run; distinct from
+      handled ad hoc in the first real application code run; distinct from
       query-optimization and chaos-testing (it is static-build
       analysis, not runtime load testing). Consider folding Lighthouse
       runs into the tool cache (~/.mistral-agents/tools/) once a
@@ -90,7 +90,7 @@ never by silent accumulation.
       legal pages, BREACH-commented audit trail). Not agent material
       — jurisdiction-specific and needs a lawyer's sign-off —
       but a checklist skill would have caught the [CUI]/[email]
-      placeholder blockers in the LaMatusa run. Unblock: a second
+      placeholder blockers in the first real application code run. Unblock: a second
       jurisdiction needed before writing anything generic.
 - [ ] Model-catalog refresh skill (/ma-update-models, working name):
       workflow skill that triggers the model-registrar
