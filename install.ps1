@@ -373,7 +373,7 @@ if ($skillsInstalled.Count -gt 0) {
         foreach ($file in [System.IO.Directory]::GetFiles($skillDir)) {
             $targetFile = [System.IO.Path]::Combine(
                 $targetSkillDir, [System.IO.Path]::GetFileName($file))
-            [System.IO.File]::Copy($file.FullName, $targetFile)
+            [System.IO.File]::Copy($file, $targetFile)
         }
     }
 }
