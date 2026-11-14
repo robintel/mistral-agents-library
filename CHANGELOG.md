@@ -8,6 +8,37 @@ feature = minor, fix = patch.
 
 ## [Unreleased]
 
+## [0.50.0] — 2026-11-14
+
+### Added
+
+- Add the missing-information protocol to `shared/standards.md`: when a
+  needed fact, API shape, or document is absent from the brief, the
+  context, and every session tool, agents return `needs-input` with a
+  documentation request instead of completing it from memory; unverified
+  claims are marked `[unverified]` and never enter code or shipped
+  artifacts. `orchestrator.md` relays documentation requests to the user
+  as one consolidated question per gap and re-dispatches with the answer
+  in the brief's context, and rejects reports whose claims are neither
+  traceable nor marked unverified.
+
+### Fixed
+
+- Fix qastell-guide unverifiable claims: drop the "scanning in under a
+  second" performance line (no primary source confirms it), rank the
+  verification sources with the installed package's `dist/*.d.ts` first,
+  and warn that the npm README's "714+ rules" figure does not match the
+  272 rules the package actually ships (counted via `allRules` in
+  qastell@0.9.6).
+
+## [0.49.0] — 2026-11-10
+
+### Fixed
+
+- Fix named profiles being rejected at spawn on Vibe >= 1.23: stop emitting `active_model` in generated profiles (the runtime validates it against the session's model registry, which does not recognize the tier catalog's chat-API model IDs — 85 agent types were blocked) and record the tier's model ceiling as a comment instead; named profiles run on the session's model (#13).
+
+## [0.48.0] — 2026-10-28
+
 ### Added
 
 - Add the `/ma-code-review` skill: structured code review
@@ -53,6 +84,11 @@ feature = minor, fix = patch.
   Demeter (Tell Don't Ask), and composition over inheritance.
   Includes a 10-point code review checklist. Complements the
   `architecture-validator` agent's system-level checks.
+
+## [0.47.0] — 2026-10-28
+
+### Added
+
 - Add the `/ma-test-methodologies` skill: a decision guide and
   playbook for modern testing methodologies — TDD (red-green-
   refactor), BDD (Given/When/Then with Cucumber/SpecFlow/Behave),
@@ -74,6 +110,11 @@ feature = minor, fix = patch.
   migration testing checklist. Based on Michael Feathers' "Working
   Effectively with Legacy Code" and Jez Humble's "Continuous
   Delivery".
+
+## [0.46.0] — 2026-10-28
+
+### Added
+
 - Add five language dialects to `shared/dialects/languages/`:
   `lisp.md` (modern idiom floor covering Common Lisp, Scheme,
   Clojure, and Emacs Lisp with eras, macros, and REPL-driven
@@ -87,6 +128,11 @@ feature = minor, fix = patch.
   suffixes), and `visual-basic.md` (legacy conservation contract
   for classic VB6/VBA, distinct from the existing VB.NET dialect).
   Language dialect count: 23 to 28.
+
+## [0.45.0] — 2026-10-28
+
+### Added
+
 - Add the `/ma-infra-security` skill: harden infrastructure and
   manage OS-level vulnerabilities. Covers the vulnerability management
   lifecycle (detect, triage, remediate, verify, report, monitor),
@@ -99,6 +145,11 @@ feature = minor, fix = patch.
   network hardening, and building a vulnerability management program.
   Fills the gap between application security (`threat-modeler`,
   `ai-security-auditor`) and pipeline security (`supply-chain-auditor`).
+
+## [0.44.0] — 2026-10-28
+
+### Added
+
 - Add the `/ma-chaos-testing` skill: design and run chaos
   engineering experiments to verify system resilience. Covers the
   five principles of chaos engineering, a fault taxonomy across
@@ -148,6 +199,11 @@ feature = minor, fix = patch.
 - Fix `test_update.sh` Test 6: expected profile count updated from
   85 to 86 (pre-existing failure — an agent was added without
   updating the test; 88 manifest entries, 2 duplicate names).
+
+## [0.43.0] — 2026-10-28
+
+### Added
+
 - Add the `/ma-framework-context` skill: shared vocabulary for AI
   guardrails and governance — escalation levels (L0–L3), risk
   classifications, data sensitivity tiers (T0–T3), confirmation
@@ -214,15 +270,8 @@ feature = minor, fix = patch.
   `mistral-medium-latest` before merge; files under `shared/` are audited
   in full, not just their diff lines. Enable by setting the
   `MISTRAL_API_KEY` repository secret.
-- Add the missing-information protocol to `shared/standards.md`: when a
-  needed fact, API shape, or document is absent from the brief, the
-  context, and every session tool, agents return `needs-input` with a
-  documentation request instead of completing it from memory; unverified
-  claims are marked `[unverified]` and never enter code or shipped
-  artifacts. `orchestrator.md` relays documentation requests to the user
-  as one consolidated question per gap and re-dispatches with the answer
-  in the brief's context, and rejects reports whose claims are neither
-  traceable nor marked unverified.
+
+
 
 ### Fixed
 
@@ -267,12 +316,31 @@ feature = minor, fix = patch.
   products - with documented incidents (TRITON/TRISIS 2017, Stuxnet 2010,
   Oldsmar 2021, SolarWinds 2020) and correct the October 2026 French
   supermarket attack figures (350+ stores per Reuters, not 342).
-- Fix qastell-guide unverifiable claims: drop the "scanning in under a
-  second" performance line (no primary source confirms it), rank the
-  verification sources with the installed package's `dist/*.d.ts` first,
-  and warn that the npm README's "714+ rules" figure does not match the
-  272 rules the package actually ships (counted via `allRules` in
-  qastell@0.9.6).
+
+
+## [0.42.0] — 2026-10-13
+
+### Added
+
+- Add a version-aware update system: `install.py --check` / `--update` flags, `.mal_version` marker files in profile directories, changelog display between versions, and the `/ma-update` skill for the discoverable update workflow.
+
+## [0.41.0] — 2026-10-12
+
+### Added
+
+- Add cross-domain `zero-trust/zero-trust-coordinator.md` and `blockchain/blockchain-coordinator.md` (IT, government, finance, healthcare, enterprise blockchain) with general dialects; rename `dialects/` to `agent-dialects/`; OT-specific coordinators stay in `ot-security/`.
+
+## [0.40.0] — 2026-10-11
+
+### Added
+
+- Add evaluator agents for system validation (`evaluation/`): `system-validator`, `requirement-validator`, `alternative-evaluator`, `architecture-validator`, `stakeholder-validator`, `feasibility-validator`, `risk-analyst` — "do we build the right system?" — plus `ai/ai-cost-optimizer.md` and `ai/llm-evaluator.md`.
+
+## [0.39.0] — 2026-10-11
+
+### Added
+
+- Complete the AI domain, Phases 2 and 3: add AI dialects — `shared/dialects/ai/embedding.md` (embedding model contract with EU provider focus), `vector-db.md` (vector database contract with EU compliance guidance), `gdpr-rag.md` (GDPR-compliant RAG pattern) — and RAG-system agents `ai/industrial-rag-engineer.md` and `ai/multilingual-rag.md` (European languages).
 
 ## [0.38.0] — 2026-10-11
 
