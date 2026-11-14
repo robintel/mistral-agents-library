@@ -272,6 +272,15 @@ class KnowledgeGraphInterface:
 # File System Knowledge Graph (Default Implementation)
 # ============================================================================
 
+# Import file locking if available (POSIX systems)
+try:
+    import fcntl
+    HAS_FLOCK = True
+except ImportError:
+    HAS_FLOCK = False
+    fcntl = None
+
+
 class FileSystemKnowledgeGraph(KnowledgeGraphInterface):
     """Knowledge graph implementation using the file system."""
     
@@ -284,101 +293,152 @@ class FileSystemKnowledgeGraph(KnowledgeGraphInterface):
         self.sessions_dir = self.knowledge_dir / "sessions"
         self.cache_dir = self.knowledge_dir / "cache"
         
+        # File lock for concurrent access protection
+        self._lock_file = self.knowledge_dir / ".knowledge_lock"
+        self._lock_fd = None
+        
         # Ensure directories exist
         self.graph_dir.mkdir(parents=True, exist_ok=True)
         self.sessions_dir.mkdir(parents=True, exist_ok=True)
         self.cache_dir.mkdir(parents=True, exist_ok=True)
     
+    def _acquire_lock(self):
+        """Acquire file lock for atomic operations."""
+        if not HAS_FLOCK:
+            return  # No locking on Windows
+        
+        if self._lock_fd is None:
+            self._lock_fd = open(self._lock_file, 'w')
+        
+        fcntl.flock(self._lock_fd, fcntl.LOCK_EX)
+    
+    def _release_lock(self):
+        """Release file lock."""
+        if not HAS_FLOCK or self._lock_fd is None:
+            return
+        
+        try:
+            fcntl.flock(self._lock_fd, fcntl.LOCK_UN)
+        except Exception:
+            pass
+    
+    def __enter__(self):
+        """Context manager entry - acquire lock."""
+        self._acquire_lock()
+        return self
+    
+    def __exit__(self, exc_type, exc_val, exc_tb):
+        """Context manager exit - release lock."""
+        self._release_lock()
+        return False
+    
+    def __del__(self):
+        """Clean up lock file descriptor."""
+        if self._lock_fd is not None:
+            try:
+                self._lock_fd.close()
+            except Exception:
+                pass
+            self._lock_fd = None
+    
     def query_entities(self, query: Dict[str, Any] = None) -> List[Dict[str, Any]]:
         """Query entities from the knowledge graph."""
-        entities_file = self.graph_dir / "entities.jsonl"
-        entities = []
-        
-        if not entities_file.exists():
-            return []
-        
-        with open(entities_file, 'r') as f:
-            for line in f:
-                if line.strip():
-                    try:
-                        entity = json.loads(line)
-                        entities.append(entity)
-                    except json.JSONDecodeError:
-                        continue
-        
-        # Apply filters
-        if query:
-            filtered = []
-            for entity in entities:
-                match = True
-                for key, value in query.items():
-                    if key == "type":
-                        if entity.get("type") != value:
-                            match = False
-                            break
-                    elif key == "repo_id":
-                        if entity.get("repo_id") != value:
-                            match = False
-                            break
-                    elif key == "id":
-                        if entity.get("id") != value:
-                            match = False
-                            break
-                    elif key == "status":
-                        if entity.get("status") != value:
-                            match = False
-                            break
-                    elif key.startswith("metadata."):
-                        field = key.split(".")[1]
-                        if entity.get("metadata", {}).get(field) != value:
-                            match = False
-                            break
-                    elif key.startswith("location."):
-                        field = key.split(".")[1]
-                        if entity.get("location", {}).get(field) != value:
-                            match = False
-                            break
-                    else:
-                        # Generic field match
-                        if entity.get(key) != value:
-                            match = False
-                            break
-                if match:
-                    filtered.append(entity)
-            return filtered
-        
-        return entities
+        self._acquire_lock()
+        try:
+            entities_file = self.graph_dir / "entities.jsonl"
+            entities = []
+            
+            if not entities_file.exists():
+                return []
+            
+            with open(entities_file, 'r') as f:
+                for line in f:
+                    if line.strip():
+                        try:
+                            entity = json.loads(line)
+                            entities.append(entity)
+                        except json.JSONDecodeError:
+                            continue
+            
+            # Apply filters
+            if query:
+                filtered = []
+                for entity in entities:
+                    match = True
+                    for key, value in query.items():
+                        if key == "type":
+                            if entity.get("type") != value:
+                                match = False
+                                break
+                        elif key == "repo_id":
+                            if entity.get("repo_id") != value:
+                                match = False
+                                break
+                        elif key == "id":
+                            if entity.get("id") != value:
+                                match = False
+                                break
+                        elif key == "status":
+                            if entity.get("status") != value:
+                                match = False
+                                break
+                        elif key.startswith("metadata."):
+                            field = key.split(".")[1]
+                            if entity.get("metadata", {}).get(field) != value:
+                                match = False
+                                break
+                        elif key.startswith("location."):
+                            field = key.split(".")[1]
+                            if entity.get("location", {}).get(field) != value:
+                                match = False
+                                break
+                        else:
+                            # Generic field match
+                            if entity.get(key) != value:
+                                match = False
+                                break
+                    if match:
+                        filtered.append(entity)
+                return filtered
+            
+            return entities
+        finally:
+            self._release_lock()
     
     def query_relationships(self, query: Dict[str, Any] = None) -> List[Dict[str, Any]]:
         """Query relationships from the knowledge graph."""
-        relationships_file = self.graph_dir / "relationships.jsonl"
-        relationships = []
-        
-        if not relationships_file.exists():
-            return []
-        
-        with open(relationships_file, 'r') as f:
-            for line in f:
-                if line.strip():
-                    try:
-                        rel = json.loads(line)
-                        relationships.append(rel)
-                    except json.JSONDecodeError:
-                        continue
-        
-        if query:
-            filtered = []
-            for rel in relationships:
-                match = True
-                for key, value in query.items():
-                    if rel.get(key) != value:
-                        match = False
-                        break
-                if match:
-                    filtered.append(rel)
-            return filtered
-        
-        return relationships
+        self._acquire_lock()
+        try:
+            relationships_file = self.graph_dir / "relationships.jsonl"
+            relationships = []
+            
+            if not relationships_file.exists():
+                return []
+            
+            with open(relationships_file, 'r') as f:
+                for line in f:
+                    if line.strip():
+                        try:
+                            rel = json.loads(line)
+                            relationships.append(rel)
+                        except json.JSONDecodeError:
+                            continue
+            
+            if query:
+                filtered = []
+                for rel in relationships:
+                    match = True
+                    for key, value in query.items():
+                        if rel.get(key) != value:
+                            match = False
+                            break
+                    if match:
+                        filtered.append(rel)
+                return filtered
+            
+            return relationships
+        finally:
+            self._release_lock()
     
     def store_entity(self, entity: Dict[str, Any], session_id: Optional[str] = None) -> Dict[str, Any]:
         """Store an entity in the knowledge graph."""
@@ -402,10 +462,33 @@ class FileSystemKnowledgeGraph(KnowledgeGraphInterface):
         if session_id:
             entity.setdefault("metadata", {})["session_id"] = session_id
         
-        entities_file = self.graph_dir / "entities.jsonl"
-        with open(entities_file, 'a') as f:
-            json.dump(entity, f)
-            f.write('\n')
+        self._acquire_lock()
+        try:
+            entities_file = self.graph_dir / "entities.jsonl"
+            
+            # Atomic write: write to temp file, then rename
+            temp_file = entities_file.with_suffix('.tmp')
+            try:
+                # Read existing entities
+                existing_lines = []
+                if entities_file.exists():
+                    with open(entities_file, 'r') as f:
+                        existing_lines = f.readlines()
+                
+                # Write all existing + new entity to temp file
+                with open(temp_file, 'w') as f:
+                    f.writelines(existing_lines)
+                    json.dump(entity, f)
+                    f.write('\n')
+                
+                # Atomic rename (POSIX guarantees this is atomic)
+                temp_file.rename(entities_file)
+            finally:
+                # Clean up temp file if rename failed
+                if temp_file.exists():
+                    temp_file.unlink(missing_ok=True)
+        finally:
+            self._release_lock()
         
         return entity
     
@@ -428,73 +511,123 @@ class FileSystemKnowledgeGraph(KnowledgeGraphInterface):
                 "confidence": 0.95
             }
         
-        relationships_file = self.graph_dir / "relationships.jsonl"
-        with open(relationships_file, 'a') as f:
-            json.dump(relationship, f)
-            f.write('\n')
+        self._acquire_lock()
+        try:
+            relationships_file = self.graph_dir / "relationships.jsonl"
+            
+            # Atomic write: write to temp file, then rename
+            temp_file = relationships_file.with_suffix('.tmp')
+            try:
+                # Read existing relationships
+                existing_lines = []
+                if relationships_file.exists():
+                    with open(relationships_file, 'r') as f:
+                        existing_lines = f.readlines()
+                
+                # Write all existing + new relationship to temp file
+                with open(temp_file, 'w') as f:
+                    f.writelines(existing_lines)
+                    json.dump(relationship, f)
+                    f.write('\n')
+                
+                # Atomic rename (POSIX guarantees this is atomic)
+                temp_file.rename(relationships_file)
+            finally:
+                # Clean up temp file if rename failed
+                if temp_file.exists():
+                    temp_file.unlink(missing_ok=True)
+        finally:
+            self._release_lock()
         
         return relationship
     
     def delete_entity(self, entity_id: str) -> bool:
         """Delete an entity from the knowledge graph."""
-        entities_file = self.graph_dir / "entities.jsonl"
-        
-        if not entities_file.exists():
-            return False
-        
-        # Read all entities
-        with open(entities_file, 'r') as f:
-            lines = f.readlines()
-        
-        # Filter out the entity to delete
-        new_lines = []
-        deleted = False
-        for line in lines:
-            if line.strip():
-                try:
-                    entity = json.loads(line)
-                    if entity.get("id") == entity_id:
-                        deleted = True
-                        continue
+        self._acquire_lock()
+        try:
+            entities_file = self.graph_dir / "entities.jsonl"
+            
+            if not entities_file.exists():
+                return False
+            
+            # Read all entities
+            with open(entities_file, 'r') as f:
+                lines = f.readlines()
+            
+            # Filter out the entity to delete
+            new_lines = []
+            deleted = False
+            for line in lines:
+                if line.strip():
+                    try:
+                        entity = json.loads(line)
+                        if entity.get("id") == entity_id:
+                            deleted = True
+                            continue
+                        new_lines.append(line)
+                    except json.JSONDecodeError:
+                        new_lines.append(line)
+                else:
                     new_lines.append(line)
-                except json.JSONDecodeError:
-                    new_lines.append(line)
-            else:
-                new_lines.append(line)
-        
-        # Write back
-        with open(entities_file, 'w') as f:
-            f.writelines(new_lines)
+            
+            # Atomic write: write to temp file, then rename
+            temp_file = entities_file.with_suffix('.tmp')
+            try:
+                with open(temp_file, 'w') as f:
+                    f.writelines(new_lines)
+                
+                # Atomic rename (POSIX guarantees this is atomic)
+                temp_file.rename(entities_file)
+            finally:
+                # Clean up temp file if rename failed
+                if temp_file.exists():
+                    temp_file.unlink(missing_ok=True)
+        finally:
+            self._release_lock()
         
         return deleted
     
     def delete_relationship(self, relationship_id: str) -> bool:
         """Delete a relationship from the knowledge graph."""
-        relationships_file = self.graph_dir / "relationships.jsonl"
-        
-        if not relationships_file.exists():
-            return False
-        
-        with open(relationships_file, 'r') as f:
-            lines = f.readlines()
-        
-        new_lines = []
-        deleted = False
-        for line in lines:
-            if line.strip():
-                try:
-                    rel = json.loads(line)
-                    if rel.get("id") == relationship_id:
-                        deleted = True
-                        continue
+        self._acquire_lock()
+        try:
+            relationships_file = self.graph_dir / "relationships.jsonl"
+            
+            if not relationships_file.exists():
+                return False
+            
+            with open(relationships_file, 'r') as f:
+                lines = f.readlines()
+            
+            new_lines = []
+            deleted = False
+            for line in lines:
+                if line.strip():
+                    try:
+                        rel = json.loads(line)
+                        if rel.get("id") == relationship_id:
+                            deleted = True
+                            continue
+                        new_lines.append(line)
+                    except json.JSONDecodeError:
+                        new_lines.append(line)
+                else:
                     new_lines.append(line)
-                except json.JSONDecodeError:
-                    new_lines.append(line)
-            else:
-                new_lines.append(line)
-        
-        with open(relationships_file, 'w') as f:
-            f.writelines(new_lines)
+            
+            # Atomic write: write to temp file, then rename
+            temp_file = relationships_file.with_suffix('.tmp')
+            try:
+                with open(temp_file, 'w') as f:
+                    f.writelines(new_lines)
+                
+                # Atomic rename (POSIX guarantees this is atomic)
+                temp_file.rename(relationships_file)
+            finally:
+                # Clean up temp file if rename failed
+                if temp_file.exists():
+                    temp_file.unlink(missing_ok=True)
+        finally:
+            self._release_lock()
         
         return deleted
 
@@ -1265,10 +1398,17 @@ if __name__ == "__main__":
     print()
     
     # Initialize components
+    # Use context manager for atomic operations and proper lock cleanup
     kg = get_default_kg()
     detector = ChangeDetector(kg)
     updater = AutoUpdater(kg)
     manager = FreshnessManager(kg)
+    
+    # For concurrent access, use the knowledge graph as a context manager:
+    # with kg:
+    #     # All operations within this block are atomic and thread-safe
+    #     detector.detect_drift(repo_path)
+    #     # ... other operations ...
     
     # Example: Check a repository for changes
     repo_path = "/path/to/real application code"
