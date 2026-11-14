@@ -8,6 +8,16 @@ feature = minor, fix = patch.
 
 ## [Unreleased]
 
+## [0.50.1] — 2026-11-14
+
+### Fixed
+
+- Fix the CHANGELOG itself: cut the version sections 0.39.0–0.50.0 that
+  the tags had already shipped without headings, reconstructed from the
+  git history (per-tag CHANGELOG diffs, plus commit messages for the
+  0.39.0–0.42.0 and 0.49.0 releases that never touched the file);
+  0.38.0 and older are unchanged.
+
 ## [0.50.0] — 2026-11-14
 
 ### Added
