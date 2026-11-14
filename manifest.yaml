@@ -59,6 +59,7 @@ agents:
   - { name: orchestrator,     path: orchestrator.md,           domain: core,    tier: t1, escalate: t4, accepts: [triage, synthesis] }
   - { name: model-registrar,  path: model-registrar.md,        domain: core,    tier: t1, escalate: t3, accepts: [catalog] }
   - { name: tool-steward,    path: tool-steward.md,          domain: core,    tier: t2, escalate: t3, accepts: [tool-curation] }
+  - { name: context-manager, path: knowledge/context-manager.md, domain: knowledge, tier: t2, escalate: t3, accepts: [context-management, knowledge-query, knowledge-store] }
   - { name: intake-analyst,   path: sdlc/app-dev/intake-analyst.md,     domain: sdlc,    tier: t1, escalate: t2, accepts: [intake] }
   - { name: architect,        path: sdlc/app-dev/architect.md,         domain: sdlc,    tier: t4, escalate: t4, accepts: [architecture] }
   - { name: implementer,      path: sdlc/app-dev/implementer.md,       domain: sdlc,    tier: t2, escalate: t3, accepts: [implementation] }
@@ -196,6 +197,9 @@ routing:  # task_class -> agent
   flaky-tests: flaky-test-analyst
   unit-tests: unit-test-writer
   coverage: coverage-manager
+  context-management: context-manager
+  knowledge-query: context-manager
+  knowledge-store: context-manager
   upgrade-planning: upgrade-planner
   dependency-upgrade: dependency-upgrader
   migration: migration-engineer

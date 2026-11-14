@@ -1,0 +1,12 @@
+# Knowledge Graph Storage
+
+This directory stores the persistent knowledge graph data.
+
+Files:
+- entities.jsonl - All knowledge entities (agents, repos, files, findings, etc.)
+- relationships.jsonl - Relationships between entities
+- index.json - Search index for fast querying
+
+Format: JSON Lines (one JSON object per line)
+
+This directory is created automatically by the storage engine.
