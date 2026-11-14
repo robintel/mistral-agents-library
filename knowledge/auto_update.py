@@ -77,6 +77,57 @@ if KnowledgeGraphConfig.LOG_FILE:
 
 
 # ============================================================================
+# Logging Safety Utilities
+# ============================================================================
+
+def _sanitize_for_logging(message: str) -> str:
+    """
+    Sanitize a message for safe logging by removing potentially sensitive data.
+    
+    Removes or redacts:
+    - Passwords/keys in common patterns (password=xxx, key=xxx, secret=xxx, token=xxx)
+    - API keys in common patterns
+    - Bearer tokens
+    - Private keys
+    - File paths that might contain sensitive data
+    """
+    import re
+    
+    if not isinstance(message, str):
+        message = str(message)
+    
+    # Patterns to redact (case insensitive)
+    sensitive_patterns = [
+        (r'(password\s*[=:]\s*)[^\s,;\"\']+', r'\1[REDACTED]'),
+        (r'(passwd\s*[=:]\s*)[^\s,;\"\']+', r'\1[REDACTED]'),
+        (r'(api[_-]?key\s*[=:]\s*)[^\s,;\"\']+', r'\1[REDACTED]'),
+        (r'(apikey\s*[=:]\s*)[^\s,;\"\']+', r'\1[REDACTED]'),
+        (r'(secret\s*[=:]\s*)[^\s,;\"\']+', r'\1[REDACTED]'),
+        (r'(token\s*[=:]\s*)[^\s,;\"\']+', r'\1[REDACTED]'),
+        (r'(access[_-]?token\s*[=:]\s*)[^\s,;\"\']+', r'\1[REDACTED]'),
+        (r'(auth\s*[=:]\s*)[^\s,;\"\']+', r'\1[REDACTED]'),
+        (r'(bearer\s+)[A-Za-z0-9\-_]+\.?[A-Za-z0-9\-_]*', r'\1[REDACTED]'),
+        (r'(private[_-]?key\s*[=:]\s*)[^\s,;\"\']+', r'\1[REDACTED]'),
+        (r'-----BEGIN\s+(?:RSA\s+)?PRIVATE\s+KEY-----.*', r'-----BEGIN PRIVATE KEY-----[REDACTED]'),
+    ]
+    
+    sanitized = message
+    for pattern, replacement in sensitive_patterns:
+        sanitized = re.sub(pattern, replacement, sanitized, flags=re.IGNORECASE)
+    
+    return sanitized
+
+
+def _safe_log_exception(logger_func, prefix: str, exc: Exception) -> None:
+    """Safely log an exception message after sanitization."""
+    if exc:
+        sanitized_msg = _sanitize_for_logging(str(exc))
+        logger_func(f"{prefix}: {sanitized_msg}")
+    else:
+        logger_func(prefix)
+
+
+# ============================================================================
 # Exceptions
 # ============================================================================
 
@@ -180,10 +231,10 @@ def retry_on_failure(max_retries: int = KnowledgeGraphConfig.MAX_RETRIES,
                     return func(*args, **kwargs)
                 except Exception as e:
                     last_exception = e
-                    logger.warning(f"Attempt {attempt + 1}/{max_retries} failed: {e}")
+                    _safe_log_exception(logger.warning, f"Attempt {attempt + 1}/{max_retries} failed", e)
                     if attempt < max_retries - 1:
                         time.sleep(delay)
-            logger.error(f"All {max_retries} attempts failed for {func.__name__}")
+            _safe_log_exception(logger.error, f"All {max_retries} attempts failed for {func.__name__}", last_exception)
             raise last_exception
         return wrapper
     return decorator
@@ -508,8 +559,8 @@ class FileSystemKnowledgeGraph(KnowledgeGraphInterface):
                         raise LockError(f"Could not acquire lock after {timeout} seconds")
                     time.sleep(0.1)
             except Exception as e:
-                logger.error(f"Error acquiring lock: {e}")
-                raise LockError(f"Failed to acquire lock: {e}")
+                _safe_log_exception(logger.error, "Error acquiring lock", e)
+                raise LockError(f"Failed to acquire lock: {_sanitize_for_logging(str(e))}")
         
         logger.debug("Lock acquired")
     
@@ -523,7 +574,7 @@ class FileSystemKnowledgeGraph(KnowledgeGraphInterface):
             self._lock_held = False
             logger.debug("Lock released")
         except Exception as e:
-            logger.error(f"Error releasing lock: {e}")
+            _safe_log_exception(logger.error, "Error releasing lock", e)
             self._lock_held = False
     
     def __enter__(self):
@@ -568,8 +619,8 @@ class FileSystemKnowledgeGraph(KnowledgeGraphInterface):
             # Clean up old backups
             self._cleanup_old_backups()
         except Exception as e:
-            logger.error(f"Failed to create backup: {e}")
-            raise BackupError(f"Backup failed: {e}")
+            _safe_log_exception(logger.error, "Failed to create backup", e)
+            raise BackupError(f"Backup failed: {_sanitize_for_logging(str(e))}")
     
     def _cleanup_old_backups(self):
         """Remove old backups, keeping only max_backups."""
@@ -583,7 +634,7 @@ class FileSystemKnowledgeGraph(KnowledgeGraphInterface):
                     shutil.rmtree(backup_dir)
                     logger.info(f"Removed old backup: {backup_dir}")
         except Exception as e:
-            logger.error(f"Failed to cleanup old backups: {e}")
+            _safe_log_exception(logger.error, "Failed to cleanup old backups", e)
     
     def _restore_from_backup(self, backup_path: Optional[str] = None) -> bool:
         """Restore knowledge graph from a backup."""
@@ -615,8 +666,8 @@ class FileSystemKnowledgeGraph(KnowledgeGraphInterface):
             logger.info("Restore complete")
             return True
         except Exception as e:
-            logger.error(f"Failed to restore from backup: {e}")
-            raise BackupError(f"Restore failed: {e}")
+            _safe_log_exception(logger.error, "Failed to restore from backup", e)
+            raise BackupError(f"Restore failed: {_sanitize_for_logging(str(e))}")
     
     def get_backups(self) -> List[Dict[str, Any]]:
         """List available backups."""
@@ -863,7 +914,7 @@ class FileSystemKnowledgeGraph(KnowledgeGraphInterface):
         try:
             validate_entity(entity)
         except ValidationError as e:
-            logger.error(f"Entity validation failed: {e}")
+            _safe_log_exception(logger.error, "Entity validation failed", e)
             raise
         
         # Create a copy to avoid modifying the original
@@ -933,7 +984,7 @@ class FileSystemKnowledgeGraph(KnowledgeGraphInterface):
         try:
             validate_relationship(relationship)
         except ValidationError as e:
-            logger.error(f"Relationship validation failed: {e}")
+            _safe_log_exception(logger.error, "Relationship validation failed", e)
             raise
         
         # Create a copy to avoid modifying the original
